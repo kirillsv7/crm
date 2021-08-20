@@ -8,7 +8,9 @@
             <th>Is admin</th>
             <th>Created</th>
             <th>Updated</th>
-            <th>Deleted</th>
+            @if(request()->routeIs('user.deleted'))
+                <th>Deleted</th>
+            @endif
             <th>Actions</th>
         </tr>
         </thead>
@@ -26,7 +28,9 @@
                 </td>
                 <td>{{ $user->created_at }}</td>
                 <td>{{ $user->updated_at }}</td>
-                <td>{{ $user->deleted_at }}</td>
+                @if(request()->routeIs('user.deleted'))
+                    <td>{{ $user->deleted_at }}</td>
+                @endif
                 <td>
                     @if(!$user->trashed())
                         <a class="btn btn-secondary btn-sm"
