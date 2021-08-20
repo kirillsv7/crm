@@ -9,16 +9,39 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <!-- CoreUI CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/coreui@3.4.0/dist/css/coreui.min.css"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@2.0.0-beta.3/css/free.min.css">
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
-    <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
+<body class="c-app">
+    @auth
+        @include('partials.sidebar')
+    @endauth
+    <div class="c-wrapper c-fixed-components">
+        @auth
+            @include('partials.header')
+        @endauth
+        @yield('content')
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- Popper.js first, then CoreUI JS -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/@coreui/coreui@3.4.0/dist/js/coreui.min.js"></script>
+
+    <script src="{{ asset('js/app.js') }}" defer></script>
+</body>
+</html>
+
+
+{{--
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
@@ -76,8 +99,9 @@
         </nav>
 
         <main class="py-4">
-            @yield('content')
+
         </main>
     </div>
 </body>
 </html>
+--}}
