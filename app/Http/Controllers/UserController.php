@@ -104,6 +104,11 @@ class UserController extends Controller
         return redirect(route('user.index'));
     }
 
+    /**
+     * Display a listing of the deleted resources.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function deleted()
     {
         $users = User::onlyTrashed()->get();
@@ -117,7 +122,7 @@ class UserController extends Controller
      * Restore the specified resource to storage.
      *
      * @param $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return \Illuminate\Http\Response
      */
     public function restore($id)
     {
