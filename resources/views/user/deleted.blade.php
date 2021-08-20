@@ -14,6 +14,11 @@
                                 Show active
                             </a>
                         </div>
+                        @if(session('restored'))
+                            <div class="alert alert-success" role="alert">
+                                User restored!
+                            </div>
+                        @endif
                         @include('user.partials.users-table')
                     </div>
                 </div>

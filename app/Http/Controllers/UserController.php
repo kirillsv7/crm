@@ -45,7 +45,7 @@ class UserController extends Controller
     {
         User::create($request->validated());
 
-        return redirect(route('user.index'));
+        return redirect(route('user.index'))->with('created', true);
     }
 
     /**
@@ -88,7 +88,7 @@ class UserController extends Controller
 
         $user->update($data);
 
-        return redirect(route('user.edit', $user->id));
+        return redirect(route('user.edit', $user->id))->with('updated', true);
     }
 
     /**
@@ -101,7 +101,7 @@ class UserController extends Controller
     {
         User::destroy([$id]);
 
-        return redirect(route('user.index'));
+        return redirect(route('user.index'))->with('deleted', true);
     }
 
     /**
@@ -128,6 +128,6 @@ class UserController extends Controller
     {
         User::withTrashed()->where('id', $id)->restore();
 
-        return redirect(route('user.deleted'));
+        return redirect(route('user.deleted'))->with('restored', true);
     }
 }

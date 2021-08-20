@@ -17,6 +17,16 @@
                                 Show deleted
                             </a>
                         </div>
+                        @if(session('created'))
+                            <div class="alert alert-success" role="alert">
+                                User created!
+                            </div>
+                        @endif
+                        @if(session('deleted'))
+                            <div class="alert alert-success" role="alert">
+                                User deleted!
+                            </div>
+                        @endif
                         @include('user.partials.users-table')
                     </div>
                 </div>

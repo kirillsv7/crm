@@ -2,29 +2,47 @@
     @if(isset($user)) @method('PUT') @endif
     @csrf
 
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+    @if(session('updated'))
+        <div class="alert alert-success" role="alert">
+            User updated!
         </div>
     @endif
 
-
     <div class="form-group">
         <label>Name</label>
-        <input class="form-control" name="name" type="text" value="{{ old('name') ?? $user->name ?? '' }}" required>
+        <input class="form-control @error('name') is-invalid @enderror" name="name" type="text"
+               value="{{ old('name') ?? $user->name ?? '' }}" required>
+        @error('name')
+        <div class="invalid-feedback">
+            @foreach($errors->get('name') as $message)
+                {{ $message }}
+            @endforeach
+        </div>
+        @endif
     </div>
     <div class="form-group">
         <label>Email</label>
-        <input class="form-control" name="email" type="email" value="{{ old('email') ?? $user->email ?? '' }}" required>
+        <input class="form-control @error('email') is-invalid @enderror" name="email" type="email"
+               value="{{ old('email') ?? $user->email ?? '' }}" required>
+        @error('email')
+        <div class="invalid-feedback">
+            @foreach($errors->get('email') as $message)
+                {{ $message }}
+            @endforeach
+        </div>
+        @enderror
     </div>
     <div class="form-group">
         <label>Password</label>
-        <input class="form-control" name="password" type="password" minlength="8">
+        <input class="form-control @error('password') is-invalid @enderror" name="password" type="password"
+               minlength="8">
+        @error('password')
+        <div class="invalid-feedback">
+            @foreach($errors->get('password') as $message)
+                {{ $message }}
+            @endforeach
+        </div>
+        @enderror
     </div>
     <div class="form-group">
         <label>Password confirmation</label>

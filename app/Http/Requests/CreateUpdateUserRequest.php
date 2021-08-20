@@ -28,6 +28,7 @@ class CreateUpdateUserRequest extends FormRequest
             'name'     => 'required|string',
             'email'    => [
                 'required',
+                'email:rfc,dns',
                 Rule::unique('users')->ignore($this->route('user')),
             ],
             'is_admin' => 'boolean',
