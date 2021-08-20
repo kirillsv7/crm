@@ -20,6 +20,8 @@ Route::group([
 ], function () {
     Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
+    Route::get('user/deleted', [\App\Http\Controllers\UserController::class, 'deleted'])
+         ->name('user.deleted');
     Route::post('user/{user}', [\App\Http\Controllers\UserController::class, 'restore'])
          ->name('user.restore');
 

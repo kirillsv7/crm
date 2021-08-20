@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::withTrashed()->get();
+        $users = User::all();
 
         $title = 'User list';
 
@@ -104,6 +104,15 @@ class UserController extends Controller
         return redirect(route('user.index'));
     }
 
+    public function deleted()
+    {
+        $users = User::onlyTrashed()->get();
+
+        $title = 'Deleted users list';
+
+        return view('user.deleted', compact('title', 'users'));
+    }
+
     /**
      * Restore the specified resource to storage.
      *
@@ -114,6 +123,6 @@ class UserController extends Controller
     {
         User::withTrashed()->where('id', $id)->restore();
 
-        return redirect(route('user.index'));
+        return redirect(route('user.deleted'));
     }
 }
