@@ -19,4 +19,11 @@ Route::group([
     'middleware' => ['auth'],
 ], function () {
     Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+
+    Route::post('user/{user}', [\App\Http\Controllers\UserController::class, 'restore'])
+         ->name('user.restore');
+
+    Route::resources([
+        'user' => \App\Http\Controllers\UserController::class,
+    ]);
 });

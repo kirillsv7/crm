@@ -10,7 +10,7 @@
             </a>
         </li>
         <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="/users">
+            <a class="c-sidebar-nav-link" href="{{ route('user.index') }}">
                 <i class="c-sidebar-nav-icon cil-user"></i>
                 Users
             </a>
