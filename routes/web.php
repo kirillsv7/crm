@@ -20,12 +20,14 @@ Route::group([
 ], function () {
     Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('user/deleted', [\App\Http\Controllers\UserController::class, 'deleted'])
-         ->name('user.deleted');
-    Route::post('user/{user}', [\App\Http\Controllers\UserController::class, 'restore'])
-         ->name('user.restore');
+    Route::get('user/deleted', [\App\Http\Controllers\UserController::class, 'deleted'])->name('user.deleted');
+    Route::post('user/{user}', [\App\Http\Controllers\UserController::class, 'restore'])->name('user.restore');
+
+    Route::get('client/deleted', [\App\Http\Controllers\ClientController::class, 'deleted'])->name('client.deleted');
+    Route::post('client/{user}', [\App\Http\Controllers\ClientController::class, 'restore'])->name('client.restore');
 
     Route::resources([
-        'user' => \App\Http\Controllers\UserController::class,
+        'user'   => \App\Http\Controllers\UserController::class,
+        'client' => \App\Http\Controllers\ClientController::class,
     ]);
 });

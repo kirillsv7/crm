@@ -16,7 +16,7 @@
             </a>
         </li>
         <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="/clients">
+            <a class="c-sidebar-nav-link" href="{{ route('client.index') }}">
                 <i class="c-sidebar-nav-icon cil-address-book"></i>
                 Clients
             </a>
