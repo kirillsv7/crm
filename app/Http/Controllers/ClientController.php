@@ -43,7 +43,7 @@ class ClientController extends Controller
     {
         Client::create($request->validated());
 
-        return redirect(route('client.index'));
+        return redirect(route('client.index'))->with('created', true);;
     }
 
     /**
@@ -81,7 +81,7 @@ class ClientController extends Controller
     {
         $client->update($request->validated());
 
-        return redirect(route('client.edit', $client->id));
+        return redirect(route('client.edit', $client->id))->with('updated', true);
     }
 
     /**
@@ -94,7 +94,7 @@ class ClientController extends Controller
     {
         Client::destroy([$id]);
 
-        return redirect(route('client.index'));
+        return redirect(route('client.index'))->with('deleted', true);
     }
 
     /**
@@ -121,6 +121,6 @@ class ClientController extends Controller
     {
         Client::withTrashed()->where('id', $id)->restore();
 
-        return redirect(route('client.deleted'));
+        return redirect(route('client.deleted'))->with('restored', true);
     }
 }
