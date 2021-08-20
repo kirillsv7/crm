@@ -1,11 +1,5 @@
 <header class="c-header c-header-light px-3">
     <ul class="c-header-nav ml-auto">
-        <li class="c-header-nav-item active">
-            <a class="c-header-nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="c-header-nav-item">
-            <a class="c-header-nav-link" href="#">Link</a>
-        </li>
         <li class="c-header-nav-item dropdown">
             <a class="c-header-nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                data-toggle="dropdown" aria-expanded="false">
