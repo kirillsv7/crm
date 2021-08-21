@@ -31,7 +31,7 @@
                 @if(request()->routeIs('user.deleted'))
                     <td>{{ $user->deleted_at }}</td>
                 @endif
-                <td>
+                <td class="text-nowrap">
                     @if(!$user->trashed())
                         @can('update', $user)
                             <a class="btn btn-secondary btn-sm"

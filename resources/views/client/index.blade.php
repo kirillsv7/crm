@@ -9,10 +9,12 @@
                         {{ __('Client list') }}
                     </div>
                     <div class="card-body">
-                        <div class="d-flex flex-wrap justify-content-between">
-                            <a class="btn btn-secondary mb-3" href="{{ route('client.create') }}">
-                                Create client
-                            </a>
+                        <div class="mb-3">
+                            @can('create', \App\Models\Client::class)
+                                <a class="btn btn-secondary mb-3" href="{{ route('client.create') }}">
+                                    Create client
+                                </a>
+                            @endcan
                             <a class="btn btn-light mb-3" href="{{ route('client.deleted') }}">
                                 Show deleted
                             </a>
