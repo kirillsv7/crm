@@ -30,7 +30,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $this->authorize('create');
+        $this->authorize('create', User::class);
 
         $title = 'User create';
 
@@ -46,7 +46,7 @@ class UserController extends Controller
      */
     public function store(CreateUpdateUserRequest $request)
     {
-        $this->authorize('create');
+        $this->authorize('create', User::class);
 
         User::create($request->validated());
 

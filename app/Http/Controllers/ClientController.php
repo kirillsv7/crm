@@ -29,7 +29,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        $this->authorize('create');
+        $this->authorize('create', Client::class);
 
         $title = 'Client create';
 
@@ -45,11 +45,11 @@ class ClientController extends Controller
      */
     public function store(CreateUpdateClientRequest $request)
     {
-        $this->authorize('create');
+        $this->authorize('create', Client::class);
 
         Client::create($request->validated());
 
-        return redirect(route('client.index'))->with('created', true);;
+        return redirect(route('client.index'))->with('created', true);
     }
 
     /**
