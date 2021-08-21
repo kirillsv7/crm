@@ -48,13 +48,13 @@
         <label>Password confirmation</label>
         <input class="form-control" name="password_confirmation" type="password" minlength="8">
     </div>
-    @if(auth()->user()->is_admin)
+    @can('modifyIsAdmin', $user)
         <div class="custom-control custom-switch mb-3">
             <input name="is_admin" type="hidden" value="0">
             <input id="is_admin" class="custom-control-input" name="is_admin" type="checkbox" value="1"
                    @if(isset($user) && $user->is_admin) checked @endif>
             <label class="custom-control-label" for="is_admin">Is admin</label>
         </div>
-    @endif
+    @endcan
     <button class="btn btn-primary" type="submit">Save</button>
 </form>

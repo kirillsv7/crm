@@ -90,4 +90,13 @@ class UserPolicy
     {
         return $user->hasPermissionTo('user-forceDelete');
     }
+
+    /**
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function modifyIsAdmin(User $user, User $model){
+        return $user->is_admin;
+    }
 }

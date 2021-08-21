@@ -98,7 +98,7 @@ class UserController extends Controller
             $data['password'] = Hash::make($request->input('password'));
         }
         // Only Admin can set another user as Admin
-        if (auth()->user()->is_admin) {
+        if (auth()->user()->can('modifyIsAdmin', $user)) {
             $data['is_admin'] = $request->input('is_admin');
         }
 
