@@ -33,28 +33,34 @@
                 @endif
                 <td>
                     @if(!$user->trashed())
-                        <a class="btn btn-secondary btn-sm"
-                           href="{{ route('user.edit', $user->id) }}">
-                            <i class="cil-pencil"></i>
-                        </a>
-                        <form class="d-inline-block" action="{{ route('user.destroy', $user->id) }}"
-                              method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-light btn-sm" type="submit"
-                                    onclick="return confirm('Are you sure you want to delete?');">
-                                <i class="cil-trash"></i>
-                            </button>
-                        </form>
+                        @can('update', $user)
+                            <a class="btn btn-secondary btn-sm"
+                               href="{{ route('user.edit', $user->id) }}">
+                                <i class="cil-pencil"></i>
+                            </a>
+                        @endcan
+                        @can('delete', $user)
+                            <form class="d-inline-block" action="{{ route('user.destroy', $user->id) }}"
+                                  method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-light btn-sm" type="submit"
+                                        onclick="return confirm('Are you sure you want to delete?');">
+                                    <i class="cil-trash"></i>
+                                </button>
+                            </form>
+                        @endcan
                     @else
-                        <form class="d-inline-block" action="{{ route('user.restore', $user->id) }}"
-                              method="POST">
-                            @csrf
-                            <button class="btn btn-danger btn-sm" type="submit"
-                                    onclick="return confirm('Are you sure you want to restore?');">
-                                <i class="cil-reload"></i>
-                            </button>
-                        </form>
+                        @can('restore', $user)
+                            <form class="d-inline-block" action="{{ route('user.restore', $user->id) }}"
+                                  method="POST">
+                                @csrf
+                                <button class="btn btn-danger btn-sm" type="submit"
+                                        onclick="return confirm('Are you sure you want to restore?');">
+                                    <i class="cil-reload"></i>
+                                </button>
+                            </form>
+                        @endcan
                     @endif
                 </td>
             </tr>

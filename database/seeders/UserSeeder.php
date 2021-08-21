@@ -17,19 +17,30 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'name'              => 'Admin',
-            'email'             => 'admin@mail.com',
-            'email_verified_at' => now(),
-            'password'          => Hash::make('admin'),
-            'is_admin'          => 1,
-            'remember_token'    => Str::random(10),
-            'created_at'        => now(),
-            'updated_at'        => now(),
+        User::insert([
+            [
+                'name'              => 'Admin',
+                'email'             => 'admin@mail.com',
+                'email_verified_at' => now(),
+                'password'          => Hash::make('admin'),
+                'is_admin'          => 1,
+                'remember_token'    => null,
+                'created_at'        => now(),
+                'updated_at'        => now(),
+            ], [
+                'name'              => 'User',
+                'email'             => 'user@mail.com',
+                'email_verified_at' => now(),
+                'password'          => Hash::make('user'),
+                'is_admin'          => 0,
+                'remember_token'    => null,
+                'created_at'        => now(),
+                'updated_at'        => now(),
+            ],
         ]);
 
         User::factory()
-            ->count(9)
+            ->count(8)
             ->create();
     }
 }

@@ -9,13 +9,15 @@
                         {{ __('User list') }}
                     </div>
                     <div class="card-body">
-                        <div class="d-flex flex-wrap justify-content-between">
-                            <a class="btn btn-secondary mb-3" href="{{ route('user.create') }}">
+                        <div class="mb-3">
+                        @can('create', \App\Models\User::class)
+                            <a class="btn btn-secondary mb-1" href="{{ route('user.create') }}">
                                 Create user
                             </a>
-                            <a class="btn btn-light mb-3" href="{{ route('user.deleted') }}">
-                                Show deleted
-                            </a>
+                        @endcan
+                        <a class="btn btn-light mb-1" href="{{ route('user.deleted') }}">
+                            Show deleted
+                        </a>
                         </div>
                         @if(session('created'))
                             <div class="alert alert-success" role="alert">
