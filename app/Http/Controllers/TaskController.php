@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateUpdateTaskRequest;
+use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -33,17 +35,19 @@ class TaskController extends Controller
 
         $title = 'Task create';
 
-        return view('task.create', compact('title'));
+        $projects = Project::all();
+
+        return view('task.create', compact('title', 'projects'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  CreateUpdateTaskRequest  $request
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(Request $request)
+    public function store(CreateUpdateTaskRequest $request)
     {
         $this->authorize('create', Task::class);
 
@@ -55,7 +59,7 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  Task $task
+     * @param  Task  $task
      * @return \Illuminate\Http\Response
      */
     public function show(Task $task)
@@ -78,18 +82,20 @@ class TaskController extends Controller
 
         $title = 'Task edit: '.$task->title;
 
-        return view('task.edit', compact('title', 'task'));
+        $projects = Project::all();
+
+        return view('task.edit', compact('title', 'task', 'projects'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  CreateUpdateTaskRequest  $request
      * @param  Task  $task
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(Request $request, Task $task)
+    public function update(CreateUpdateTaskRequest $request, Task $task)
     {
         $this->authorize('update', $task);
 

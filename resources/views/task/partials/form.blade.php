@@ -1,17 +1,17 @@
-<form action="{{ isset($project) ? route('project.update', $project->id) : route('project.store') }}" method="POST">
-    @if(isset($project)) @method('PUT') @endif
+<form action="{{ isset($task) ? route('task.update', $task->id) : route('task.store') }}" method="POST">
+    @if(isset($task)) @method('PUT') @endif
     @csrf
 
     @if(session('updated'))
         <div class="alert alert-success" role="alert">
-            Project updated!
+            Task updated!
         </div>
     @endif
 
     <div class="form-group">
         <label>Title</label>
         <input class="form-control @error('title') is-invalid @enderror" name="title" type="text"
-               value="{{ old('title') ?? $project->title ?? '' }}" required>
+               value="{{ old('title') ?? $task->title ?? '' }}" required>
         @error('title')
         <div class="invalid-feedback">
             @foreach($errors->get('title') as $message)
@@ -23,7 +23,7 @@
     <div class="form-group">
         <label>Description</label>
         <textarea class="form-control @error('description') is-invalid @enderror" name="description"
-                  required>{{ old('description') ?? $project->description ?? '' }}</textarea>
+                  required>{{ old('description') ?? $task->description ?? '' }}</textarea>
         @error('email')
         <div class="invalid-feedback">
             @foreach($errors->get('description') as $message)
@@ -33,47 +33,19 @@
         @enderror
     </div>
     <div class="form-group">
-        <label>Deadline</label>
-        <input class="form-control @error('deadline') is-invalid @enderror" name="deadline" type="date" value="{{ $project->deadline }}" required>
-        @error('deadline')
-        <div class="invalid-feedback">
-            @foreach($errors->get('deadline') as $message)
-                {{ $message }}
-            @endforeach
-        </div>
-        @enderror
-    </div>
-    <div class="form-group">
-        <label>Client</label>
-        <select class="form-control @error('client_id') is-invalid @enderror" name="client_id" required>
-            <option>Select client</option>
-            @foreach($clients as $client)
-                <option value="{{ $client->id }}" @if(isset($project->client->id) && $project->client->id === $client->id) selected @endif>
-                    {{ $client->company }}
+        <label>Project</label>
+        <select class="form-control @error('project_id') is-invalid @enderror" name="project_id" required>
+            <option>Select project</option>
+            @foreach($projects as $project)
+                <option value="{{ $project->id }}"
+                        @if(isset($task->project->id) && $task->project->id === $project->id) selected @endif>
+                    {{ $project->title }}
                 </option>
             @endforeach
         </select>
-        @error('client_id')
+        @error('project_id')
         <div class="invalid-feedback">
-            @foreach($errors->get('client_id') as $message)
-                {{ $message }}
-            @endforeach
-        </div>
-        @enderror
-    </div>
-    <div class="form-group">
-        <label>Assigned user</label>
-        <select class="form-control @error('user_id') is-invalid @enderror" name="user_id" required>
-            <option>Select user</option>
-            @foreach($users as $user)
-                <option value="{{ $user->id }}" @if($project->user->id === $user->id) selected @endif>
-                    {{ $user->name }}
-                </option>
-            @endforeach
-        </select>
-        @error('user_id')
-        <div class="invalid-feedback">
-            @foreach($errors->get('user_id') as $message)
+            @foreach($errors->get('project_id') as $message)
                 {{ $message }}
             @endforeach
         </div>
@@ -83,8 +55,8 @@
         <label>Status</label>
         <select class="form-control @error('status_id') is-invalid @enderror" name="status_id" required>
             <option>Select status</option>
-            @foreach(\App\Models\Project::$statuses as $id => $status)
-                <option value="{{ $id }}" @if($project->status_id === $id) selected @endif>
+            @foreach(\App\Models\Task::$statuses as $id => $status)
+                <option value="{{ $id }}" @if(isset($task->status_id) && $task->status_id === $id) selected @endif>
                     {{ $status }}
                 </option>
             @endforeach
