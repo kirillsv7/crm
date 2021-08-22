@@ -26,8 +26,12 @@ Route::group([
     Route::get('client/deleted', [\App\Http\Controllers\ClientController::class, 'deleted'])->name('client.deleted');
     Route::post('client/{user}', [\App\Http\Controllers\ClientController::class, 'restore'])->name('client.restore');
 
+    Route::get('project/deleted', [\App\Http\Controllers\ProjectController::class, 'deleted'])->name('project.deleted');
+    Route::post('project/{project}', [\App\Http\Controllers\ProjectController::class, 'restore'])->name('project.restore');
+
     Route::resources([
-        'user'   => \App\Http\Controllers\UserController::class,
-        'client' => \App\Http\Controllers\ClientController::class,
+        'user'    => \App\Http\Controllers\UserController::class,
+        'client'  => \App\Http\Controllers\ClientController::class,
+        'project' => \App\Http\Controllers\ProjectController::class,
     ]);
 });

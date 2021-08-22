@@ -22,7 +22,7 @@
             </a>
         </li>
         <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="/projects">
+            <a class="c-sidebar-nav-link" href="{{ route('project.index') }}">
                 <i class="c-sidebar-nav-icon cil-briefcase"></i>
                 Projects
             </a>

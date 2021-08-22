@@ -14,7 +14,7 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-        Permission::insert([
+        Permission::upsert([
             ['name' => 'user-viewAny', 'guard_name' => 'web'],
             ['name' => 'user-view', 'guard_name' => 'web'],
             ['name' => 'user-create', 'guard_name' => 'web'],
@@ -30,6 +30,14 @@ class PermissionSeeder extends Seeder
             ['name' => 'client-delete', 'guard_name' => 'web'],
             ['name' => 'client-restore', 'guard_name' => 'web'],
             ['name' => 'client-forceDelete', 'guard_name' => 'web'],
-        ]);
+
+            ['name' => 'project-viewAny', 'guard_name' => 'web'],
+            ['name' => 'project-view', 'guard_name' => 'web'],
+            ['name' => 'project-create', 'guard_name' => 'web'],
+            ['name' => 'project-update', 'guard_name' => 'web'],
+            ['name' => 'project-delete', 'guard_name' => 'web'],
+            ['name' => 'project-restore', 'guard_name' => 'web'],
+            ['name' => 'project-forceDelete', 'guard_name' => 'web'],
+        ], ['name']);
     }
 }

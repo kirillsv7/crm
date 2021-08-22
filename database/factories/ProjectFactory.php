@@ -28,7 +28,7 @@ class ProjectFactory extends Factory
             'title'       => $this->faker->monthName(),
             'description' => $this->faker->realText,
             'deadline'    => Carbon::now()->addDays(rand(30, 90)),
-            'client_id'   => Client::inRandomOrder()->first()->i,
+            'client_id'   => Client::inRandomOrder()->first()->id,
             'user_id'     => User::inRandomOrder()->first()->id,
             'status_id'   => collect(Project::$statuses)->keys()->random(),
         ];
