@@ -28,7 +28,7 @@
             </a>
         </li>
         <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="/tasks">
+            <a class="c-sidebar-nav-link" href="{{ route('task.index') }}">
                 <i class="c-sidebar-nav-icon cil-list-rich"></i>
                 Tasks
             </a>

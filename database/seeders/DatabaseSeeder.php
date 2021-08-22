@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             ClientSeeder::class,
             ProjectSeeder::class,
             TaskSeeder::class,
+            ResponseSeeder::class,
             PermissionSeeder::class,
         ]);
     }

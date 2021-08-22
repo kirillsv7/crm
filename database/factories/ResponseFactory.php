@@ -2,18 +2,19 @@
 
 namespace Database\Factories;
 
-use App\Models\Project;
+use App\Models\Response;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class TaskFactory extends Factory
+class ResponseFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Task::class;
+    protected $model = Response::class;
 
     /**
      * Define the model's default state.
@@ -23,10 +24,9 @@ class TaskFactory extends Factory
     public function definition()
     {
         return [
-            'title'       => $this->faker->dayOfWeek,
-            'description' => $this->faker->realText,
-            'project_id'  => Project::inRandomOrder()->first()->id,
-            'status_id'   => collect(Task::$statuses)->keys()->random(),
+            'content' => $this->faker->text,
+            'task_id' => Task::inRandomOrder()->first()->id,
+            'user_id' => User::inRandomOrder()->first()->id,
         ];
     }
 }

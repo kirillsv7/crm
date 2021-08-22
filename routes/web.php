@@ -27,11 +27,17 @@ Route::group([
     Route::post('client/{user}', [\App\Http\Controllers\ClientController::class, 'restore'])->name('client.restore');
 
     Route::get('project/deleted', [\App\Http\Controllers\ProjectController::class, 'deleted'])->name('project.deleted');
-    Route::post('project/{project}', [\App\Http\Controllers\ProjectController::class, 'restore'])->name('project.restore');
+    Route::post('project/{project}',
+        [\App\Http\Controllers\ProjectController::class, 'restore'])->name('project.restore');
+
+    Route::get('task/deleted', [\App\Http\Controllers\TaskController::class, 'deleted'])->name('task.deleted');
+    Route::post('task/{project}', [\App\Http\Controllers\TaskController::class, 'restore'])->name('task.restore');
 
     Route::resources([
-        'user'    => \App\Http\Controllers\UserController::class,
-        'client'  => \App\Http\Controllers\ClientController::class,
-        'project' => \App\Http\Controllers\ProjectController::class,
+        'user'     => \App\Http\Controllers\UserController::class,
+        'client'   => \App\Http\Controllers\ClientController::class,
+        'project'  => \App\Http\Controllers\ProjectController::class,
+        'task'     => \App\Http\Controllers\TaskController::class,
+        'response' => \App\Http\Controllers\ResponseController::class,
     ]);
 });

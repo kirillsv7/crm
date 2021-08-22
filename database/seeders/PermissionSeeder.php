@@ -38,6 +38,14 @@ class PermissionSeeder extends Seeder
             ['name' => 'project-delete', 'guard_name' => 'web'],
             ['name' => 'project-restore', 'guard_name' => 'web'],
             ['name' => 'project-forceDelete', 'guard_name' => 'web'],
+
+            ['name' => 'task-viewAny', 'guard_name' => 'web'],
+            ['name' => 'task-view', 'guard_name' => 'web'],
+            ['name' => 'task-create', 'guard_name' => 'web'],
+            ['name' => 'task-update', 'guard_name' => 'web'],
+            ['name' => 'task-delete', 'guard_name' => 'web'],
+            ['name' => 'task-restore', 'guard_name' => 'web'],
+            ['name' => 'task-forceDelete', 'guard_name' => 'web'],
         ], ['name']);
     }
 }
