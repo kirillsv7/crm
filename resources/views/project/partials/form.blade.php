@@ -34,7 +34,7 @@
     </div>
     <div class="form-group">
         <label>Deadline</label>
-        <input class="form-control @error('deadline') is-invalid @enderror" name="deadline" type="date" value="{{ $project->deadline }}" required>
+        <input class="form-control @error('deadline') is-invalid @enderror" name="deadline" type="date" value="{{ $project->deadline ?? '' }}" required>
         @error('deadline')
         <div class="invalid-feedback">
             @foreach($errors->get('deadline') as $message)
@@ -66,7 +66,7 @@
         <select class="form-control @error('user_id') is-invalid @enderror" name="user_id" required>
             <option>Select user</option>
             @foreach($users as $user)
-                <option value="{{ $user->id }}" @if($project->user->id === $user->id) selected @endif>
+                <option value="{{ $user->id }}" @if(isset($project->user->id) && $project->user->id === $user->id) selected @endif>
                     {{ $user->name }}
                 </option>
             @endforeach
@@ -84,7 +84,7 @@
         <select class="form-control @error('status_id') is-invalid @enderror" name="status_id" required>
             <option>Select status</option>
             @foreach(\App\Models\Project::$statuses as $id => $status)
-                <option value="{{ $id }}" @if($project->status_id === $id) selected @endif>
+                <option value="{{ $id }}" @if(isset($project->status_id) && $project->status_id === $id) selected @endif>
                     {{ $status }}
                 </option>
             @endforeach

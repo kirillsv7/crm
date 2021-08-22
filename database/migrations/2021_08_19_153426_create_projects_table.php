@@ -26,7 +26,7 @@ class CreateProjectsTable extends Migration
                   ->constrained()
                   ->cascadeOnUpdate()
                   ->nullOnDelete();
-            $table->integer('status_id');
+            $table->integer('status_id')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

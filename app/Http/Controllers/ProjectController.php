@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateUpdateProjectRequest;
 use App\Models\Client;
 use App\Models\Project;
 use App\Models\User;
@@ -35,17 +36,21 @@ class ProjectController extends Controller
 
         $title = 'Project create';
 
-        return view('project.create', compact('title'));
+        $clients = Client::all();
+
+        $users = User::all();
+
+        return view('project.create', compact('title', 'clients', 'users'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  CreateUpdateProjectRequest  $request
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(Request $request)
+    public function store(CreateUpdateProjectRequest $request)
     {
         $this->authorize('create', Project::class);
 
@@ -57,7 +62,7 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Project $project
      * @return \Illuminate\Http\Response
      */
     public function show(Project $project)
@@ -90,12 +95,12 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  CreateUpdateProjectRequest  $request
      * @param  Project  $project
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(Request $request, Project $project)
+    public function update(CreateUpdateProjectRequest $request, Project $project)
     {
         $this->authorize('update', $project);
 
