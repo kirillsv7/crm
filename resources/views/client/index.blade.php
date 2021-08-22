@@ -11,11 +11,11 @@
                     <div class="card-body">
                         <div class="mb-3">
                             @can('create', \App\Models\Client::class)
-                                <a class="btn btn-secondary mb-3" href="{{ route('client.create') }}">
+                                <a class="btn btn-secondary mb-1" href="{{ route('client.create') }}">
                                     Create client
                                 </a>
                             @endcan
-                            <a class="btn btn-light mb-3" href="{{ route('client.deleted') }}">
+                            <a class="btn btn-light mb-1" href="{{ route('client.deleted') }}">
                                 Show deleted
                             </a>
                         </div>

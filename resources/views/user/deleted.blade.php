@@ -9,8 +9,8 @@
                         {{ __('Deleted users list') }}
                     </div>
                     <div class="card-body">
-                        <div class="d-flex flex-wrap justify-content-between">
-                            <a class="btn btn-light mb-3 ml-auto" href="{{ route('user.index') }}">
+                        <div class="mb-3">
+                            <a class="btn btn-light mb-1" href="{{ route('user.index') }}">
                                 Show active
                             </a>
                         </div>

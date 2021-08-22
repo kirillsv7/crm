@@ -9,8 +9,8 @@
                         {{ __('Deleted projects list') }}
                     </div>
                     <div class="card-body">
-                        <div class="d-flex flex-wrap justify-content-between">
-                            <a class="btn btn-light mb-3 ml-auto" href="{{ route('project.index') }}">
+                        <div class="mb-3">
+                            <a class="btn btn-light mb-1" href="{{ route('project.index') }}">
                                 Show active
                             </a>
                         </div>
