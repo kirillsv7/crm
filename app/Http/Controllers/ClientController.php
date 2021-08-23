@@ -7,6 +7,9 @@ use App\Models\Client;
 
 class ClientController extends Controller
 {
+
+    const PAGINATE = 20;
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +17,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::all();
+        $clients = Client::paginate(self::PAGINATE);
 
         $title = 'Client list';
 
@@ -105,9 +108,11 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('delete', $id);
+        $client = Client::findOrFail($id);
 
-        Client::destroy([$id]);
+        $this->authorize('delete', $client);
+
+        $client->delete();
 
         return redirect(route('client.index'))->with('deleted', true);
     }
@@ -119,11 +124,11 @@ class ClientController extends Controller
      */
     public function deleted()
     {
-        $clients = Client::onlyTrashed()->get();
+        $clients = Client::onlyTrashed()->paginate(self::PAGINATE);
 
         $title = 'Deleted clients list';
 
-        return view('client.deleted', compact('title', 'clients'));
+        return view('client.index', compact('title', 'clients'));
     }
 
     /**
@@ -135,9 +140,11 @@ class ClientController extends Controller
      */
     public function restore($id)
     {
-        $this->authorize('restore', $id);
+        $client = Client::onlyTrashed()->findOrFail($id);
 
-        Client::withTrashed()->where('id', $id)->restore();
+        $this->authorize('restore', $client);
+
+        $client->restore();
 
         return redirect(route('client.deleted'))->with('restored', true);
     }

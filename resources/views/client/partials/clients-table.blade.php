@@ -26,7 +26,6 @@
                     <td>{{ $client->deleted_at }}</td>
                 @endif
                 <td class="text-nowrap">
-                <td class="text-nowrap">
                     @if(!$client->trashed())
                         @can('update', $client)
                             <a class="btn btn-secondary btn-sm"

@@ -37,11 +37,33 @@
                 </li>
             </ul>
         </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('client.index') }}">
+        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+            <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
                 <i class="c-sidebar-nav-icon cil-address-book"></i>
                 Clients
             </a>
+            <ul class="c-sidebar-nav-dropdown-items">
+                <li class="c-sidebar-nav-item">
+                    <a class="c-sidebar-nav-link" href="{{ route('client.index') }}">
+                        <i class="c-sidebar-nav-icon cil-list-rich"></i>
+                        Client list
+                    </a>
+                </li>
+                @can('create', \App\Models\Client::class)
+                    <li class="c-sidebar-nav-item">
+                        <a class="c-sidebar-nav-link" href="{{ route('client.create') }}">
+                            <i class="c-sidebar-nav-icon cil-user-plus"></i>
+                            Add client
+                        </a>
+                    </li>
+                @endcan
+                <li class="c-sidebar-nav-item">
+                    <a class="c-sidebar-nav-link" href="{{ route('client.deleted') }}">
+                        <i class="c-sidebar-nav-icon cil-user-x"></i>
+                        Deleted clients
+                    </a>
+                </li>
+            </ul>
         </li>
         <li class="c-sidebar-nav-item">
             <a class="c-sidebar-nav-link" href="{{ route('project.index') }}">
