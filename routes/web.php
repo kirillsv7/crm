@@ -31,7 +31,8 @@ Route::group([
         [\App\Http\Controllers\ProjectController::class, 'restore'])->name('project.restore');
 
     Route::get('task/deleted', [\App\Http\Controllers\TaskController::class, 'deleted'])->name('task.deleted');
-    Route::post('task/{project}', [\App\Http\Controllers\TaskController::class, 'restore'])->name('task.restore');
+    Route::post('task/{task}', [\App\Http\Controllers\TaskController::class, 'restore'])->name('task.restore');
+    Route::post('task/add-response/{task}', [\App\Http\Controllers\TaskController::class, 'addResponse'])->name('task.add-response');
 
     Route::resources([
         'user'     => \App\Http\Controllers\UserController::class,

@@ -91,4 +91,17 @@ class TaskPolicy
     {
         return $user->hasPermissionTo('task-forceDelete');
     }
+
+    /**
+     * Autorize to user add responses to tasks if is assigned to project.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Task  $task
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function addResponse(User $user, Task $task)
+    {
+        return $user->hasPermissionTo('task-addResponse') ||
+            $user->id === $task->project->user_id;
+    }
 }

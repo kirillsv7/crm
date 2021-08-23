@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddResponseToTaskRequest;
 use App\Http\Requests\CreateUpdateTaskRequest;
 use App\Models\Project;
+use App\Models\Response;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -118,5 +120,48 @@ class TaskController extends Controller
         Task::destroy([$id]);
 
         return redirect(route('task.index'))->with('deleted', true);
+    }
+
+    /**
+     * Display a listing of the deleted resources.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function deleted()
+    {
+        $tasks = Task::onlyTrashed()->get();
+
+        $title = 'Deleted tasks list';
+
+        return view('task.deleted', compact('title', 'tasks'));
+    }
+
+    /**
+     * Restore the specified resource to storage.
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function restore($id)
+    {
+        $this->authorize('restore', $id);
+
+        Task::withTrashed()->where('id', $id)->restore();
+
+        return redirect(route('task.deleted'))->with('restored', true);
+    }
+
+    public function addResponse(AddResponseToTaskRequest $request, Task $task)
+    {
+        $this->authorize('addResponse', $task);
+
+        $data            = $request->validated();
+        $data['task_id'] = decrypt($data['task_id']);
+        $data['user_id'] = auth()->id();
+
+        Response::create($data);
+
+        return redirect(route('task.show', $task->id))->with('responseCreated', true);
     }
 }

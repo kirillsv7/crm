@@ -4,6 +4,25 @@
     <div class="container my-5">
         <div class="row justify-content-center">
             <div class="col-md-8">
+
+                @if(session('responseCreated'))
+                    <div class="alert alert-success" role="alert">
+                        Response published!
+                    </div>
+                @endif
+                @if(session('responseDeleted'))
+                    <div class="alert alert-success" role="alert">
+                        Response deleted!
+                    </div>
+                @endif
+                @if ($errors->has('task_id'))
+                    <div class="alert alert-danger" role="alert">
+                        @foreach ($errors->get('task_id') as $error)
+                            {{ $error }}<br>
+                        @endforeach
+                    </div>
+                @endif
+
                 <div class="card">
                     <div class="card-header">{{ __('Task details') }}</div>
                     <div class="card-body">
@@ -28,20 +47,33 @@
                         <div class="card-header">
                             {{ __('Response by: ') . $response->user->name }} |
                             {{ __('at: ') . $response->created_at }}
+                            <a class="float-right text-muted" id="response-{{ $loop->iteration }}"
+                               href="#response-{{ $loop->iteration }}">#{{ $loop->iteration }}</a>
                         </div>
                         <div class="card-body">
                             {{ $response->content }}
                         </div>
                     </div>
                 @endforeach
-                <form action="{{ route('response.store') }}" method="POST">
-                    @csrf
-                    <div class="form-group">
-                    <textarea class="form-control @error('content') is-invalid @enderror" name="content"
-                              required>{{ old('content') }}</textarea>
-                    </div>
-                    <button class="btn btn-primary" type="submit">Save</button>
-                </form>
+                @can('addResponse', $task)
+                    <hr>
+                    <form action="{{ route('task.add-response', $task->id) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="task_id"
+                               value="{{ encrypt($task->id) }}">
+                        <div class="form-group">
+                            <label>Your response</label>
+                            <textarea class="form-control @error('content') is-invalid @enderror" name="content"
+                                      required>{{ old('content') }}</textarea>
+                            @error('content')
+                            <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <button class="btn btn-primary" type="submit">Send</button>
+                    </form>
+                @endcan
             </div>
         </div>
     </div>
