@@ -9,11 +9,33 @@
                 Dashboard
             </a>
         </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('user.index') }}">
+        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+            <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
                 <i class="c-sidebar-nav-icon cil-user"></i>
                 Users
             </a>
+            <ul class="c-sidebar-nav-dropdown-items">
+                <li class="c-sidebar-nav-item">
+                    <a class="c-sidebar-nav-link" href="{{ route('user.index') }}">
+                        <i class="c-sidebar-nav-icon cil-list-rich"></i>
+                        User list
+                    </a>
+                </li>
+                @can('create', \App\Models\User::class)
+                    <li class="c-sidebar-nav-item">
+                        <a class="c-sidebar-nav-link" href="{{ route('user.create') }}">
+                            <i class="c-sidebar-nav-icon cil-user-plus"></i>
+                            Add user
+                        </a>
+                    </li>
+                @endcan
+                <li class="c-sidebar-nav-item">
+                    <a class="c-sidebar-nav-link" href="{{ route('user.deleted') }}">
+                        <i class="c-sidebar-nav-icon cil-user-x"></i>
+                        Deleted users
+                    </a>
+                </li>
+            </ul>
         </li>
         <li class="c-sidebar-nav-item">
             <a class="c-sidebar-nav-link" href="{{ route('client.index') }}">

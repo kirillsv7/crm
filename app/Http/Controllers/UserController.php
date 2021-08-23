@@ -116,9 +116,11 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('delete', $id);
+        $user = User::findOrFail($id);
 
-        User::destroy([$id]);
+        $this->authorize('delete', $user);
+
+        $user->delete();
 
         return redirect(route('user.index'))->with('deleted', true);
     }
@@ -134,7 +136,7 @@ class UserController extends Controller
 
         $title = 'Deleted users list';
 
-        return view('user.deleted', compact('title', 'users'));
+        return view('user.index', compact('title', 'users'));
     }
 
     /**
@@ -146,9 +148,11 @@ class UserController extends Controller
      */
     public function restore($id)
     {
-        $this->authorize('restore', $id);
+        $user = User::onlyTrashed()->findOrFail($id);
 
-        User::withTrashed()->where('id', $id)->restore();
+        $this->authorize('restore', $user);
+
+        $user->restore();
 
         return redirect(route('user.deleted'))->with('restored', true);
     }

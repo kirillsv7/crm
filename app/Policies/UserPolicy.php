@@ -64,7 +64,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $user->hasPermissionTo('user-delete');
+        return $user->hasPermissionTo('user-delete') && $user->id !== $model->id;
     }
 
     /**
