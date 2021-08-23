@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    const PAGINATE = 20;
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::paginate($this::PAGINATE);
 
         $title = 'User list';
 
@@ -132,7 +134,7 @@ class UserController extends Controller
      */
     public function deleted()
     {
-        $users = User::onlyTrashed()->get();
+        $users = User::onlyTrashed()->paginate($this::PAGINATE);
 
         $title = 'Deleted users list';
 
