@@ -70,8 +70,6 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        $this->authorize('view', $project);
-
         $title = 'Project: '.$project->title;
 
         return view('project.show', compact('title', 'project'));
