@@ -38,6 +38,10 @@ class Task extends Model
         return $this->hasMany(Response::class);
     }
 
+    public function getStatusAttribute(){
+        return self::$statuses[$this->status_id];
+    }
+
     public function getCreatedAtAttribute($created_at)
     {
         return Carbon::createFromFormat('Y-m-d H:i:s', $created_at)->format('d/m/Y H:i:s');

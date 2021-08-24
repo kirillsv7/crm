@@ -1,36 +1,28 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container my-5">
-        <div class="row justify-content-center">
+    <div class="container-fluid my-3">
+        <div class="row">
             <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        {{ __('Task list') }}
+                @if(session('created') || session('deleted') || session('restored'))
+                    <div class="alert alert-success" role="alert">
+                        @if(session('created')) Task created! @endif
+                        @if(session('deleted')) Task deleted! @endif
+                        @if(session('restored')) Task restored! @endif
                     </div>
+                @endif
+                <div class="card m-0">
+                    <div class="card-header">{{ $title }}</div>
                     <div class="card-body">
-                        <div class="mb-3">
-                            @can('create', \App\Models\Task::class)
-                                <a class="btn btn-secondary mb-1" href="{{ route('task.create') }}">
-                                    Create task
-                                </a>
-                            @endcan
-                            <a class="btn btn-light mb-1" href="{{ route('task.deleted') }}">
-                                Show deleted
-                            </a>
-                        </div>
-                        @if(session('created'))
-                            <div class="alert alert-success" role="alert">
-                                Task created!
-                            </div>
-                        @endif
-                        @if(session('deleted'))
-                            <div class="alert alert-success" role="alert">
-                                Task deleted!
-                            </div>
-                        @endif
                         @include('task.partials.tasks-table')
                     </div>
+                    @if($tasks->hasPages())
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-center">
+                                {{ $tasks->links() }}
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

@@ -27,7 +27,7 @@
                 <td>{{ $task->project->title ?? '' }}</td>
                 <td>{{ $task->project->client->company ?? '' }}</td>
                 <td>{{ $task->project->user->name ?? '' }}</td>
-                <td>{{ $task->status_id }}</td>
+                <td>{{ $task->status }}</td>
                 <td>{{ $task->created_at }}</td>
                 <td>{{ $task->updated_at }}</td>
                 @if(request()->routeIs('task.deleted'))

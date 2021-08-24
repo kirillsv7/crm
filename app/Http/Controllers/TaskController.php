@@ -7,10 +7,12 @@ use App\Http\Requests\CreateUpdateTaskRequest;
 use App\Models\Project;
 use App\Models\Response;
 use App\Models\Task;
-use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
+
+    const PAGINATE = 20;
+
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +20,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::all();
+        $tasks = Task::paginate(self::PAGINATE);
 
         $title = 'Task list';
 
@@ -37,7 +39,7 @@ class TaskController extends Controller
 
         $title = 'Task create';
 
-        $projects = Project::all();
+        $projects = Project::all('id', 'title');
 
         return view('task.create', compact('title', 'projects'));
     }
@@ -84,7 +86,7 @@ class TaskController extends Controller
 
         $title = 'Task edit: '.$task->title;
 
-        $projects = Project::all();
+        $projects = Project::all('id', 'title');
 
         return view('task.edit', compact('title', 'task', 'projects'));
     }
@@ -115,9 +117,11 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('delete', $id);
+        $task = Task::findOrFail($id);
 
-        Task::destroy([$id]);
+        $this->authorize('delete', $task);
+
+        $task->delete();
 
         return redirect(route('task.index'))->with('deleted', true);
     }
@@ -129,11 +133,11 @@ class TaskController extends Controller
      */
     public function deleted()
     {
-        $tasks = Task::onlyTrashed()->get();
+        $tasks = Task::onlyTrashed()->paginate(self::PAGINATE);
 
         $title = 'Deleted tasks list';
 
-        return view('task.deleted', compact('title', 'tasks'));
+        return view('task.index', compact('title', 'tasks'));
     }
 
     /**
@@ -145,9 +149,11 @@ class TaskController extends Controller
      */
     public function restore($id)
     {
-        $this->authorize('restore', $id);
+        $task = Task::onlyTrashed()->findOrFail($id);
 
-        Task::withTrashed()->where('id', $id)->restore();
+        $this->authorize('restore', $task);
+
+        $task->restore();
 
         return redirect(route('task.deleted'))->with('restored', true);
     }

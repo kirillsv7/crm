@@ -24,9 +24,9 @@ class CreateUpdateTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'      => 'required|string',
-            'decription' => 'string',
-            'project_id' => 'required|integer|exists:projects,id',
+            'title'       => 'required|string',
+            'description' => 'required|string',
+            'project_id'  => 'required|integer|exists:projects,id',
             'status_id'   => 'required|integer',
 
         ];

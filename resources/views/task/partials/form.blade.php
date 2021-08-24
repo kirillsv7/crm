@@ -24,7 +24,7 @@
         <label>Description</label>
         <textarea class="form-control @error('description') is-invalid @enderror" name="description"
                   required>{{ old('description') ?? $task->description ?? '' }}</textarea>
-        @error('email')
+        @error('description')
         <div class="invalid-feedback">
             @foreach($errors->get('description') as $message)
                 {{ $message }}
