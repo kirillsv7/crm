@@ -20,7 +20,11 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::paginate(self::PAGINATE);
+        $tasks = Task::filterByStatus()
+                     ->filterAssignedToUser()
+                     ->orderByDesc('id')
+                     ->paginate(self::PAGINATE)
+                     ->withQueryString();
 
         $title = 'Task list';
 
@@ -133,7 +137,7 @@ class TaskController extends Controller
      */
     public function deleted()
     {
-        $tasks = Task::onlyTrashed()->paginate(self::PAGINATE);
+        $tasks = Task::onlyTrashed()->orderByDesc('id')->paginate(self::PAGINATE);
 
         $title = 'Deleted tasks list';
 

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Validation\Rule;
 
 class Project extends Model
 {
@@ -26,11 +27,11 @@ class Project extends Model
     protected $withCount = ['tasks'];
 
     public static $statuses = [
-        '0' => 'Created',
-        '1' => 'Working',
-        '2' => 'Paused',
-        '3' => 'Pending validation',
-        '4' => 'Finished',
+        '1' => 'Created',
+        '2' => 'Working',
+        '3' => 'Paused',
+        '4' => 'Pending validation',
+        '5' => 'Finished',
     ];
 
     public function user(): BelongsTo
@@ -48,12 +49,42 @@ class Project extends Model
         return $this->hasMany(Task::class);
     }
 
+    public function scopeFilterByStatus($query)
+    {
+        if (request()->has('status_id')) {
+            request()->validate([
+                'status_id' => [
+                    'numeric',
+                    Rule::in(collect(self::$statuses)->keys()->prepend(0)),
+                ],
+            ]);
+            if (request('status_id') != 0) {
+                return $query->where('status_id', request()->input('status_id'));
+            }
+        }
+
+        return $query;
+    }
+
+    public function scopeFilterAssignedToUser($query)
+    {
+        if (request()->has('assigned_to_user')) {
+            request()->validate(['assigned_to_user' => 'boolean']);
+            if (request('assigned_to_user') == true) {
+                return $query->where('user_id', auth()->id());
+            }
+        }
+
+        return $query;
+    }
+
     public function getDeadlineInvertedAttribute()
     {
         return Carbon::createFromFormat('Y-m-d', $this->deadline)->format('d/m/Y');
     }
 
-    public function getStatusAttribute(){
+    public function getStatusAttribute()
+    {
         return self::$statuses[$this->status_id];
     }
 

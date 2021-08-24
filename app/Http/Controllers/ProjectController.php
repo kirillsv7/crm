@@ -19,7 +19,11 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::paginate(self::PAGINATE);
+        $projects = Project::filterByStatus()
+                           ->filterAssignedToUser()
+                           ->orderByDesc('id')
+                           ->paginate(self::PAGINATE)
+                           ->withQueryString();
 
         $title = 'Project list';
 
@@ -137,7 +141,7 @@ class ProjectController extends Controller
      */
     public function deleted()
     {
-        $projects = Project::onlyTrashed()->paginate(self::PAGINATE);
+        $projects = Project::onlyTrashed()->orderByDesc('id')->paginate(self::PAGINATE);
 
         $title = 'Deleted projects list';
 

@@ -4,13 +4,7 @@
     <div class="container-fluid my-3">
         <div class="row">
             <div class="col-12">
-                @if(session('created') || session('deleted') || session('restored'))
-                    <div class="alert alert-success" role="alert">
-                        @if(session('created')) User created! @endif
-                        @if(session('deleted')) User deleted! @endif
-                        @if(session('restored')) User restored! @endif
-                    </div>
-                @endif
+                @include('partials.crud-alert', ['model' => class_basename(\App\Models\User::class)])
                 <div class="card m-0">
                     <div class="card-header">{{ $title }}</div>
                     <div class="card-body">
