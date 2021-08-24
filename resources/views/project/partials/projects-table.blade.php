@@ -29,7 +29,7 @@
                 <td>{{ $project->client->company ?? '' }}</td>
                 <td>{{ $project->user->name ?? '' }}</td>
                 <td>{{ $project->tasks_count }}</td>
-                <td>{{ $project->status_id }}</td>
+                <td>{{ $project->status }}</td>
                 <td>{{ $project->created_at }}</td>
                 <td>{{ $project->updated_at }}</td>
                 @if(request()->routeIs('project.deleted'))

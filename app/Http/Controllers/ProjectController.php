@@ -6,10 +6,12 @@ use App\Http\Requests\CreateUpdateProjectRequest;
 use App\Models\Client;
 use App\Models\Project;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
+
+    const PAGINATE = 20;
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +19,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $projects = Project::paginate(self::PAGINATE);
 
         $title = 'Project list';
 
@@ -36,9 +38,9 @@ class ProjectController extends Controller
 
         $title = 'Project create';
 
-        $clients = Client::all();
+        $clients = Client::all('id', 'company');
 
-        $users = User::all();
+        $users = User::all('id', 'name');
 
         return view('project.create', compact('title', 'clients', 'users'));
     }
@@ -62,11 +64,14 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  Project $project
+     * @param  Project  $project
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Project $project)
     {
+        $this->authorize('view', $project);
+
         $title = 'Project: '.$project->title;
 
         return view('project.show', compact('title', 'project'));
@@ -85,9 +90,9 @@ class ProjectController extends Controller
 
         $title = 'Project edit: '.$project->title;
 
-        $clients = Client::all();
+        $clients = Client::all('id', 'company');
 
-        $users = User::all();
+        $users = User::all('id', 'name');
 
         return view('project.edit', compact('title', 'project', 'clients', 'users'));
     }
@@ -118,9 +123,11 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('delete', $id);
+        $project = Project::findOrFail($id);
 
-        Project::destroy([$id]);
+        $this->authorize('delete', $project);
+
+        $project->delete();
 
         return redirect(route('project.index'))->with('deleted', true);
     }
@@ -132,11 +139,11 @@ class ProjectController extends Controller
      */
     public function deleted()
     {
-        $projects = Project::onlyTrashed()->get();
+        $projects = Project::onlyTrashed()->paginate(self::PAGINATE);
 
         $title = 'Deleted projects list';
 
-        return view('project.deleted', compact('title', 'projects'));
+        return view('project.index', compact('title', 'projects'));
     }
 
     /**
@@ -148,9 +155,11 @@ class ProjectController extends Controller
      */
     public function restore($id)
     {
-        $this->authorize('restore', $id);
+        $project = Project::onlyTrashed()->findOrFail($id);
 
-        Project::withTrashed()->where('id', $id)->restore();
+        $this->authorize('restore', $project);
+
+        $project->restore();
 
         return redirect(route('project.deleted'))->with('restored', true);
     }

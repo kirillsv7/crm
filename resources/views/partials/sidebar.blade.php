@@ -65,11 +65,33 @@
                 </li>
             </ul>
         </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('project.index') }}">
+        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+            <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
                 <i class="c-sidebar-nav-icon cil-briefcase"></i>
                 Projects
             </a>
+            <ul class="c-sidebar-nav-dropdown-items">
+                <li class="c-sidebar-nav-item">
+                    <a class="c-sidebar-nav-link" href="{{ route('project.index') }}">
+                        <i class="c-sidebar-nav-icon cil-list-rich"></i>
+                        Project list
+                    </a>
+                </li>
+                @can('create', \App\Models\Project::class)
+                    <li class="c-sidebar-nav-item">
+                        <a class="c-sidebar-nav-link" href="{{ route('project.create') }}">
+                            <i class="c-sidebar-nav-icon cil-plus"></i>
+                            Add project
+                        </a>
+                    </li>
+                @endcan
+                <li class="c-sidebar-nav-item">
+                    <a class="c-sidebar-nav-link" href="{{ route('project.deleted') }}">
+                        <i class="c-sidebar-nav-icon cil-minus"></i>
+                        Deleted projects
+                    </a>
+                </li>
+            </ul>
         </li>
         <li class="c-sidebar-nav-item">
             <a class="c-sidebar-nav-link" href="{{ route('task.index') }}">

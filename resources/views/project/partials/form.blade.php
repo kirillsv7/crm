@@ -24,7 +24,7 @@
         <label>Description</label>
         <textarea class="form-control @error('description') is-invalid @enderror" name="description"
                   required>{{ old('description') ?? $project->description ?? '' }}</textarea>
-        @error('email')
+        @error('description')
         <div class="invalid-feedback">
             @foreach($errors->get('description') as $message)
                 {{ $message }}
@@ -46,7 +46,7 @@
     <div class="form-group">
         <label>Client</label>
         <select class="form-control @error('client_id') is-invalid @enderror" name="client_id" required>
-            <option>Select client</option>
+            <option value="">Select client</option>
             @foreach($clients as $client)
                 <option value="{{ $client->id }}" @if(isset($project->client->id) && $project->client->id === $client->id) selected @endif>
                     {{ $client->company }}
@@ -64,7 +64,7 @@
     <div class="form-group">
         <label>Assigned user</label>
         <select class="form-control @error('user_id') is-invalid @enderror" name="user_id" required>
-            <option>Select user</option>
+            <option value="">Select user</option>
             @foreach($users as $user)
                 <option value="{{ $user->id }}" @if(isset($project->user->id) && $project->user->id === $user->id) selected @endif>
                     {{ $user->name }}
@@ -82,7 +82,7 @@
     <div class="form-group">
         <label>Status</label>
         <select class="form-control @error('status_id') is-invalid @enderror" name="status_id" required>
-            <option>Select status</option>
+            <option value="">Select status</option>
             @foreach(\App\Models\Project::$statuses as $id => $status)
                 <option value="{{ $id }}" @if(isset($project->status_id) && $project->status_id === $id) selected @endif>
                     {{ $status }}
