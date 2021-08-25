@@ -137,7 +137,12 @@ class TaskController extends Controller
      */
     public function deleted()
     {
-        $tasks = Task::onlyTrashed()->orderByDesc('id')->paginate(self::PAGINATE);
+        $tasks = Task::onlyTrashed()
+                     ->filterByStatus()
+                     ->filterAssignedToUser()
+                     ->orderByDesc('id')
+                     ->paginate(self::PAGINATE)
+                     ->withQueryString();
 
         $title = 'Deleted tasks list';
 

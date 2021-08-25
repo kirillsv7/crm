@@ -141,7 +141,12 @@ class ProjectController extends Controller
      */
     public function deleted()
     {
-        $projects = Project::onlyTrashed()->orderByDesc('id')->paginate(self::PAGINATE);
+        $projects = Project::onlyTrashed()
+                           ->filterByStatus()
+                           ->filterAssignedToUser()
+                           ->orderByDesc('id')
+                           ->paginate(self::PAGINATE)
+                           ->withQueryString();
 
         $title = 'Deleted projects list';
 
