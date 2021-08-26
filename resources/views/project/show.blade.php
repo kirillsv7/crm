@@ -30,10 +30,20 @@
         <div class="row">
             <div class="col-12">
                 <div class="card m-0">
-                    <div class="card-header">{{ __('Project tasks') }}</div>
-                    <div class="card-body">
-                        @include('task.partials.tasks-table', ['tasks' => $project->tasks])
+                    <div class="card-header d-flex flex-wrap align-items-center justify-content-between">
+                        {{ __('Project tasks') }}
+                        @include('partials.table-filter', ['modelStatuses' => \App\Models\Task::$statuses, 'withoutUserFilter' => true])
                     </div>
+                    <div class="card-body">
+                        @include('task.partials.tasks-table', ['tasks' => $tasks])
+                    </div>
+                    @if($tasks->hasPages())
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-center">
+                                {{ $tasks->links() }}
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

@@ -19,7 +19,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::filterByStatus()
+        $projects = Project::withCount('tasks')
+                           ->filterByStatus()
                            ->filterAssignedToUser()
                            ->orderByDesc('id')
                            ->paginate(self::PAGINATE)
@@ -76,7 +77,13 @@ class ProjectController extends Controller
     {
         $title = 'Project: '.$project->title;
 
-        return view('project.show', compact('title', 'project'));
+        $tasks = $project->tasks()
+                         ->filterByStatus()
+                         ->orderByDesc('id')
+                         ->paginate(self::PAGINATE)
+                         ->withQueryString();
+
+        return view('project.show', compact('title', 'project', 'tasks'));
     }
 
     /**

@@ -24,7 +24,6 @@ class Project extends Model
     ];
 
     protected $with = ['client', 'user'];
-    protected $withCount = ['tasks'];
 
     public static $statuses = [
         '1' => 'Created',
