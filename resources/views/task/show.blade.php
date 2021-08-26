@@ -38,7 +38,7 @@
                             <dt>Assigned user</dt>
                             <dd>{{ $task->project->user->name ?? '' }}</dd>
                             <dt>Status</dt>
-                            <dd>{{ $task->status_id }}</dd>
+                            <dd>{{ $task->status }}</dd>
                         </dl>
                     </div>
                 </div>
