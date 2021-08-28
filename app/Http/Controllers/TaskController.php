@@ -7,6 +7,7 @@ use App\Http\Requests\CreateUpdateTaskRequest;
 use App\Models\Project;
 use App\Models\Response;
 use App\Models\Task;
+use App\Services\SpatieMediaLibrary\AddMediaToModel;
 
 class TaskController extends Controller
 {
@@ -52,18 +53,17 @@ class TaskController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  CreateUpdateTaskRequest  $request
+     * @param  AddMediaToModel  $addMediaToModel
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(CreateUpdateTaskRequest $request)
+    public function store(CreateUpdateTaskRequest $request, AddMediaToModel $addMediaToModel)
     {
         $this->authorize('create', Task::class);
 
         $task = Task::create($request->except('media'));
 
-        foreach ($request->input('media', []) as $media) {
-            $task->addMedia(storage_path('tmp/uploads/').$media)->toMediaCollection();
-        }
+        $addMediaToModel($request->input('media', []), $task);
 
         return redirect(route('task.edit', $task->id))->with('created', true);
     }
@@ -104,18 +104,17 @@ class TaskController extends Controller
      *
      * @param  CreateUpdateTaskRequest  $request
      * @param  Task  $task
+     * @param  AddMediaToModel  $addMediaToModel
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(CreateUpdateTaskRequest $request, Task $task)
+    public function update(CreateUpdateTaskRequest $request, Task $task, AddMediaToModel $addMediaToModel)
     {
         $this->authorize('update', $task);
 
         $task->update($request->except('media'));
 
-        foreach ($request->input('media', []) as $media) {
-            $task->addMedia(storage_path('tmp/uploads/').$media)->toMediaCollection();
-        }
+        $addMediaToModel($request->input('media', []), $task);
 
         return redirect(route('task.edit', $task->id))->with('updated', true);
     }
@@ -175,6 +174,12 @@ class TaskController extends Controller
         return redirect(route('task.deleted'))->with('restored', true);
     }
 
+    /**
+     * @param  Task  $task
+     * @param $mediaId
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted
+     */
     public function removeMedia(Task $task, $mediaId)
     {
         $this->authorize('manageMedia', $task);
@@ -182,7 +187,14 @@ class TaskController extends Controller
         $task->deleteMedia($mediaId);
     }
 
-    public function addResponse(AddResponseToTaskRequest $request, Task $task)
+    /**
+     * @param  AddResponseToTaskRequest  $request
+     * @param  Task  $task
+     * @param  AddMediaToModel  $addMediaToModel
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function addResponse(AddResponseToTaskRequest $request, Task $task, AddMediaToModel $addMediaToModel)
     {
         $this->authorize('addResponse', $task);
 
@@ -192,9 +204,7 @@ class TaskController extends Controller
 
         $response = Response::create($data);
 
-        foreach ($request->input('media', []) as $media) {
-            $response->addMedia(storage_path('tmp/uploads/').$media)->toMediaCollection();
-        }
+        $addMediaToModel($request->input('media', []), $response);
 
         return redirect(route('task.show', $task->id))->with('responseCreated', true);
     }

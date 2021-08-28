@@ -6,6 +6,7 @@ use App\Http\Requests\CreateUpdateProjectRequest;
 use App\Models\Client;
 use App\Models\Project;
 use App\Models\User;
+use App\Services\SpatieMediaLibrary\AddMediaToModel;
 
 class ProjectController extends Controller
 {
@@ -54,18 +55,17 @@ class ProjectController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  CreateUpdateProjectRequest  $request
+     * @param  AddMediaToModel  $addMediaToModel
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(CreateUpdateProjectRequest $request)
+    public function store(CreateUpdateProjectRequest $request, AddMediaToModel $addMediaToModel)
     {
         $this->authorize('create', Project::class);
 
         $project = Project::create($request->except('media'));
 
-        foreach ($request->input('media', []) as $media) {
-            $project->addMedia(storage_path('tmp/uploads/').$media)->toMediaCollection();
-        }
+        $addMediaToModel($request->input('media', []), $project);
 
         return redirect(route('project.edit', $project->id))->with('created', true);
     }
@@ -115,18 +115,17 @@ class ProjectController extends Controller
      *
      * @param  CreateUpdateProjectRequest  $request
      * @param  Project  $project
+     * @param  AddMediaToModel  $addMediaToModel
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(CreateUpdateProjectRequest $request, Project $project)
+    public function update(CreateUpdateProjectRequest $request, Project $project, AddMediaToModel $addMediaToModel)
     {
         $this->authorize('update', $project);
 
         $project->update($request->except('media'));
 
-        foreach ($request->input('media', []) as $media) {
-            $project->addMedia(storage_path('tmp/uploads/').$media)->toMediaCollection();
-        }
+        $addMediaToModel($request->input('media', []), $project);
 
         return redirect(route('project.edit', $project->id))->with('updated', true);
     }
