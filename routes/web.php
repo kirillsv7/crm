@@ -26,7 +26,6 @@ Route::group([
     Route::get('client/deleted', [\App\Http\Controllers\ClientController::class, 'deleted'])->name('client.deleted');
     Route::post('client/{user}', [\App\Http\Controllers\ClientController::class, 'restore'])->name('client.restore');
 
-    Route::post('project/{project}/add-media', [\App\Http\Controllers\ProjectController::class, 'addMedia'])->name('project.add-media');
     Route::post('project/{project}/remove-media/{id}', [\App\Http\Controllers\ProjectController::class, 'removeMedia'])->name('project.remove-media');
     Route::get('project/deleted', [\App\Http\Controllers\ProjectController::class, 'deleted'])->name('project.deleted');
     Route::post('project/{project}', [\App\Http\Controllers\ProjectController::class, 'restore'])->name('project.restore');
@@ -43,4 +42,6 @@ Route::group([
         'response' => \App\Http\Controllers\ResponseController::class,
     ]);
     // TODO add except show to user, client
+
+    Route::post('media/upload', \App\Http\Controllers\MediaUploadContoller::class)->name('media.upload');
 });

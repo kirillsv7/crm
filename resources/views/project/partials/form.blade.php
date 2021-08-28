@@ -1,12 +1,7 @@
-<form action="{{ isset($project) ? route('project.update', $project->id) : route('project.store') }}" method="POST">
+<form id="project-form" action="{{ isset($project) ? route('project.update', $project->id) : route('project.store') }}"
+      method="POST">
     @if(isset($project)) @method('PUT') @endif
     @csrf
-
-    @if(session('updated'))
-        <div class="alert alert-success" role="alert">
-            Project updated!
-        </div>
-    @endif
 
     <div class="form-group">
         <label>Title</label>
@@ -101,43 +96,40 @@
         </div>
         @enderror
     </div>
+    <div class="form-group">
+        <label>Media upload</label>
+        <div class="dropzone"></div>
+    </div>
     <button class="btn btn-primary" type="submit">Save</button>
 </form>
 
-@if(request()->routeIs('project.edit'))
-    <div class="dropzone mt-3"></div>
-
-    @push('scripts')
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                let formMediaUpload = new Dropzone(".dropzone", {
-                        headers: {
-                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                        },
-                        url: "{{ route('project.add-media', $project->id) }}",
-                        addRemoveLinks: true,
-                        success(file, response) {
-                            file._removeLink.href = `{{ route('project.remove-media', [$project->id, '']) }}/${response.id}`
-                            if (file.previewElement) {
-                                file.previewElement.classList.add("dz-success");
-                            }
-                            return
-                        },
-                        removedfile(file) {
-                            fetch(file._removeLink.href, {
-                                method: 'POST',
-                                headers: {
-                                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                                }
-                            }).then(function (response) {
-                                file.previewElement.remove()
-                            }).catch(function (response) {
-                                console.error(response)
-                            })
-                        },
-                    }
-                );
+@push('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let mediaUploaded = {}
+            let form = document.querySelector("#project-form")
+            new Dropzone(".dropzone", {
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                url: "{{ route('media.upload') }}",
+                addRemoveLinks: true,
+                success(file, response) {
+                    file.previewElement.classList.add("dz-success");
+                    let input = document.createElement("input")
+                    input.setAttribute("name", "media[]")
+                    input.setAttribute("type", "hidden")
+                    input.setAttribute("value", response.name)
+                    form.appendChild(input)
+                    mediaUploaded[file.name] = response.name
+                },
+                removedfile(file) {
+                    file.previewElement.remove()
+                    let name = mediaUploaded[file.name]
+                    let input = form.querySelector(`input[name="media[]"][value="${name}"]`)
+                    form.removeChild(input)
+                }
             });
-        </script>
-    @endpush
-@endif
+        });
+    </script>
+@endpush

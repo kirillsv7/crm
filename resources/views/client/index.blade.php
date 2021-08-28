@@ -4,7 +4,7 @@
     <div class="container-fluid my-3">
         <div class="row">
             <div class="col-12">
-                @include('partials.crud-alert', ['model' => class_basename(\App\Models\Client::class)])
+                @include('partials.crud-alert', ['model' => \App\Models\Client::class])
                 <div class="card m-0">
                     <div class="card-header">{{ $title }}</div>
                     <div class="card-body">

@@ -61,9 +61,13 @@ class ProjectController extends Controller
     {
         $this->authorize('create', Project::class);
 
-        Project::create($request->validated());
+        $project = Project::create($request->except('media'));
 
-        return redirect(route('project.index'))->with('created', true);
+        foreach ($request->input('media', []) as $media) {
+            $project->addMedia(storage_path('tmp/uploads/').$media)->toMediaCollection();
+        }
+
+        return redirect(route('project.edit', $project->id))->with('created', true);
     }
 
     /**
@@ -118,7 +122,11 @@ class ProjectController extends Controller
     {
         $this->authorize('update', $project);
 
-        $project->update($request->validated());
+        $project->update($request->except('media'));
+
+        foreach ($request->input('media', []) as $media) {
+            $project->addMedia(storage_path('tmp/uploads/').$media)->toMediaCollection();
+        }
 
         return redirect(route('project.edit', $project->id))->with('updated', true);
     }
@@ -176,15 +184,6 @@ class ProjectController extends Controller
         $project->restore();
 
         return redirect(route('project.deleted'))->with('restored', true);
-    }
-
-    public function addMedia(Project $project)
-    {
-        $this->authorize('manageMedia', $project);
-
-        $media = $project->addMediaFromRequest('file')->toMediaCollection();
-
-        return ['id' => $media->id];
     }
 
     public function removeMedia(Project $project, $mediaId)
