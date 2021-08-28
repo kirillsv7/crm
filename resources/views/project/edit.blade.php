@@ -10,6 +10,7 @@
                         @include('project.partials.form')
                     </div>
                 </div>
+                @include('project.partials.project-media')
             </div>
         </div>
     </div>

@@ -34,7 +34,8 @@
     </div>
     <div class="form-group">
         <label>Deadline</label>
-        <input class="form-control @error('deadline') is-invalid @enderror" name="deadline" type="date" value="{{ $project->deadline ?? '' }}" required>
+        <input class="form-control @error('deadline') is-invalid @enderror" name="deadline" type="date"
+               value="{{ $project->deadline ?? '' }}" required>
         @error('deadline')
         <div class="invalid-feedback">
             @foreach($errors->get('deadline') as $message)
@@ -48,7 +49,8 @@
         <select class="form-control @error('client_id') is-invalid @enderror" name="client_id" required>
             <option value="">Select client</option>
             @foreach($clients as $client)
-                <option value="{{ $client->id }}" @if(isset($project->client->id) && $project->client->id === $client->id) selected @endif>
+                <option value="{{ $client->id }}"
+                        @if(isset($project->client->id) && $project->client->id === $client->id) selected @endif>
                     {{ $client->company }}
                 </option>
             @endforeach
@@ -66,7 +68,8 @@
         <select class="form-control @error('user_id') is-invalid @enderror" name="user_id" required>
             <option value="">Select user</option>
             @foreach($users as $user)
-                <option value="{{ $user->id }}" @if(isset($project->user->id) && $project->user->id === $user->id) selected @endif>
+                <option value="{{ $user->id }}"
+                        @if(isset($project->user->id) && $project->user->id === $user->id) selected @endif>
                     {{ $user->name }}
                 </option>
             @endforeach
@@ -84,7 +87,8 @@
         <select class="form-control @error('status_id') is-invalid @enderror" name="status_id" required>
             <option value="">Select status</option>
             @foreach(\App\Models\Project::$statuses as $id => $status)
-                <option value="{{ $id }}" @if(isset($project->status_id) && $project->status_id === $id) selected @endif>
+                <option value="{{ $id }}"
+                        @if(isset($project->status_id) && $project->status_id === $id) selected @endif>
                     {{ $status }}
                 </option>
             @endforeach
@@ -99,3 +103,41 @@
     </div>
     <button class="btn btn-primary" type="submit">Save</button>
 </form>
+
+@if(request()->routeIs('project.edit'))
+    <div class="dropzone mt-3"></div>
+
+    @push('scripts')
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                let formMediaUpload = new Dropzone(".dropzone", {
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                        },
+                        url: "{{ route('project.add-media', $project->id) }}",
+                        addRemoveLinks: true,
+                        success(file, response) {
+                            file._removeLink.href = `{{ route('project.remove-media', [$project->id, '']) }}/${response.id}`
+                            if (file.previewElement) {
+                                file.previewElement.classList.add("dz-success");
+                            }
+                            return
+                        },
+                        removedfile(file) {
+                            fetch(file._removeLink.href, {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                                }
+                            }).then(function (response) {
+                                file.previewElement.remove()
+                            }).catch(function (response) {
+                                console.error(response)
+                            })
+                        },
+                    }
+                );
+            });
+        </script>
+    @endpush
+@endif

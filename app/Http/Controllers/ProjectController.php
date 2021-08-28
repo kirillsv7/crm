@@ -177,4 +177,20 @@ class ProjectController extends Controller
 
         return redirect(route('project.deleted'))->with('restored', true);
     }
+
+    public function addMedia(Project $project)
+    {
+        $this->authorize('manageMedia', $project);
+
+        $media = $project->addMediaFromRequest('file')->toMediaCollection();
+
+        return ['id' => $media->id];
+    }
+
+    public function removeMedia(Project $project, $mediaId)
+    {
+        $this->authorize('manageMedia', $project);
+
+        $project->deleteMedia($mediaId);
+    }
 }

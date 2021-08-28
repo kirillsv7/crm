@@ -91,4 +91,14 @@ class ProjectPolicy
     {
         return $user->hasPermissionTo('project-forceDelete');
     }
+
+    /**
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Project  $project
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function manageMedia(User $user, Project $project)
+    {
+        return $user->hasPermissionTo('project-manageMedia');
+    }
 }

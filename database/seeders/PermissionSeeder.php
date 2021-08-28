@@ -38,6 +38,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'project-delete', 'guard_name' => 'web'],
             ['name' => 'project-restore', 'guard_name' => 'web'],
             ['name' => 'project-forceDelete', 'guard_name' => 'web'],
+            ['name' => 'project-manageMedia', 'guard_name' => 'web'],
 
             ['name' => 'task-viewAny', 'guard_name' => 'web'],
             ['name' => 'task-view', 'guard_name' => 'web'],
