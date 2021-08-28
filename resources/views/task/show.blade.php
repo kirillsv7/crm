@@ -42,6 +42,7 @@
                         </dl>
                     </div>
                 </div>
+                @include('task.partials.task-media')
                 @foreach($task->responses as $response)
                     <div class="card">
                         <div class="card-header">

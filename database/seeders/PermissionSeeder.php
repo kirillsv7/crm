@@ -47,6 +47,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'task-delete', 'guard_name' => 'web'],
             ['name' => 'task-restore', 'guard_name' => 'web'],
             ['name' => 'task-forceDelete', 'guard_name' => 'web'],
+            ['name' => 'task-manageMedia', 'guard_name' => 'web'],
             ['name' => 'task-addResponse', 'guard_name' => 'web'],
 
             ['name' => 'response-delete', 'guard_name' => 'web'],

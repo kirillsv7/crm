@@ -59,9 +59,13 @@ class TaskController extends Controller
     {
         $this->authorize('create', Task::class);
 
-        Task::create($request->validated());
+        $task = Task::create($request->except('media'));
 
-        return redirect(route('task.index'))->with('created', true);
+        foreach ($request->input('media', []) as $media) {
+            $task->addMedia(storage_path('tmp/uploads/').$media)->toMediaCollection();
+        }
+
+        return redirect(route('task.edit', $task->id))->with('created', true);
     }
 
     /**
@@ -107,7 +111,11 @@ class TaskController extends Controller
     {
         $this->authorize('update', $task);
 
-        $task->update($request->validated());
+        $task->update($request->except('media'));
+
+        foreach ($request->input('media', []) as $media) {
+            $task->addMedia(storage_path('tmp/uploads/').$media)->toMediaCollection();
+        }
 
         return redirect(route('task.edit', $task->id))->with('updated', true);
     }
@@ -165,6 +173,13 @@ class TaskController extends Controller
         $task->restore();
 
         return redirect(route('task.deleted'))->with('restored', true);
+    }
+
+    public function removeMedia(Task $task, $mediaId)
+    {
+        $this->authorize('manageMedia', $task);
+
+        $task->deleteMedia($mediaId);
     }
 
     public function addResponse(AddResponseToTaskRequest $request, Task $task)

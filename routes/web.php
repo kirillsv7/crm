@@ -30,6 +30,7 @@ Route::group([
     Route::get('project/deleted', [\App\Http\Controllers\ProjectController::class, 'deleted'])->name('project.deleted');
     Route::post('project/{project}', [\App\Http\Controllers\ProjectController::class, 'restore'])->name('project.restore');
 
+    Route::post('task/{task}/remove-media/{id}', [\App\Http\Controllers\TaskController::class, 'removeMedia'])->name('task.remove-media');
     Route::get('task/deleted', [\App\Http\Controllers\TaskController::class, 'deleted'])->name('task.deleted');
     Route::post('task/{task}', [\App\Http\Controllers\TaskController::class, 'restore'])->name('task.restore');
     Route::post('task/{task}/add-response', [\App\Http\Controllers\TaskController::class, 'addResponse'])->name('task.add-response');

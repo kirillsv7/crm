@@ -28,7 +28,8 @@ class CreateUpdateTaskRequest extends FormRequest
             'description' => 'required|string',
             'project_id'  => 'required|integer|exists:projects,id',
             'status_id'   => 'required|integer',
-
+            "media"       => "array",
+            "media.*"     => "string|distinct",
         ];
     }
 }

@@ -93,6 +93,16 @@ class TaskPolicy
     }
 
     /**
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Task  $task
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function manageMedia(User $user, Task $task)
+    {
+        return $user->hasPermissionTo('task-manageMedia');
+    }
+
+    /**
      * Autorize to user add responses to tasks if is assigned to project.
      *
      * @param  \App\Models\User  $user
