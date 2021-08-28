@@ -30,8 +30,8 @@ class CreateUpdateProjectRequest extends FormRequest
             'client_id'   => 'required|integer|exists:clients,id',
             'user_id'     => 'required|integer|exists:users,id',
             'status_id'   => 'required|integer',
-            "media"       => "array",
-            "media.*"     => "string|distinct",
+            'media'       => 'array',
+            'media.*'     => 'string|distinct',
         ];
     }
 }

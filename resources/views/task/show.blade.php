@@ -53,29 +53,89 @@
                         </div>
                         <div class="card-body">
                             {{ $response->content }}
+
+                            @if($response->getMedia()->count())
+                                <div class="row mt-3">
+                                    @foreach($response->getMedia() as $media)
+                                        <div class="col-6 col-md-4 col-lg-3">
+                                            <img class="img-fluid" src="{{ $media->getUrl() }}">
+                                            @if(request()->routeIs('task.edit'))
+                                                @can('manageMedia', $task)
+                                                    <button
+                                                        class="btn btn-link d-block mx-auto media-remove"
+                                                        data-id="{{ $media->id }}"
+                                                        type="button">
+                                                        Remove file
+                                                    </button>
+                                                @endcan
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
                     </div>
                 @endforeach
                 @can('addResponse', $task)
                     <hr>
-                    <form action="{{ route('task.add-response', $task->id) }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="task_id"
-                               value="{{ encrypt($task->id) }}">
-                        <div class="form-group">
-                            <label>Your response</label>
-                            <textarea class="form-control @error('content') is-invalid @enderror" name="content"
-                                      required>{{ old('content') }}</textarea>
-                            @error('content')
-                            <span class="invalid-feedback" role="alert">
+                    <div class="card">
+                        <div class="card-header">Add response</div>
+                        <div class="card-body">
+                            <form id="response-form" action="{{ route('task.add-response', $task->id) }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="task_id"
+                                       value="{{ encrypt($task->id) }}">
+                                <div class="form-group">
+                                    <label>Content</label>
+                                    <textarea class="form-control @error('content') is-invalid @enderror" name="content"
+                                              required>{{ old('content') }}</textarea>
+                                    @error('content')
+                                    <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
-                            @enderror
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label>Media upload</label>
+                                    <div class="dropzone"></div>
+                                </div>
+                                <button class="btn btn-primary" type="submit">Send</button>
+                            </form>
                         </div>
-                        <button class="btn btn-primary" type="submit">Send</button>
-                    </form>
+                    </div>
                 @endcan
             </div>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let mediaUploaded = {}
+            let form = document.querySelector("#response-form")
+            new Dropzone(".dropzone", {
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                url: "{{ route('media.upload') }}",
+                addRemoveLinks: true,
+                success(file, response) {
+                    file.previewElement.classList.add("dz-success");
+                    let input = document.createElement("input")
+                    input.setAttribute("name", "media[]")
+                    input.setAttribute("type", "hidden")
+                    input.setAttribute("value", response.name)
+                    form.appendChild(input)
+                    mediaUploaded[file.name] = response.name
+                },
+                removedfile(file) {
+                    file.previewElement.remove()
+                    let name = mediaUploaded[file.name]
+                    let input = form.querySelector(`input[name="media[]"][value="${name}"]`)
+                    form.removeChild(input)
+                }
+            });
+        });
+    </script>
+@endpush

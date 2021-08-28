@@ -186,11 +186,15 @@ class TaskController extends Controller
     {
         $this->authorize('addResponse', $task);
 
-        $data            = $request->validated();
+        $data            = $request->except('media');
         $data['task_id'] = decrypt($data['task_id']);
         $data['user_id'] = auth()->id();
 
-        Response::create($data);
+        $response = Response::create($data);
+
+        foreach ($request->input('media', []) as $media) {
+            $response->addMedia(storage_path('tmp/uploads/').$media)->toMediaCollection();
+        }
 
         return redirect(route('task.show', $task->id))->with('responseCreated', true);
     }
