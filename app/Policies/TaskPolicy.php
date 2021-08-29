@@ -18,7 +18,7 @@ class TaskPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermissionTo('task-viewAny');
+        return $user->isAdmin() || $user->hasPermissionTo('task-viewAny');
     }
 
     /**
@@ -30,7 +30,7 @@ class TaskPolicy
      */
     public function view(User $user, Task $task)
     {
-        return $user->hasPermissionTo('task-view');
+        return $user->isAdmin() || $user->hasPermissionTo('task-view');
     }
 
     /**
@@ -41,7 +41,7 @@ class TaskPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('task-create');
+        return $user->isAdmin() || $user->hasPermissionTo('task-create');
     }
 
     /**
@@ -53,7 +53,7 @@ class TaskPolicy
      */
     public function update(User $user, Task $task)
     {
-        return $user->hasPermissionTo('task-update');
+        return $user->isAdmin() || $user->hasPermissionTo('task-update');
     }
 
     /**
@@ -65,7 +65,7 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task)
     {
-        return $user->hasPermissionTo('task-delete');
+        return $user->isAdmin() || $user->hasPermissionTo('task-delete');
     }
 
     /**
@@ -77,7 +77,7 @@ class TaskPolicy
      */
     public function restore(User $user, Task $task)
     {
-        return $user->hasPermissionTo('task-restore');
+        return $user->isAdmin() || $user->hasPermissionTo('task-restore');
     }
 
     /**
@@ -89,7 +89,7 @@ class TaskPolicy
      */
     public function forceDelete(User $user, Task $task)
     {
-        return $user->hasPermissionTo('task-forceDelete');
+        return $user->isAdmin() || $user->hasPermissionTo('task-forceDelete');
     }
 
     /**
@@ -99,7 +99,7 @@ class TaskPolicy
      */
     public function manageMedia(User $user, Task $task)
     {
-        return $user->hasPermissionTo('task-manageMedia');
+        return $user->isAdmin() || $user->hasPermissionTo('task-manageMedia');
     }
 
     /**
@@ -111,7 +111,8 @@ class TaskPolicy
      */
     public function addResponse(User $user, Task $task)
     {
-        return $user->hasPermissionTo('task-addResponse') ||
-            $user->id === $task->project->user_id;
+        return $user->isAdmin() ||
+            $user->id === $task->project->user_id ||
+            $user->hasPermissionTo('task-addResponse');
     }
 }
