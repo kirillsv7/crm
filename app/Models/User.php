@@ -46,6 +46,11 @@ class User extends Authenticatable
         'is_admin'          => 'boolean',
     ];
 
+    public function isAdmin()
+    {
+        return $this->is_admin;
+    }
+
     public function getCreatedAtAttribute($created_at)
     {
         return Carbon::createFromFormat('Y-m-d H:i:s', $created_at)->format('d/m/Y H:i:s');
