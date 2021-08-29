@@ -22,7 +22,6 @@ class CreateResponsesTable extends Migration
                   ->cascadeOnUpdate()
                   ->nullOnDelete();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

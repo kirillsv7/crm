@@ -45,11 +45,24 @@
                 @include('task.partials.task-media')
                 @foreach($task->responses as $response)
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header d-flex flex-wrap align-items-center">
                             {{ __('Response by: ') . $response->user->name }} |
                             {{ __('at: ') . $response->created_at }}
-                            <a class="float-right text-muted" id="response-{{ $loop->iteration }}"
+
+                            <a class="btn btn-link btn-sm ml-auto text-muted" id="response-{{ $loop->iteration }}"
                                href="#response-{{ $loop->iteration }}">#{{ $loop->iteration }}</a>
+                            @can('delete', $response)
+                                |
+                                <form action="{{ route('response.destroy', $response->id) }}"
+                                      method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-link btn-sm" type="submit"
+                                            onclick="return confirm('Are you sure you want to delete?');">
+                                        <i class="cil-trash"></i>
+                                    </button>
+                                </form>
+                            @endcan
                         </div>
                         <div class="card-body">
                             {{ $response->content }}

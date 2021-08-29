@@ -18,9 +18,11 @@ class ResponseController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('delete', $id);
+        $response = Response::findOrFail($id);
 
-        Response::destroy([$id]);
+        $this->authorize('delete', $response);
+
+        $response->delete();
 
         return redirect()->back()->with('responseDeleted', true);
     }
