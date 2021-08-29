@@ -36,13 +36,16 @@ Route::group([
     Route::post('task/{task}/add-response', [\App\Http\Controllers\TaskController::class, 'addResponse'])->name('task.add-response');
 
     Route::resources([
-        'user'     => \App\Http\Controllers\UserController::class,
-        'client'   => \App\Http\Controllers\ClientController::class,
+        'user'   => \App\Http\Controllers\UserController::class,
+        'client' => \App\Http\Controllers\ClientController::class,
+    ], ['except' => ['show']]);
+
+    Route::resources([
         'project'  => \App\Http\Controllers\ProjectController::class,
         'task'     => \App\Http\Controllers\TaskController::class,
-        'response' => \App\Http\Controllers\ResponseController::class,
     ]);
-    // TODO add except show to user, client
+
+    Route::resource('response', \App\Http\Controllers\ResponseController::class)->only('destroy');
 
     Route::post('media/upload', \App\Http\Controllers\MediaUploadContoller::class)->name('media.upload');
 });
