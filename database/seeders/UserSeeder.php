@@ -27,11 +27,32 @@ class UserSeeder extends Seeder
                 'remember_token'    => null,
                 'created_at'        => now(),
                 'updated_at'        => now(),
-            ], [
-                'name'              => 'User',
-                'email'             => 'user@mail.com',
+            ],
+            [
+                'name'              => 'User 1',
+                'email'             => 'user1@mail.com',
                 'email_verified_at' => now(),
-                'password'          => Hash::make('user'),
+                'password'          => Hash::make('user1'),
+                'is_admin'          => 0,
+                'remember_token'    => null,
+                'created_at'        => now(),
+                'updated_at'        => now(),
+            ],
+            [
+                'name'              => 'User 2',
+                'email'             => 'user2@mail.com',
+                'email_verified_at' => now(),
+                'password'          => Hash::make('user2'),
+                'is_admin'          => 0,
+                'remember_token'    => null,
+                'created_at'        => now(),
+                'updated_at'        => now(),
+            ],
+            [
+                'name'              => 'User 3',
+                'email'             => 'user3@mail.com',
+                'email_verified_at' => now(),
+                'password'          => Hash::make('user3'),
                 'is_admin'          => 0,
                 'remember_token'    => null,
                 'created_at'        => now(),
@@ -39,8 +60,8 @@ class UserSeeder extends Seeder
             ],
         ]);
 
-        User::factory()
-            ->count(3)
-            ->create();
+        //User::factory()
+        //    ->count(3)
+        //    ->create();
     }
 }

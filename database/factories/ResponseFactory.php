@@ -6,6 +6,8 @@ use App\Models\Response;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 
 class ResponseFactory extends Factory
 {
@@ -23,10 +25,25 @@ class ResponseFactory extends Factory
      */
     public function definition()
     {
+        $task = Task::inRandomOrder()->first();
         return [
-            'content' => $this->faker->text,
-            'task_id' => Task::inRandomOrder()->first()->id,
-            'user_id' => User::inRandomOrder()->first()->id,
+            'content' => $this->faker->realText,
+            'task_id' => $task->id,
+            'user_id' => Arr::random([$task->project->user_id, User::first()->id]),
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Response $response) {
+            $times = rand(0, 3);
+            for ($i = 0; $i < $times; $i++) {
+                $filename = uniqid().'.jpg';
+                $response->addMediaFromDisk(Arr::random(Storage::files('fake-images')))
+                         ->preservingOriginal()
+                         ->usingFileName($filename)
+                         ->toMediaCollection();
+            }
+        });
     }
 }

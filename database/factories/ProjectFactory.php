@@ -7,6 +7,8 @@ use App\Models\Project;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectFactory extends Factory
 {
@@ -25,12 +27,26 @@ class ProjectFactory extends Factory
     public function definition()
     {
         return [
-            'title'       => $this->faker->monthName(),
+            'title'       => $this->faker->domainName(),
             'description' => $this->faker->realText,
             'deadline'    => Carbon::now()->addDays(rand(30, 90)),
             'client_id'   => Client::inRandomOrder()->first()->id,
             'user_id'     => User::inRandomOrder()->first()->id,
             'status_id'   => collect(Project::$statuses)->keys()->random(),
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Project $project) {
+            $times = rand(0, 10);
+            for ($i = 0; $i < $times; $i++) {
+                $filename = uniqid().'.jpg';
+                $project->addMediaFromDisk(Arr::random(Storage::files('fake-images')))
+                        ->preservingOriginal()
+                        ->usingFileName($filename)
+                        ->toMediaCollection();
+            }
+        });
     }
 }
