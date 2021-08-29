@@ -2,12 +2,6 @@
     @if(isset($user)) @method('PUT') @endif
     @csrf
 
-    @if(session('updated'))
-        <div class="alert alert-success" role="alert">
-            User updated!
-        </div>
-    @endif
-
     <div class="form-group">
         <label>Name</label>
         <input class="form-control @error('name') is-invalid @enderror" name="name" type="text"
@@ -52,7 +46,7 @@
         <div class="custom-control custom-switch mb-3">
             <input name="is_admin" type="hidden" value="0">
             <input id="is_admin" class="custom-control-input" name="is_admin" type="checkbox" value="1"
-                   @if(isset($user) && $user->is_admin) checked @endif>
+                   @if(isset($user) && $user->isAdmin()) checked @endif>
             <label class="custom-control-label" for="is_admin">Is admin</label>
         </div>
     @endcan

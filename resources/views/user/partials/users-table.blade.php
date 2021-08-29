@@ -20,7 +20,7 @@
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>
-                    @if($user->is_admin)
+                    @if($user->isAdmin())
                         <i class="cil-check-alt text-success"></i>
                     @else
                         <i class="cil-x text-muted"></i>
