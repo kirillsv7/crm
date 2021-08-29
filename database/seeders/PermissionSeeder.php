@@ -43,8 +43,6 @@ class PermissionSeeder extends Seeder
             ['name' => 'task-addResponse', 'guard_name' => 'web'],
 
             ['name' => 'response-delete', 'guard_name' => 'web'],
-            ['name' => 'response-restore', 'guard_name' => 'web'],
-            ['name' => 'response-forceDelete', 'guard_name' => 'web'],
         ], ['name']);
     }
 }
