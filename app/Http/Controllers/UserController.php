@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUpdateUserRequest;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -51,7 +52,13 @@ class UserController extends Controller
     {
         $this->authorize('create', User::class);
 
-        User::create($request->validated());
+        $data = $request->except('password');
+
+        $data['password'] = Hash::make($request->input('password'));
+
+        $user = User::create($data);
+
+        event(new Registered($user));
 
         return redirect(route('user.index'))->with('created', true);
     }

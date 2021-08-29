@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,10 +15,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
+Auth::routes([
+    'register' => false,
+    'verify'   => true,
+]);
+
+Route::get('/email/verify', function () {
+    return view('auth.verify');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::group([
-    'middleware' => ['auth'],
+    'middleware' => ['auth', 'verified'],
 ], function () {
     Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
@@ -41,8 +61,8 @@ Route::group([
     ], ['except' => ['show']]);
 
     Route::resources([
-        'project'  => \App\Http\Controllers\ProjectController::class,
-        'task'     => \App\Http\Controllers\TaskController::class,
+        'project' => \App\Http\Controllers\ProjectController::class,
+        'task'    => \App\Http\Controllers\TaskController::class,
     ]);
 
     Route::resource('response', \App\Http\Controllers\ResponseController::class)->only('destroy');
