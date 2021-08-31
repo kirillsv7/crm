@@ -14,7 +14,7 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-        Permission::upsert([
+        Permission::insert([
             ['name' => 'client-viewAny', 'guard_name' => 'web'],
             ['name' => 'client-view', 'guard_name' => 'web'],
             ['name' => 'client-create', 'guard_name' => 'web'],

@@ -92,16 +92,20 @@ class UserController extends Controller
         $this->authorize('update', $user);
 
         $data = $request->except('password', 'is_admin');
+
         // Update password only if itn't null
         if ($request->input('password')) {
             $data['password'] = Hash::make($request->input('password'));
         }
-        // Only Admin can set another user as Admin
-        if (auth()->user()->can('modifyIsAdmin', $user)) {
-            $data['is_admin'] = $request->input('is_admin');
-        }
 
         $user->update($data);
+
+        // Only Admin can set another user as Admin
+        if (auth()->user()->can('assignAdminRole', $user)) {
+            $request->input('is_admin')
+                ? $user->assignRole('admin')
+                : $user->removeRole('admin');
+        }
 
         return redirect(route('user.edit', $user->id))->with('updated', true);
     }

@@ -96,7 +96,7 @@ class UserPolicy
      * @param  \App\Models\User|null  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function modifyIsAdmin(User $user, User $model = null)
+    public function assignAdminRole(User $user, User $model = null)
     {
         return $user->isAdmin() && !is_null($model) && $model->id !== 1;
     }

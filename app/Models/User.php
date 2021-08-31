@@ -23,8 +23,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'is_admin',
     ];
+
+    protected $with = ['roles'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -43,12 +44,11 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'is_admin'          => 'boolean',
     ];
 
     public function isAdmin()
     {
-        return $this->is_admin;
+        return $this->hasRole('admin');
     }
 
     public function getCreatedAtAttribute($created_at)
