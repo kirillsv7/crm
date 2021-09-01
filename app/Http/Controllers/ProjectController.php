@@ -5,13 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateUpdateProjectRequest;
 use App\Models\Client;
 use App\Models\Project;
+use App\Models\Task;
 use App\Models\User;
 use App\Services\SpatieMediaLibrary\AddMediaToModel;
 
 class ProjectController extends Controller
 {
-
-    const PAGINATE = 20;
 
     /**
      * Display a listing of the resource.
@@ -24,7 +23,7 @@ class ProjectController extends Controller
                            ->filterByStatus()
                            ->filterAssignedToUser()
                            ->orderByDesc('id')
-                           ->paginate(self::PAGINATE)
+                           ->paginate(Project::PAGINATE)
                            ->withQueryString();
 
         $title = 'Project list';
@@ -84,7 +83,7 @@ class ProjectController extends Controller
         $tasks = $project->tasks()
                          ->filterByStatus()
                          ->orderByDesc('id')
-                         ->paginate(self::PAGINATE)
+                         ->paginate(Task::PAGINATE)
                          ->withQueryString();
 
         return view('project.show', compact('title', 'project', 'tasks'));
@@ -159,7 +158,7 @@ class ProjectController extends Controller
                            ->filterByStatus()
                            ->filterAssignedToUser()
                            ->orderByDesc('id')
-                           ->paginate(self::PAGINATE)
+                           ->paginate(Project::PAGINATE)
                            ->withQueryString();
 
         $title = 'Deleted projects list';

@@ -14,6 +14,8 @@ class Task extends Model implements HasMedia
 {
     use HasFactory, SoftDeletes, InteractsWithMedia;
 
+    const PAGINATE = 20;
+
     protected $fillable = [
         'title',
         'description',

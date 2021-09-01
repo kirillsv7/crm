@@ -12,8 +12,6 @@ use App\Services\SpatieMediaLibrary\AddMediaToModel;
 class TaskController extends Controller
 {
 
-    const PAGINATE = 20;
-
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +22,7 @@ class TaskController extends Controller
         $tasks = Task::filterByStatus()
                      ->filterAssignedToUser()
                      ->orderByDesc('id')
-                     ->paginate(self::PAGINATE)
+                     ->paginate(Task::PAGINATE)
                      ->withQueryString();
 
         $title = 'Task list';
@@ -148,7 +146,7 @@ class TaskController extends Controller
                      ->filterByStatus()
                      ->filterAssignedToUser()
                      ->orderByDesc('id')
-                     ->paginate(self::PAGINATE)
+                     ->paginate(Task::PAGINATE)
                      ->withQueryString();
 
         $title = 'Deleted tasks list';
