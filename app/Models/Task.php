@@ -79,16 +79,16 @@ class Task extends Model implements HasMedia
 
     public function getCreatedAtAttribute($created_at)
     {
-        return Carbon::createFromFormat('Y-m-d H:i:s', $created_at)->format('d/m/Y H:i:s');
+        return Carbon::parse($created_at)->format('d/m/Y H:i:s');
     }
 
     public function getUpdatedAtAttribute($updated_at)
     {
-        return Carbon::createFromFormat('Y-m-d H:i:s', $updated_at)->format('d/m/Y H:i:s');
+        return Carbon::parse($updated_at)->format('d/m/Y H:i:s');
     }
 
     public function getDeleteAtAttribute($deleted_at)
     {
-        return Carbon::createFromFormat('Y-m-d H:i:s', $deleted_at)->format('d/m/Y H:i:s');
+        return Carbon::parse($deleted_at)->format('d/m/Y H:i:s');
     }
 }
