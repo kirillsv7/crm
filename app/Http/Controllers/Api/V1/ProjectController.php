@@ -20,7 +20,7 @@ class ProjectController extends Controller
         return ProjectResource::collection(
             Project::withCount('tasks')
                    ->filterByStatus()
-                //->filterAssignedToUser()
+                   ->filterAssignedToUser()
                    ->orderByDesc('id')
                    ->paginate(Project::PAGINATE)
                    ->withQueryString()
@@ -80,7 +80,7 @@ class ProjectController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Project $project
+     * @param  Project  $project
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
