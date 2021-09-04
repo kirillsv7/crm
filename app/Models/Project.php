@@ -101,7 +101,7 @@ class Project extends Model implements HasMedia
         return Carbon::parse($updated_at)->format('d/m/Y H:i:s');
     }
 
-    public function getDeleteAtAttribute($deleted_at)
+    public function getDeletedAtAttribute($deleted_at)
     {
         return Carbon::parse($deleted_at)->format('d/m/Y H:i:s');
     }
