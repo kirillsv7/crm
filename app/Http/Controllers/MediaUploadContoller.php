@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 
 class MediaUploadContoller extends Controller
 {
+
+    /**
+     * @param  Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function __invoke(Request $request)
     {
         $path = storage_path('tmp/uploads');

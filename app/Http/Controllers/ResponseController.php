@@ -12,14 +12,12 @@ class ResponseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Response  $response
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy($id)
+    public function destroy(Response $response)
     {
-        $response = Response::findOrFail($id);
-
         $this->authorize('delete', $response);
 
         $response->delete();

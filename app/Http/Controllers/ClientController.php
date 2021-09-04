@@ -8,8 +8,6 @@ use App\Models\Client;
 class ClientController extends Controller
 {
 
-    const PAGINATE = 20;
-
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +15,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::paginate(self::PAGINATE);
+        $clients = Client::paginate(Client::PAGINATE);
 
         $title = 'Client list';
 
@@ -91,14 +89,12 @@ class ClientController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Client  $client
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy($id)
+    public function destroy(Client $client)
     {
-        $client = Client::findOrFail($id);
-
         $this->authorize('delete', $client);
 
         $client->delete();
@@ -113,7 +109,7 @@ class ClientController extends Controller
      */
     public function deleted()
     {
-        $clients = Client::onlyTrashed()->paginate(self::PAGINATE);
+        $clients = Client::onlyTrashed()->paginate(Client::PAGINATE);
 
         $title = 'Deleted clients list';
 

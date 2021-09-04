@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
 
-    const PAGINATE = 20;
-
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(self::PAGINATE);
+        $users = User::paginate(User::PAGINATE);
 
         $title = 'User list';
 
@@ -113,14 +111,12 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  User  $user
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $user = User::findOrFail($id);
-
         $this->authorize('delete', $user);
 
         $user->delete();
@@ -135,7 +131,7 @@ class UserController extends Controller
      */
     public function deleted()
     {
-        $users = User::onlyTrashed()->paginate(self::PAGINATE);
+        $users = User::onlyTrashed()->paginate(User::PAGINATE);
 
         $title = 'Deleted users list';
 

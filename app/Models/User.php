@@ -14,6 +14,8 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable, SoftDeletes, HasRoles;
 
+    const PAGINATE = 20;
+
     /**
      * The attributes that are mass assignable.
      *

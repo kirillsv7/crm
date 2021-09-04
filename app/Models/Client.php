@@ -11,6 +11,8 @@ class Client extends Model
 {
     use HasFactory, SoftDeletes;
 
+    const PAGINATE = 20;
+
     protected $fillable = ['company', 'vat', 'address'];
 
     public function getCreatedAtAttribute($created_at)
