@@ -32,7 +32,7 @@
                     <td>{{ $user->deleted_at }}</td>
                 @endif
                 <td class="text-nowrap">
-                    @if(!$user->trashed())
+                    @if(request()->routeIs('user.index'))
                         @can('update', $user)
                             <a class="btn btn-secondary btn-sm"
                                href="{{ route('user.edit', $user->id) }}">
@@ -50,7 +50,7 @@
                                 </button>
                             </form>
                         @endcan
-                    @else
+                    @elseif(request()->routeIs('user.deleted'))
                         @can('restore', $user)
                             <form class="d-inline-block" action="{{ route('user.restore', $user->id) }}"
                                   method="POST">
