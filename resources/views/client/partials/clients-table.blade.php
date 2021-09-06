@@ -26,7 +26,7 @@
                     <td>{{ $client->deleted_at }}</td>
                 @endif
                 <td class="text-nowrap">
-                    @if(!$client->trashed())
+                    @if(request()->routeIs('client.index'))
                         @can('update', $client)
                             <a class="btn btn-secondary btn-sm"
                                href="{{ route('client.edit', $client->id) }}">
@@ -44,7 +44,7 @@
                                 </button>
                             </form>
                         @endcan
-                    @else
+                    @elseif(request()->routeIs('client.deleted'))
                         @can('restore', $client)
                             <form class="d-inline-block" action="{{ route('client.restore', $client->id) }}"
                                   method="POST">

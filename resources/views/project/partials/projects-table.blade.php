@@ -36,7 +36,7 @@
                     <td>{{ $project->deleted_at }}</td>
                 @endif
                 <td class="text-nowrap">
-                    @if(!$project->trashed())
+                    @if(request()->routeIs('project.index'))
                         @can('update', $project)
                             <a class="btn btn-secondary btn-sm"
                                href="{{ route('project.edit', $project->id) }}">
@@ -54,7 +54,7 @@
                                 </button>
                             </form>
                         @endcan
-                    @else
+                    @elseif(request()->routeIs('project.deleted'))
                         @can('restore', $project)
                             <form class="d-inline-block" action="{{ route('project.restore', $project->id) }}"
                                   method="POST">

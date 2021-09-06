@@ -34,7 +34,7 @@
                     <td>{{ $task->deleted_at }}</td>
                 @endif
                 <td class="text-nowrap">
-                    @if(!$task->trashed())
+                    @if(request()->routeIs('task.index'))
                         @can('update', $task)
                             <a class="btn btn-secondary btn-sm"
                                href="{{ route('task.edit', $task->id) }}">
@@ -52,7 +52,7 @@
                                 </button>
                             </form>
                         @endcan
-                    @else
+                    @elseif(request()->routeIs('task.deleted'))
                         @can('restore', $task)
                             <form class="d-inline-block" action="{{ route('task.restore', $task->id) }}"
                                   method="POST">

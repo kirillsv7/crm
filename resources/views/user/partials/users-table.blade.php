@@ -20,11 +20,7 @@
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>
-                    @if($user->isAdmin())
-                        <i class="cil-check-alt text-success"></i>
-                    @else
-                        <i class="cil-x text-muted"></i>
-                    @endif
+                    <i @class(['cil-check-alt text-success' => $user->isAdmin(), 'cil-x text-muted' => !$user->isAdmin()])></i>
                 </td>
                 <td>{{ $user->created_at }}</td>
                 <td>{{ $user->updated_at }}</td>
