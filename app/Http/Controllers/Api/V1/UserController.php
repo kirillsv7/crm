@@ -30,7 +30,7 @@ class UserController extends Controller
      */
     public function store(CreateUpdateUserRequest $request, UserService $service)
     {
-        //$this->authorize('create', User::class);
+        $this->authorize('create', User::class);
 
         $user = $service->store($request->validated());
 
@@ -59,7 +59,7 @@ class UserController extends Controller
      */
     public function update(CreateUpdateUserRequest $request, User $user, UserService $service)
     {
-        //$this->authorize('update', $user);
+        $this->authorize('update', $user);
 
         $user = $service->update($user, $request->validated());
 
