@@ -16,8 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
     Route::apiResources([
-        'user' => \App\Http\Controllers\Api\V1\UserController::class,
+        'user'    => \App\Http\Controllers\Api\V1\UserController::class,
+        'client'  => \App\Http\Controllers\Api\V1\ClientController::class,
         'project' => \App\Http\Controllers\Api\V1\ProjectController::class,
-        'task' => \App\Http\Controllers\Api\V1\TaskController::class,
+        'task'    => \App\Http\Controllers\Api\V1\TaskController::class,
     ]);
 });
