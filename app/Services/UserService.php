@@ -45,9 +45,11 @@ class UserService
 
         // Only Admin can set another user as Admin
         if (auth()->user()->can('assignAdminRole', $user)) {
-            $formData['is_admin']
-                ? $user->assignRole('admin')
-                : $user->removeRole('admin');
+            if (Arr::exists($formData, 'is_admin')) {
+                $formData['is_admin']
+                    ? $user->assignRole('admin')
+                    : $user->removeRole('admin');
+            }
         }
 
         return $user;
