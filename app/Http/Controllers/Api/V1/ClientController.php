@@ -12,7 +12,7 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
@@ -23,7 +23,7 @@ class ClientController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  CreateUpdateClientRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return ClientResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(CreateUpdateClientRequest $request)
@@ -39,7 +39,7 @@ class ClientController extends Controller
      * Display the specified resource.
      *
      * @param  Client  $client
-     * @return \Illuminate\Http\Response
+     * @return ClientResource
      */
     public function show(Client $client)
     {
@@ -51,7 +51,7 @@ class ClientController extends Controller
      *
      * @param  CreateUpdateClientRequest  $request
      * @param  Client  $client
-     * @return \Illuminate\Http\Response
+     * @return ClientResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(CreateUpdateClientRequest $request, Client $client)
@@ -67,7 +67,7 @@ class ClientController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  Client  $client
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(Client $client)
@@ -77,5 +77,33 @@ class ClientController extends Controller
         $client->delete();
 
         return response()->json(['message' => 'Client deleted']);
+    }
+
+    /**
+     * Display a listing of the deleted resources.
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function deleted()
+    {
+        return ClientResource::collection(Client::onlyTrashed()->paginate(Client::PAGINATE));
+    }
+
+    /**
+     * Restore the specified resource to storage.
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function restore($id)
+    {
+        $client = Client::onlyTrashed()->findOrFail($id);
+
+        $this->authorize('restore', $client);
+
+        $client->restore();
+
+        return response()->json(['message' => 'Client restored']);
     }
 }

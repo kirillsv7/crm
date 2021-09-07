@@ -13,7 +13,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
@@ -25,7 +25,7 @@ class UserController extends Controller
      *
      * @param  CreateUpdateUserRequest  $request
      * @param  UserService  $service
-     * @return \Illuminate\Http\Response
+     * @return UserResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(CreateUpdateUserRequest $request, UserService $service)
@@ -41,7 +41,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  User  $user
-     * @return \Illuminate\Http\Response
+     * @return UserResource
      */
     public function show(User $user)
     {
@@ -54,7 +54,7 @@ class UserController extends Controller
      * @param  CreateUpdateUserRequest  $request
      * @param  User  $user
      * @param  UserService  $service
-     * @return \Illuminate\Http\Response
+     * @return UserResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(CreateUpdateUserRequest $request, User $user, UserService $service)
@@ -70,7 +70,7 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(User $user)
@@ -80,5 +80,33 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(['message' => 'User deleted']);
+    }
+
+    /**
+     * Display a listing of the deleted resources.
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function deleted()
+    {
+        return UserResource::collection(User::onlyTrashed()->paginate(User::PAGINATE));
+    }
+
+    /**
+     * Restore the specified resource to storage.
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function restore($id)
+    {
+        $user = User::onlyTrashed()->findOrFail($id);
+
+        $this->authorize('restore', $user);
+
+        $user->restore();
+
+        return response()->json(['message' => 'User restored']);
     }
 }

@@ -32,7 +32,7 @@ class ProjectController extends Controller
      *
      * @param  CreateUpdateProjectRequest  $request
      * @param  AddMediaToModel  $addMediaToModel
-     * @return \Illuminate\Http\Response
+     * @return ProjectResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(CreateUpdateProjectRequest $request, AddMediaToModel $addMediaToModel)
@@ -50,7 +50,7 @@ class ProjectController extends Controller
      * Display the specified resource.
      *
      * @param  Project  $project
-     * @return \Illuminate\Http\Response
+     * @return ProjectResource
      */
     public function show(Project $project)
     {
@@ -63,7 +63,7 @@ class ProjectController extends Controller
      * @param  CreateUpdateProjectRequest  $request
      * @param  Project  $project
      * @param  AddMediaToModel  $addMediaToModel
-     * @return \Illuminate\Http\Response
+     * @return ProjectResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(CreateUpdateProjectRequest $request, Project $project, AddMediaToModel $addMediaToModel)
@@ -81,7 +81,7 @@ class ProjectController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  Project  $project
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(Project $project)
@@ -91,5 +91,33 @@ class ProjectController extends Controller
         $project->delete();
 
         return response()->json(['message' => 'Project deleted']);
+    }
+
+    /**
+     * Display a listing of the deleted resources.
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function deleted()
+    {
+        return ProjectResource::collection(Project::onlyTrashed()->paginate(Project::PAGINATE));
+    }
+
+    /**
+     * Restore the specified resource to storage.
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function restore($id)
+    {
+        $project = Project::onlyTrashed()->findOrFail($id);
+
+        $this->authorize('restore', $project);
+
+        $project->restore();
+
+        return response()->json(['message' => 'Project restored']);
     }
 }
