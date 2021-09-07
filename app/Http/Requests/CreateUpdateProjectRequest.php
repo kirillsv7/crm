@@ -26,7 +26,7 @@ class CreateUpdateProjectRequest extends FormRequest
         return [
             'title'       => 'required|string',
             'description' => 'string',
-            'deadline'    => 'date',
+            'deadline'    => 'required|date_format:Y-m-d',
             'client_id'   => 'required|integer|exists:clients,id',
             'user_id'     => 'required|integer|exists:users,id',
             'status_id'   => 'required|integer',
