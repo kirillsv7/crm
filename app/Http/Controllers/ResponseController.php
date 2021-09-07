@@ -13,7 +13,7 @@ class ResponseController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  Response  $response
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(Response $response)
