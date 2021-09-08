@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
@@ -35,6 +36,10 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
+        $this->renderable(function (MethodNotAllowedHttpException $exception, $request) {
+            return response()->view('errors.403', compact('exception'))->setStatusCode(403);
+        });
+
         $this->renderable(function (NotFoundHttpException $exception, $request) {
             if ($request->wantsJson()) {
                 return response()->json(['message' => 'Not found'], 404);
