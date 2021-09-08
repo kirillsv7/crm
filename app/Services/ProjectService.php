@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Project;
+use App\Notifications\ProjectAssignedNotification;
 use App\Services\SpatieMediaLibrary\AddMediaToModel;
 use Illuminate\Support\Arr;
 
@@ -22,6 +23,8 @@ class ProjectService
             $addMediaToModel($formData['media'], $project);
         }
 
+        $project->user->notify(new ProjectAssignedNotification($project));
+
         return $project;
     }
 
@@ -32,6 +35,10 @@ class ProjectService
         if (Arr::exists($formData, 'media')) {
             $addMediaToModel = new AddMediaToModel();
             $addMediaToModel($formData['media'], $project);
+        }
+
+        if ($project->wasChanged('user_id')) {
+            $project->user->notify(new ProjectAssignedNotification($project));
         }
 
         return $project;
