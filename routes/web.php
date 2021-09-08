@@ -78,3 +78,13 @@ Route::group([
 
     Route::post('media/upload', MediaUploadContoller::class)->name('media.upload');
 });
+
+Route::fallback(function () {
+    if (Auth::guest()) {
+        return response()->redirectTo(\route('login'));
+    }
+
+    return response()
+        ->view('errors.404')
+        ->setStatusCode(404);
+});
