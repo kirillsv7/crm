@@ -83,7 +83,7 @@ class Project extends Model implements HasMedia
 
     public function getDeadlineInvertedAttribute()
     {
-        return Carbon::createFromFormat('Y-m-d', $this->deadline)->format('d/m/Y');
+        return Carbon::parse($this->deadline)->format('d/m/Y');
     }
 
     public function getStatusAttribute()
