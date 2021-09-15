@@ -144,4 +144,32 @@ class UserCrudAsAdminTest extends TestCase
             'deleted_at' => null,
         ]);
     }
+
+    public function test_admin_cannot_self_delete()
+    {
+        $this->actingAs($this->admin)
+             ->delete(route('user.destroy', $this->admin->id))
+             ->assertStatus(403);
+
+        $this->assertDatabaseHas('users', [
+            'id'         => $this->admin->id,
+            'deleted_at' => null,
+        ]);
+    }
+
+    public function test_unable_to_delete_admin_role_from_first_admin()
+    {
+        $this->actingAs($this->admin)
+             ->from(route('user.edit', $this->admin->id))
+             ->put(route('user.update', $this->admin->id), [
+                 'name'     => 'Admin',
+                 'email'    => 'admin@mail.com',
+                 'is_admin' => 0,
+             ])
+             ->assertStatus(302)
+             ->assertRedirect(route('user.edit', $this->admin->id))
+             ->assertSessionHas('updated');
+
+        $this->assertTrue($this->admin->hasRole('admin'));
+    }
 }
