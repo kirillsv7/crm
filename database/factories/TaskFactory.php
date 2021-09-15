@@ -38,7 +38,7 @@ class TaskFactory extends Factory
             $times = rand(0, 5);
             for ($i = 0; $i < $times; $i++) {
                 $filename = uniqid().'.jpg';
-                $task->addMediaFromDisk(Arr::random(Storage::files('fake-images')))
+                $task->addMediaFromDisk(Arr::random(Storage::disk('local')->files('fake-images')), 'local')
                      ->preservingOriginal()
                      ->usingFileName($filename)
                      ->toMediaCollection();

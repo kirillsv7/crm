@@ -14,8 +14,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        foreach (Storage::directories('public') as $directory) {
-            Storage::deleteDirectory($directory);
+        foreach (Storage::disk(config('media-library.disk_name'))->directories() as $directory) {
+            Storage::disk(config('media-library.disk_name'))->deleteDirectory($directory);
         }
 
         $this->call([

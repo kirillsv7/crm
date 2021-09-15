@@ -42,7 +42,7 @@ class ProjectFactory extends Factory
             $times = rand(0, 10);
             for ($i = 0; $i < $times; $i++) {
                 $filename = uniqid().'.jpg';
-                $project->addMediaFromDisk(Arr::random(Storage::files('fake-images')))
+                $project->addMediaFromDisk(Arr::random(Storage::disk('local')->files('fake-images')), 'local')
                         ->preservingOriginal()
                         ->usingFileName($filename)
                         ->toMediaCollection();

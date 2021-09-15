@@ -39,7 +39,7 @@ class ResponseFactory extends Factory
             $times = rand(0, 3);
             for ($i = 0; $i < $times; $i++) {
                 $filename = uniqid().'.jpg';
-                $response->addMediaFromDisk(Arr::random(Storage::files('fake-images')))
+                $response->addMediaFromDisk(Arr::random(Storage::disk('local')->files('fake-images')), 'local')
                          ->preservingOriginal()
                          ->usingFileName($filename)
                          ->toMediaCollection();
