@@ -37,7 +37,7 @@ class UserCrudAsRegularUserTest extends TestCase
              ->assertViewHas('users');
     }
 
-    public function test_user_has_not_access_to_user_create()
+    public function test_user_unable_to_user_create()
     {
         $this->actingAs($this->user)
              ->from(route('user.index'))
@@ -46,7 +46,7 @@ class UserCrudAsRegularUserTest extends TestCase
              ->assertDontSee('User create');
     }
 
-    public function test_user_has_not_access_to_user_store()
+    public function test_user_unable_to_user_store()
     {
         $this->actingAs($this->user)
              ->from(route('user.create'))
@@ -60,7 +60,7 @@ class UserCrudAsRegularUserTest extends TestCase
              ->assertSessionMissing('created');
     }
 
-    public function test_user_has_not_access_to_user_edit()
+    public function test_user_unable_to_user_edit()
     {
         $userToUpdate = User::orderBy('id', 'DESC')->first();
 
@@ -71,7 +71,7 @@ class UserCrudAsRegularUserTest extends TestCase
              ->assertDontSee('User edit');
     }
 
-    public function test_user_has_not_access_to_user_update()
+    public function test_user_unable_to_user_update()
     {
         $userToUpdate = User::orderBy('id', 'DESC')->first();
 
@@ -95,7 +95,7 @@ class UserCrudAsRegularUserTest extends TestCase
         $this->assertNotEquals('Updated Name', $notUpdatedUser->name);
     }
 
-    public function test_user_has_not_access_to_user_destroy()
+    public function test_user_unable_to_user_destroy()
     {
         $userToDelete = User::orderBy('id', 'DESC')->first();
 
@@ -121,7 +121,7 @@ class UserCrudAsRegularUserTest extends TestCase
              ->assertViewHas('users');
     }
 
-    public function test_user_has_not_access_to_user_restore()
+    public function test_user_unable_to_user_restore()
     {
         User::orderBy('id', 'DESC')->first()->delete();
         $userDeleted = User::onlyTrashed()->first();
@@ -138,7 +138,7 @@ class UserCrudAsRegularUserTest extends TestCase
         ]);
     }
 
-    public function test_user_can_not_self_delete()
+    public function test_user_unable_to_self_delete()
     {
         $this->actingAs($this->user)
              ->delete(route('user.destroy', $this->user->id))
@@ -150,7 +150,27 @@ class UserCrudAsRegularUserTest extends TestCase
         ]);
     }
 
-    public function test_unable_to_self_assign_admin_role()
+    public function test_user_access_to_self_update()
+    {
+        $this->actingAs($this->user)
+             ->from(route('user.edit', $this->user->id))
+             ->put(route('user.update', $this->user->id), [
+                 'name'  => 'Updated Name',
+                 'email' => 'updated@mail.com',
+             ])
+             ->assertStatus(302)
+             ->assertSessionHas('updated');
+
+        $this->assertDatabaseHas('users', [
+            'id'    => $this->user->id,
+            'name'  => 'Updated Name',
+            'email' => 'updated@mail.com',
+        ]);
+
+        $this->assertNotEquals('Updated Name', $this->user->name);
+    }
+
+    public function test_user_unable_to_self_assign_admin_role()
     {
         $this->actingAs($this->user)
              ->from(route('user.edit', $this->user->id))

@@ -145,7 +145,7 @@ class UserCrudAsAdminTest extends TestCase
         ]);
     }
 
-    public function test_admin_can_not_self_delete()
+    public function test_admin_unable_to_self_delete()
     {
         $this->actingAs($this->admin)
              ->delete(route('user.destroy', $this->admin->id))
@@ -157,7 +157,7 @@ class UserCrudAsAdminTest extends TestCase
         ]);
     }
 
-    public function test_unable_to_delete_admin_role_from_first_admin()
+    public function test_admin_unable_to_delete_admin_role_from_first_admin()
     {
         $this->actingAs($this->admin)
              ->from(route('user.edit', $this->admin->id))
