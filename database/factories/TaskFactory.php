@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 
 class TaskFactory extends Factory
@@ -34,15 +35,19 @@ class TaskFactory extends Factory
 
     public function configure()
     {
-        return $this->afterCreating(function (Task $task) {
-            $times = rand(0, 5);
-            for ($i = 0; $i < $times; $i++) {
-                $filename = uniqid().'.jpg';
-                $task->addMediaFromDisk(Arr::random(Storage::disk('local')->files('fake-images')), 'local')
-                     ->preservingOriginal()
-                     ->usingFileName($filename)
-                     ->toMediaCollection();
-            }
-        });
+        if (App::environment('local')) {
+            return $this->afterCreating(function (Task $task) {
+                $times = rand(0, 5);
+                for ($i = 0; $i < $times; $i++) {
+                    $filename = uniqid().'.jpg';
+                    $task->addMediaFromDisk(Arr::random(Storage::disk('local')->files('fake-images')), 'local')
+                         ->preservingOriginal()
+                         ->usingFileName($filename)
+                         ->toMediaCollection();
+                }
+            });
+        }
+
+        return $this;
     }
 }

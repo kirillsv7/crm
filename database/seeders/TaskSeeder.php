@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Task;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class TaskSeeder extends Seeder
 {
@@ -14,6 +15,8 @@ class TaskSeeder extends Seeder
      */
     public function run()
     {
+        Storage::disk(config('media-library.disk_name'))->deleteDirectory('Task');
+
         Task::factory()
             ->count(200)
             ->create();

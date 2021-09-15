@@ -7,6 +7,7 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 
 class ResponseFactory extends Factory
@@ -35,15 +36,19 @@ class ResponseFactory extends Factory
 
     public function configure()
     {
-        return $this->afterCreating(function (Response $response) {
-            $times = rand(0, 3);
-            for ($i = 0; $i < $times; $i++) {
-                $filename = uniqid().'.jpg';
-                $response->addMediaFromDisk(Arr::random(Storage::disk('local')->files('fake-images')), 'local')
-                         ->preservingOriginal()
-                         ->usingFileName($filename)
-                         ->toMediaCollection();
-            }
-        });
+        if (App::environment('local')) {
+            return $this->afterCreating(function (Response $response) {
+                $times = rand(0, 3);
+                for ($i = 0; $i < $times; $i++) {
+                    $filename = uniqid().'.jpg';
+                    $response->addMediaFromDisk(Arr::random(Storage::disk('local')->files('fake-images')), 'local')
+                             ->preservingOriginal()
+                             ->usingFileName($filename)
+                             ->toMediaCollection();
+                }
+            });
+        }
+
+        return $this;
     }
 }

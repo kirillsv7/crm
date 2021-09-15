@@ -8,6 +8,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 
 class ProjectFactory extends Factory
@@ -38,15 +39,19 @@ class ProjectFactory extends Factory
 
     public function configure()
     {
-        return $this->afterCreating(function (Project $project) {
-            $times = rand(0, 10);
-            for ($i = 0; $i < $times; $i++) {
-                $filename = uniqid().'.jpg';
-                $project->addMediaFromDisk(Arr::random(Storage::disk('local')->files('fake-images')), 'local')
-                        ->preservingOriginal()
-                        ->usingFileName($filename)
-                        ->toMediaCollection();
-            }
-        });
+        if (App::environment('local')) {
+            return $this->afterCreating(function (Project $project) {
+                $times = rand(0, 10);
+                for ($i = 0; $i < $times; $i++) {
+                    $filename = uniqid().'.jpg';
+                    $project->addMediaFromDisk(Arr::random(Storage::disk('local')->files('fake-images')), 'local')
+                            ->preservingOriginal()
+                            ->usingFileName($filename)
+                            ->toMediaCollection();
+                }
+            });
+        }
+
+        return $this;
     }
 }
