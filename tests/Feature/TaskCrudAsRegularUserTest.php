@@ -165,7 +165,7 @@ class TaskCrudAsRegularUserTest extends TestCase
         ]);
     }
 
-    public function test_user_unable_to_task_add_response()
+    public function test_non_assigned_user_unable_to_task_add_response()
     {
         $task = Task::whereHas('project.user', function ($query) {
             return $query->where('id', '!=', $this->user->id);
@@ -181,6 +181,29 @@ class TaskCrudAsRegularUserTest extends TestCase
              ->assertSessionMissing('responseCreated');
 
         $this->assertDatabaseMissing('responses', [
+            'content' => 'Response content',
+            'task_id' => $task->id,
+            'user_id' => $this->user->id,
+        ]);
+    }
+
+    public function test_assigned_user_access_to_task_add_response()
+    {
+        $task = Task::whereHas('project.user', function ($query) {
+            return $query->where('id', '=', $this->user->id);
+        })->first();
+
+        $this->actingAs($this->user)
+             ->from(route('task.show', $task->id))
+             ->post(route('task.add-response'), [
+                 'content' => 'Response content',
+                 'task_id' => encrypt($task->id),
+             ])
+             ->assertStatus(302)
+             ->assertRedirect(route('task.show', $task->id))
+             ->assertSessionHas('responseCreated');
+
+        $this->assertDatabaseHas('responses', [
             'content' => 'Response content',
             'task_id' => $task->id,
             'user_id' => $this->user->id,
