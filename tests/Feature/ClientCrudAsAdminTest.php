@@ -54,11 +54,11 @@ class ClientCrudAsAdminTest extends TestCase
     {
         $this->actingAs($this->admin)
              ->from(route('client.create'))
-             ->post(route('client.store', [
+             ->post(route('client.store'), [
                  'company' => 'Company name',
                  'vat'     => 'A123456789',
                  'address' => 'Company address 123',
-             ]))
+             ])
              ->assertStatus(302)
              ->assertRedirect(route('client.index'))
              ->assertSessionHas('created');

@@ -51,12 +51,12 @@ class UserCrudAsAdminTest extends TestCase
     {
         $this->actingAs($this->admin)
              ->from(route('user.create'))
-             ->post(route('user.store', [
+             ->post(route('user.store'), [
                  'name'                  => 'Test Name',
                  'email'                 => 'test@mail.com',
                  'password'              => 'testpass',
                  'password_confirmation' => 'testpass',
-             ]))
+             ])
              ->assertStatus(302)
              ->assertRedirect(route('user.index'))
              ->assertSessionHas('created');

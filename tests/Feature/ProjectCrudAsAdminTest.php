@@ -57,14 +57,14 @@ class ProjectCrudAsAdminTest extends TestCase
     {
         $this->actingAs($this->admin)
              ->from(route('project.create'))
-             ->post(route('project.store', [
+             ->post(route('project.store'), [
                  'title'       => 'Project title',
                  'description' => 'Project description',
                  'deadline'    => '2021-12-31',
                  'client_id'   => Client::inRandomOrder()->first()->id,
                  'user_id'     => User::inRandomOrder()->first()->id,
                  'status_id'   => 1,
-             ]))
+             ])
              ->assertStatus(302)
              ->assertRedirect(route('project.edit', Project::orderBy('id', 'DESC')->first()->id))
              ->assertSessionHas('created');

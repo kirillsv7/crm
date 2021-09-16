@@ -56,14 +56,14 @@ class ProjectCrudAsRegularUserTest extends TestCase
     {
         $this->actingAs($this->user)
              ->from(route('project.create'))
-             ->post(route('project.store', [
+             ->post(route('project.store'), [
                  'title'       => 'Project title',
                  'description' => 'Project description',
                  'deadline'    => '2021-12-31',
                  'client_id'   => Client::inRandomOrder()->first()->id,
                  'user_id'     => User::inRandomOrder()->first()->id,
                  'status_id'   => 1,
-             ]))
+             ])
              ->assertStatus(403)
              ->assertSessionMissing('created');
 

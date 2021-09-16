@@ -50,12 +50,12 @@ class UserCrudAsRegularUserTest extends TestCase
     {
         $this->actingAs($this->user)
              ->from(route('user.create'))
-             ->post(route('user.store', [
+             ->post(route('user.store'), [
                  'name'                  => 'Test Name',
                  'email'                 => 'test@mail.com',
                  'password'              => 'testpass',
                  'password_confirmation' => 'testpass',
-             ]))
+             ])
              ->assertStatus(403)
              ->assertSessionMissing('created');
     }
