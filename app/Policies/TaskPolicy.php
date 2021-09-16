@@ -112,7 +112,7 @@ class TaskPolicy
     public function addResponse(User $user, Task $task)
     {
         return $user->isAdmin() ||
-            $user->id === $task->project->user_id ||
+            $user->id === $task->project->user->id ||
             $user->hasPermissionTo('task-addResponse');
     }
 }
