@@ -167,7 +167,9 @@ class TaskCrudAsRegularUserTest extends TestCase
 
     public function test_user_unable_to_task_add_response()
     {
-        $task = Task::first();
+        $task = Task::whereHas('project.user', function ($query) {
+            return $query->where('id', '!=', $this->user->id);
+        })->first();
 
         $this->actingAs($this->user)
              ->from(route('task.show', $task->id))
