@@ -59,10 +59,10 @@ Route::group([
     Route::get('project/deleted', [ProjectController::class, 'deleted'])->name('project.deleted');
     Route::post('project/{project}', [ProjectController::class, 'restore'])->name('project.restore');
 
+    Route::post('task/add-response', [TaskController::class, 'addResponse'])->name('task.add-response');
     Route::post('task/{task}/remove-media/{id}', [TaskController::class, 'removeMedia'])->name('task.remove-media');
     Route::get('task/deleted', [TaskController::class, 'deleted'])->name('task.deleted');
     Route::post('task/{task}', [TaskController::class, 'restore'])->name('task.restore');
-    Route::post('task/{task}/add-response', [TaskController::class, 'addResponse'])->name('task.add-response');
 
     Route::resources([
         'user'   => UserController::class,

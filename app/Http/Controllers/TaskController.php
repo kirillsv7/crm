@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AddResponseToTaskRequest;
 use App\Http\Requests\CreateUpdateTaskRequest;
 use App\Models\Project;
-use App\Models\Response;
 use App\Models\Task;
 use App\Services\SpatieMediaLibrary\AddMediaToModel;
+use App\Services\TaskService;
 
 class TaskController extends Controller
 {
@@ -185,22 +185,17 @@ class TaskController extends Controller
 
     /**
      * @param  AddResponseToTaskRequest  $request
-     * @param  Task  $task
-     * @param  AddMediaToModel  $addMediaToModel
+     * @param  TaskService  $service
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function addResponse(AddResponseToTaskRequest $request, Task $task, AddMediaToModel $addMediaToModel)
+    public function addResponse(AddResponseToTaskRequest $request, TaskService $service)
     {
+        $task = Task::findOrFail(decrypt($request->input('task_id')));
+
         $this->authorize('addResponse', $task);
 
-        $data            = $request->except('media');
-        $data['task_id'] = decrypt($data['task_id']);
-        $data['user_id'] = auth()->id();
-
-        $response = Response::create($data);
-
-        $addMediaToModel($request->input('media', []), $response);
+        $service->addResponse($request->validated());
 
         return redirect(route('task.show', $task->id))->with('responseCreated', true);
     }

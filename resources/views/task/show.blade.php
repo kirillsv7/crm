@@ -53,8 +53,7 @@
                                href="#response-{{ $loop->iteration }}">#{{ $loop->iteration }}</a>
                             @can('delete', $response)
                                 |
-                                <form action="{{ route('response.destroy', $response->id) }}"
-                                      method="POST">
+                                <form action="{{ route('response.destroy', $response->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-link btn-sm" type="submit"
@@ -94,10 +93,9 @@
                     <div class="card">
                         <div class="card-header">Add response</div>
                         <div class="card-body">
-                            <form id="response-form" action="{{ route('task.add-response', $task->id) }}" method="POST">
+                            <form id="response-form" action="{{ route('task.add-response') }}" method="POST">
                                 @csrf
-                                <input type="hidden" name="task_id"
-                                       value="{{ encrypt($task->id) }}">
+                                <input type="hidden" name="task_id" value="{{ encrypt($task->id) }}">
                                 <div class="form-group">
                                     <label>Content</label>
                                     <textarea class="form-control @error('content') is-invalid @enderror" name="content"
