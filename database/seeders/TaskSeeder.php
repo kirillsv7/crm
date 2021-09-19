@@ -18,7 +18,7 @@ class TaskSeeder extends Seeder
         Storage::disk(config('media-library.disk_name'))->deleteDirectory('Task');
 
         Task::factory()
-            ->count(200)
+            ->count(100)
             ->create();
     }
 }

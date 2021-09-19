@@ -18,7 +18,7 @@ class ResponseSeeder extends Seeder
         Storage::disk(config('media-library.disk_name'))->deleteDirectory('Response');
 
         Response::factory()
-                ->count(1200)
+                ->count(400)
                 ->create();
     }
 }
