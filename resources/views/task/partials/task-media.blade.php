@@ -5,7 +5,7 @@
             <div class="container">
                 <div class="row">
                     @foreach($task->getMedia() as $media)
-                        <div class="col-6 col-md-4 col-lg-3">
+                        <div class="col-6 col-md-4 col-lg-3 pb-4">
                             <img class="img-fluid" src="{{ $media->getUrl() }}">
                             @if(request()->routeIs('task.edit'))
                                 @can('manageMedia', $task)

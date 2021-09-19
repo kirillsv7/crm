@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Validation\Rule;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Project extends Model implements HasMedia
 {
@@ -35,6 +36,10 @@ class Project extends Model implements HasMedia
         '3' => 'Paused',
         '4' => 'Pending validation',
         '5' => 'Finished',
+    ];
+
+    protected static $imageSizes = [
+        'thumb' => [300, 200],
     ];
 
     public function user(): BelongsTo
@@ -104,5 +109,15 @@ class Project extends Model implements HasMedia
     public function getDeletedAtAttribute($deleted_at)
     {
         return Carbon::parse($deleted_at)->format('d/m/Y H:i:s');
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        foreach (self::$imageSizes as $name => $dimensions) {
+            $this->addMediaConversion($name)
+                 ->width($dimensions[0])
+                 ->height($dimensions[1])
+                 ->sharpen(10);
+        }
     }
 }

@@ -5,8 +5,8 @@
             <div class="container">
                 <div class="row">
                     @foreach($project->getMedia() as $media)
-                        <div class="col-6 col-md-4 col-lg-3">
-                            <img class="img-fluid" src="{{ $media->getUrl() }}">
+                        <div class="col-6 col-md-4 col-lg-3 pb-4">
+                            <img class="img-fluid" src="{{ $media->getUrl('thumb') }}">
                             @if(request()->routeIs('project.edit'))
                                 @can('manageMedia', $project)
                                     <button class="btn btn-link d-block mx-auto media-remove" data-id="{{ $media->id }}"
