@@ -20,34 +20,53 @@ Full seeding of data can take more than one minute, because of adding images and
 
 <h4>Routing Advanced</h4>
 
-- Route Model Binding in Resource Controllers - <b>All controllers use model binding</b>
-- Route Redirect - homepage should automatically redirect to the login form - <b>routes/web.php:48</b>
+- Route Model Binding in Resource Controllers
+  - All controllers use model binding
+- Route Redirect - homepage should automatically redirect to the login form 
+  - routes/web.php:48
 
 <h4>Database Advanced</h4>
 
-- Database Seeders and Factories - to automatically create first clients/projects/tasks and default users - <b>Done</b>
-- Eloquent Query Scopes - show only active clients, for example - <b>app/Models/Project.php:60-87, app/Models/Task.php:51-77</b>
-- Polymorphic relationships with Spatie Media Library package - <b>Project, Task & Response models implement Spatie Medialibrary</b>
-- Eloquent Accessors and Mutators - view all date values in m/d/Y format - <b>Datatime accessors defined in all models</b>
-- Soft Deletes on any Eloquent models - <b>All models implement softdelete</b>
+- Database Seeders and Factories - to automatically create first clients/projects/tasks and default users
+  - Done
+- Eloquent Query Scopes - show only active clients, for example
+  - app/Models/Project.php:60-87
+  - app/Models/Task.php:51-77
+- Polymorphic relationships with Spatie Media Library package
+  - Project, Task & Response models implement Spatie Medialibrary
+- Eloquent Accessors and Mutators - view all date values in m/d/Y format
+  - Datatime accessors defined in all models
+- Soft Deletes on any Eloquent models
+  - All models implement softdelete
 
 <h4>Auth Advanced</h4>
 
-- Authorization: Roles/Permissions (admin and simple users), Gates, Policies with Spatie Permissions package - <b>PermissionSeeder, RoleSeeder. All actions are controlled by Policies for all models</b>
-- Authentication: Email Verification - <b>User implements MustVerifyEmail, routes uses verified middleware, UserService dispatch Registered event and send verify email</b>
+- Authorization: Roles/Permissions (admin and simple users), Gates, Policies with Spatie Permissions package
+  - app/database/seeders/PermissionSeeder
+  - app/database/seeders/RoleSeeder
+  - All actions are controlled by Policies for all models
+- Authentication: Email Verification
+  - User implements MustVerifyEmail
+  - routes uses verified middleware
+  - app/Services/UserService.pgp dispatch Registered event and send verify email
 
 <h4>API Basics</h4>
 
-- API Routes and Controllers - <b>routes/api.php, app/Http/Controllers/Api/V1/</b>
-- API Eloquent Resources - <b>app/Http/Resources/V1/</b>
-- API Auth with Sanctum - <b>routes/api.php:25</b>
-- Override API Error Handling and Status Codes - <b>app/Exceptions/Handler.php:43-53</b> 
+- API Routes and Controllers
+  - routes/api.php
+  - app/Http/Controllers/Api/V1/
+- API Eloquent Resources
+  - app/Http/Resources/V1/
+- API Auth with Sanctum
+  - routes/api.php:25
+- Override API Error Handling and Status Codes
+  - app/Exceptions/Handler.php:43-53 
 
 <h5>Test with Postman:</h5>
 
 <i>(APP_URL depends on how you deploy on your system)</i>
 
-Login post to: APP_URL/login
+Login to app: POST APP_URL/login
 
 Pre-request script:
 
@@ -61,8 +80,9 @@ Pre-request script:
     })
 
 Body / form-data:<br>
-email: admin@mail.com<br>
-password: admin<br>
+- email: admin@mail.com
+- password: admin
+
 Expected response: 204
 
 GET projects: APP_URL/api/v1/project<br>
@@ -70,14 +90,19 @@ Expected response: 200
 
 <h4>Debugging Errors</h4>
 
-- Try-Catch and Laravel Exceptions - <b>app/Rules/CheckEncryptedInput.php:29-33</b>
-- Customizing Error Pages - <b>Customized layout: resources/views/errors/layout.blade.php & all error pages</b>
+- Try-Catch and Laravel Exceptions
+  - app/Rules/CheckEncryptedInput.php:29-33
+- Customizing Error Pages
+  - Customized layout: resources/views/errors/layout.blade.php
+  - all error pages use system styling
 
 <h4>Sending Email</h4>
 
 - Mailables and Mail Facade
-- Notifications System: Email - <b>app/Services/ProjectService.php notify user using ProjectAssignedNotification when it assigned on store & when user is changed on update</b>
+- Notifications System: Email
+  - app/Services/ProjectService.php notify user using ProjectAssignedNotification when it assigned on store & when user is changed on update
 
 <h4>Extra</h4>
 
-- Automated Tests for CRUD Operations - <b>Test implemented for all CRUD operations</b>
+- Automated Tests for CRUD Operations
+  - Test implemented for all CRUD operations
