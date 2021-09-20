@@ -24,7 +24,7 @@ class Response extends Model implements HasMedia
         'media',
     ];
 
-    protected static $imageSizes = [
+    protected $imageSizes = [
         'thumb' => [300, 200],
     ];
 
@@ -55,7 +55,7 @@ class Response extends Model implements HasMedia
 
     public function registerMediaConversions(Media $media = null): void
     {
-        foreach (self::$imageSizes as $name => $dimensions) {
+        foreach ($this->imageSizes as $name => $dimensions) {
             $this->addMediaConversion($name)
                  ->width($dimensions[0])
                  ->height($dimensions[1])

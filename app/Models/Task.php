@@ -34,7 +34,7 @@ class Task extends Model implements HasMedia
         '5' => 'Finished',
     ];
 
-    protected static $imageSizes = [
+    protected $imageSizes = [
         'thumb' => [300, 200],
     ];
 
@@ -69,9 +69,9 @@ class Task extends Model implements HasMedia
     {
         if (request()->has('assigned_to_user')) {
             request()->validate(['assigned_to_user' => 'boolean']);
-            if (request('assigned_to_user') == true) {
-                return $query->whereHas('project', function ($q) {
-                    $q->where('user_id', auth()->id());
+            if (request('assigned_to_user')) {
+                return $query->whereHas('project', function ($query) {
+                    $query->where('user_id', auth()->id());
                 });
             }
         }
@@ -101,7 +101,7 @@ class Task extends Model implements HasMedia
 
     public function registerMediaConversions(Media $media = null): void
     {
-        foreach (self::$imageSizes as $name => $dimensions) {
+        foreach ($this->imageSizes as $name => $dimensions) {
             $this->addMediaConversion($name)
                  ->width($dimensions[0])
                  ->height($dimensions[1])
