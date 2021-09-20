@@ -20,7 +20,7 @@ Full seeding of data can take more than one minute, because of adding images and
 
 <h4>Routing Advanced</h4>
 
-- Route Model Binding in Resource Controllers - <b>All controller user model binding</b>
+- Route Model Binding in Resource Controllers - <b>All controllers use model binding</b>
 - Route Redirect - homepage should automatically redirect to the login form - <b>routes/web.php:48</b>
 
 <h4>Database Advanced</h4>
@@ -28,7 +28,7 @@ Full seeding of data can take more than one minute, because of adding images and
 - Database Seeders and Factories - to automatically create first clients/projects/tasks and default users - <b>Done</b>
 - Eloquent Query Scopes - show only active clients, for example - <b>app/Models/Project.php:60-87, app/Models/Task.php:51-77</b>
 - Polymorphic relationships with Spatie Media Library package - <b>Project, Task & Response models implement Spatie Medialibrary</b>
-- Eloquent Accessors and Mutators - view all date values in m/d/Y format - <b>Accessors defined in all models</b>
+- Eloquent Accessors and Mutators - view all date values in m/d/Y format - <b>Datatime accessors defined in all models</b>
 - Soft Deletes on any Eloquent models - <b>All models implement softdelete</b>
 
 <h4>Auth Advanced</h4>
