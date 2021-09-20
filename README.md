@@ -1,63 +1,82 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<h1>Installation</h1>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+- composer install
+- php artisan key:generate
+- php artisan migrate --seed
+- npm install
+- npm run dev
+- php artisan serve / your deployment method
 
-## About Laravel
+<i>Remember to set .env APP_URL to make images path work properly</i>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Login as admin: admin@mail.com / admin<br>
+Login as user: user1@mail.com / user<br>
+For more data see database/seeders/UserSeeder
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Full seeding of data can take more than one minute, because of adding images and conversion.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+<h3>Implemented features</h3>
 
-## Learning Laravel
+<h4>Routing Advanced</h4>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Route Model Binding in Resource Controllers - <b>All controller user model binding</b>
+- Route Redirect - homepage should automatically redirect to the login form - <b>routes/web.php:48</b>
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+<h4>Database Advanced</h4>
 
-## Laravel Sponsors
+- Database Seeders and Factories - to automatically create first clients/projects/tasks and default users - <b>Done</b>
+- Eloquent Query Scopes - show only active clients, for example - <b>app/Models/Project.php:60-87, app/Models/Task.php:51-77</b>
+- Polymorphic relationships with Spatie Media Library package - <b>Project, Task & Response models implement Spatie Medialibrary</b>
+- Eloquent Accessors and Mutators - view all date values in m/d/Y format - <b>Accessors defined in all models</b>
+- Soft Deletes on any Eloquent models - <b>All models implement softdelete</b>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+<h4>Auth Advanced</h4>
 
-### Premium Partners
+- Authorization: Roles/Permissions (admin and simple users), Gates, Policies with Spatie Permissions package - <b>PermissionSeeder, RoleSeeder. All actions are controlled by Policies for all models</b>
+- Authentication: Email Verification - <b>User implements MustVerifyEmail, routes uses verified middleware, UserService dispatch Registered event and send verify email</b>
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
+<h4>API Basics</h4>
 
-## Contributing
+- API Routes and Controllers - <b>routes/api.php, app/Http/Controllers/Api/V1/</b>
+- API Eloquent Resources - <b>app/Http/Resources/V1/</b>
+- API Auth with Sanctum - <b>routes/api.php:25</b>
+- Override API Error Handling and Status Codes - <b>app/Exceptions/Handler.php:43-53</b> 
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+<h5>Test with Postman:</h5>
 
-## Code of Conduct
+<i>(APP_URL depends on how you deploy on your system)</i>
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Login post to: APP_URL/login
 
-## Security Vulnerabilities
+Pre-request script:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    pm.sendRequest({
+      url: 'APP_URL/sanctum/csrf-cookie',
+      method: 'GET'
+    }, function(error, response, {cookies}){
+      if(!error){
+        pm.globals.set('xsrf-cookie', cookies.get('XSRF-TOKEN'))
+      }
+    })
 
-## License
+Body / form-data:<br>
+email: admin@mail.com<br>
+password: admin<br>
+Expected response: 204
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+GET projects: APP_URL/api/v1/project<br>
+Expected response: 200
+
+<h4>Debugging Errors</h4>
+
+- Try-Catch and Laravel Exceptions - <b>app/Rules/CheckEncryptedInput.php:29-33</b>
+- Customizing Error Pages - <b>Customized layout: resources/views/errors/layout.blade.php & all error pages</b>
+
+<h4>Sending Email</h4>
+
+- Mailables and Mail Facade
+- Notifications System: Email - <b>app/Services/ProjectService.php notify user using ProjectAssignedNotification when it assigned on store & when user is changed on update</b>
+
+<h4>Extra</h4>
+
+- Automated Tests for CRUD Operations - <b>Test implemented for all CRUD operations</b>
