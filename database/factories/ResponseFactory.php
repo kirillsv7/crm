@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class ResponseFactory extends Factory
 {
@@ -41,7 +41,7 @@ class ResponseFactory extends Factory
                 $times = rand(0, 3);
                 for ($i = 0; $i < $times; $i++) {
                     $filename = uniqid().'.jpg';
-                    $response->addMediaFromDisk(Arr::random(Storage::disk('local')->files('fake-images')), 'local')
+                    $response->addMedia(Arr::random(File::files(storage_path('fake-images')))->getPathname())
                              ->preservingOriginal()
                              ->usingFileName($filename)
                              ->toMediaCollection();

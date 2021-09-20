@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class ProjectFactory extends Factory
 {
@@ -44,7 +44,7 @@ class ProjectFactory extends Factory
                 $times = rand(0, 10);
                 for ($i = 0; $i < $times; $i++) {
                     $filename = uniqid().'.jpg';
-                    $project->addMediaFromDisk(Arr::random(Storage::disk('local')->files('fake-images')), 'local')
+                    $project->addMedia(Arr::random(File::files(storage_path('fake-images')))->getPathname())
                             ->preservingOriginal()
                             ->usingFileName($filename)
                             ->toMediaCollection();
