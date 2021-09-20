@@ -49,8 +49,8 @@
                             {{ __('Response by: ') . $response->user->name }} |
                             {{ __('at: ') . $response->created_at }}
 
-                            <a class="btn btn-link btn-sm ml-auto text-muted" id="response-{{ $loop->iteration }}"
-                               href="#response-{{ $loop->iteration }}">#{{ $loop->iteration }}</a>
+                            <a class="btn btn-link btn-sm ml-auto text-muted" id="response-{{ $response->id }}"
+                               href="#response-{{ $response->id }}">#{{ $response->id }}</a>
                             @can('delete', $response)
                                 |
                                 <form action="{{ route('response.destroy', $response->id) }}" method="POST">

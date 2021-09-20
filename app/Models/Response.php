@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -27,9 +28,29 @@ class Response extends Model implements HasMedia
         'thumb' => [300, 200],
     ];
 
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getCreatedAtAttribute($created_at)
+    {
+        return Carbon::parse($created_at)->format('d/m/Y H:i:s');
+    }
+
+    public function getUpdatedAtAttribute($updated_at)
+    {
+        return Carbon::parse($updated_at)->format('d/m/Y H:i:s');
+    }
+
+    public function getDeletedAtAttribute($deleted_at)
+    {
+        return Carbon::parse($deleted_at)->format('d/m/Y H:i:s');
     }
 
     public function registerMediaConversions(Media $media = null): void
