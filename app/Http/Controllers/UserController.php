@@ -66,6 +66,8 @@ class UserController extends Controller
     {
         $this->authorize('update', $user);
 
+        $user->load('roles');
+
         $title = 'User edit: '.$user->name;
 
         return view('user.edit', compact('title', 'user'));
