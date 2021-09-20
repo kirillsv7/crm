@@ -27,8 +27,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
     ];
 
-    protected $with = ['roles'];
-
     /**
      * The attributes that should be hidden for arrays.
      *

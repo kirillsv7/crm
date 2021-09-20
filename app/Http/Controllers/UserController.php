@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(User::PAGINATE);
+        $users = User::with('roles')->paginate(User::PAGINATE);
 
         $title = 'User list';
 
