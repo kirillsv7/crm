@@ -23,7 +23,7 @@ class ProjectController extends Controller
                            ->filterByStatus()
                            ->filterAssignedToUser()
                            ->orderByDesc('id')
-                           ->paginate(Project::PAGINATE)
+                           ->paginate()
                            ->withQueryString();
 
         $title = 'Project list';
@@ -80,7 +80,7 @@ class ProjectController extends Controller
         $tasks = $project->tasks()
                          ->filterByStatus()
                          ->orderByDesc('id')
-                         ->paginate(Task::PAGINATE)
+                         ->paginate()
                          ->withQueryString();
 
         return view('project.show', compact('title', 'project', 'tasks'));
@@ -151,7 +151,7 @@ class ProjectController extends Controller
                            ->filterByStatus()
                            ->filterAssignedToUser()
                            ->orderByDesc('id')
-                           ->paginate(Project::PAGINATE)
+                           ->paginate()
                            ->withQueryString();
 
         $title = 'Deleted projects list';

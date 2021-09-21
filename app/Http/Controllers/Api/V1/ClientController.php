@@ -16,7 +16,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return ClientResource::collection(Client::paginate(Client::PAGINATE));
+        return ClientResource::collection(Client::paginate());
     }
 
     /**
@@ -86,7 +86,7 @@ class ClientController extends Controller
      */
     public function deleted()
     {
-        return ClientResource::collection(Client::onlyTrashed()->paginate(Client::PAGINATE));
+        return ClientResource::collection(Client::onlyTrashed()->paginate());
     }
 
     /**

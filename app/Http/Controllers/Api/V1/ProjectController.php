@@ -22,7 +22,7 @@ class ProjectController extends Controller
                    ->filterByStatus()
                    ->filterAssignedToUser()
                    ->orderByDesc('id')
-                   ->paginate(Project::PAGINATE)
+                   ->paginate()
                    ->withQueryString()
         );
     }
@@ -96,7 +96,7 @@ class ProjectController extends Controller
      */
     public function deleted()
     {
-        return ProjectResource::collection(Project::onlyTrashed()->paginate(Project::PAGINATE));
+        return ProjectResource::collection(Project::onlyTrashed()->paginate());
     }
 
     /**

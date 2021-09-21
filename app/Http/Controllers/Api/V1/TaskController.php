@@ -25,7 +25,7 @@ class TaskController extends Controller
             Task::filterByStatus()
                 ->filterAssignedToUser()
                 ->orderByDesc('id')
-                ->paginate(Task::PAGINATE)
+                ->paginate()
                 ->withQueryString()
         );
     }
@@ -103,7 +103,7 @@ class TaskController extends Controller
      */
     public function deleted()
     {
-        return TaskResource::collection(Task::onlyTrashed()->paginate(Task::PAGINATE));
+        return TaskResource::collection(Task::onlyTrashed()->paginate());
     }
 
     /**

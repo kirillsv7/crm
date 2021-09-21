@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('roles')->paginate(User::PAGINATE);
+        $users = User::with('roles')->paginate();
 
         $title = 'User list';
 
@@ -114,7 +114,7 @@ class UserController extends Controller
      */
     public function deleted()
     {
-        $users = User::onlyTrashed()->paginate(User::PAGINATE);
+        $users = User::onlyTrashed()->paginate();
 
         $title = 'Deleted users list';
 

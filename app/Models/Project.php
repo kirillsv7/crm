@@ -17,7 +17,7 @@ class Project extends Model implements HasMedia
 {
     use HasFactory, SoftDeletes, InteractsWithMedia;
 
-    const PAGINATE = 20;
+    protected $perPage = 20;
 
     protected $fillable = [
         'title',

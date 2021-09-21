@@ -22,7 +22,7 @@ class TaskController extends Controller
         $tasks = Task::filterByStatus()
                      ->filterAssignedToUser()
                      ->orderByDesc('id')
-                     ->paginate(Task::PAGINATE)
+                     ->paginate()
                      ->withQueryString();
 
         $title = 'Task list';
@@ -144,7 +144,7 @@ class TaskController extends Controller
                      ->filterByStatus()
                      ->filterAssignedToUser()
                      ->orderByDesc('id')
-                     ->paginate(Task::PAGINATE)
+                     ->paginate()
                      ->withQueryString();
 
         $title = 'Deleted tasks list';

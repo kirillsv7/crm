@@ -15,7 +15,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::paginate(Client::PAGINATE);
+        $clients = Client::paginate();
 
         $title = 'Client list';
 
@@ -109,7 +109,7 @@ class ClientController extends Controller
      */
     public function deleted()
     {
-        $clients = Client::onlyTrashed()->paginate(Client::PAGINATE);
+        $clients = Client::onlyTrashed()->paginate();
 
         $title = 'Deleted clients list';
 

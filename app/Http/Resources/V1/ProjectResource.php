@@ -32,7 +32,7 @@ class ProjectResource extends JsonResource
             'tasks'       => $this->when($request->routeIs('project.show'), TaskResource::collection(
                 $this->tasks()->filterByStatus()
                      ->orderByDesc('id')
-                     ->paginate(Task::PAGINATE)
+                     ->paginate()
                      ->withQueryString()
             )),
         ];

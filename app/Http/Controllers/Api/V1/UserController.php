@@ -17,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return UserResource::collection(User::paginate(User::PAGINATE));
+        return UserResource::collection(User::paginate());
     }
 
     /**
@@ -89,7 +89,7 @@ class UserController extends Controller
      */
     public function deleted()
     {
-        return UserResource::collection(User::onlyTrashed()->paginate(User::PAGINATE));
+        return UserResource::collection(User::onlyTrashed()->paginate());
     }
 
     /**
