@@ -18,6 +18,10 @@
         "style-loader": "^3.2.1"
     },
     "dependencies": {
-        "dropzone": "^5.9.2"
+        "@coreui/coreui": "^3.4.0",
+        "@coreui/icons": "^2.0.1",
+        "@popperjs/core": "^2.10.2",
+        "dropzone": "^5.9.2",
+        "perfect-scrollbar": "^1.5.2"
     }
 }

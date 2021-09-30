@@ -1,3 +1,5 @@
+@import "~@coreui/coreui/dist/css/coreui.css";
+@import "~@coreui/icons/css/free.css";
 @import "~dropzone/dist/dropzone.css";
 
 .pagination{
