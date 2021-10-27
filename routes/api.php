@@ -28,14 +28,15 @@ Route::group([
     Route::post('user/{user}', [UserController::class, 'restore'])->name('user.restore');
 
     Route::get('client/deleted', [ClientController::class, 'deleted'])->name('client.deleted');
-    Route::post('client/{user}', [ClientController::class, 'restore'])->name('client.restore');
+    Route::post('client/{client}', [ClientController::class, 'restore'])->name('client.restore');
 
     Route::get('project/deleted', [ProjectController::class, 'deleted'])->name('project.deleted');
-    Route::post('project/{user}', [ProjectController::class, 'restore'])->name('project.restore');
+    Route::post('project/{project}', [ProjectController::class, 'restore'])->name('project.restore');
+    Route::get('project/statuses', [ProjectController::class, 'statuses'])->name('project.statuses');
 
     Route::post('task/add-response', [TaskController::class, 'addResponse'])->name('task.add-response');
     Route::get('task/deleted', [TaskController::class, 'deleted'])->name('task.deleted');
-    Route::post('task/{user}', [TaskController::class, 'restore'])->name('task.restore');
+    Route::post('task/{task}', [TaskController::class, 'restore'])->name('task.restore');
 
     Route::apiResources([
         'user'    => UserController::class,
