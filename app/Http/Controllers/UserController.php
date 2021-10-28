@@ -68,7 +68,7 @@ class UserController extends Controller
 
         $user->load('roles');
 
-        $title = 'User edit: '.$user->name;
+        $title = 'User edit: ' . $user->name;
 
         return view('user.edit', compact('title', 'user'));
     }
@@ -114,7 +114,7 @@ class UserController extends Controller
      */
     public function deleted()
     {
-        $users = User::onlyTrashed()->paginate();
+        $users = User::with('roles')->onlyTrashed()->paginate();
 
         $title = 'Deleted users list';
 
