@@ -50,19 +50,4 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasRole('admin');
     }
-
-    public function getCreatedAtAttribute($created_at)
-    {
-        return Carbon::parse($created_at)->format('d/m/Y H:i:s');
-    }
-
-    public function getUpdatedAtAttribute($updated_at)
-    {
-        return Carbon::parse($updated_at)->format('d/m/Y H:i:s');
-    }
-
-    public function getDeletedAtAttribute($deleted_at)
-    {
-        return Carbon::parse($deleted_at)->format('d/m/Y H:i:s');
-    }
 }

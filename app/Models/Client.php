@@ -15,18 +15,7 @@ class Client extends Model
 
     protected $fillable = ['company', 'vat', 'address'];
 
-    public function getCreatedAtAttribute($created_at)
-    {
-        return Carbon::parse($created_at)->format('d/m/Y H:i:s');
-    }
-
-    public function getUpdatedAtAttribute($updated_at)
-    {
-        return Carbon::parse($updated_at)->format('d/m/Y H:i:s');
-    }
-
-    public function getDeletedAtAttribute($deleted_at)
-    {
-        return Carbon::parse($deleted_at)->format('d/m/Y H:i:s');
+    public function getDeletedAttribute(){
+        return $this->deleted_at !== null;
     }
 }
