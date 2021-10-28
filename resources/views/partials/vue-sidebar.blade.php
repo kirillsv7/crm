@@ -16,24 +16,33 @@
             </a>
             <ul class="c-sidebar-nav-dropdown-items">
                 <li class="c-sidebar-nav-item">
-                    <a class="c-sidebar-nav-link" href="/user">
+                    <router-link
+                            class="c-sidebar-nav-link"
+                            :class="{'c-active': this.$route.name == 'user.index'}"
+                            :to="{name:'user.index'}">
                         <i class="c-sidebar-nav-icon cil-list-rich"></i>
                         User list
-                    </a>
+                    </router-link>
                 </li>
                 @can('create', \App\Models\User::class)
                     <li class="c-sidebar-nav-item">
-                        <a class="c-sidebar-nav-link" href="/user/create">
+                        <router-link
+                                class="c-sidebar-nav-link"
+                                :class="{'c-active': this.$route.name == 'user.create'}"
+                                :to="{name:'user.create'}">
                             <i class="c-sidebar-nav-icon cil-user-plus"></i>
                             Add user
-                        </a>
+                        </router-link>
                     </li>
                 @endcan
                 <li class="c-sidebar-nav-item">
-                    <a class="c-sidebar-nav-link" href="/user/deleted">
+                    <router-link
+                            class="c-sidebar-nav-link"
+                            :class="{'c-active': this.$route.name == 'user.deleted'}"
+                            :to="{name:'user.deleted'}">
                         <i class="c-sidebar-nav-icon cil-user-x"></i>
                         Deleted users
-                    </a>
+                    </router-link>
                 </li>
             </ul>
         </li>
@@ -44,24 +53,33 @@
             </a>
             <ul class="c-sidebar-nav-dropdown-items">
                 <li class="c-sidebar-nav-item">
-                    <a class="c-sidebar-nav-link" href="/client">
+                    <router-link
+                            class="c-sidebar-nav-link"
+                            :class="{'c-active': this.$route.name == 'client.index'}"
+                            :to="{name:'client.index'}">
                         <i class="c-sidebar-nav-icon cil-list-rich"></i>
                         Client list
-                    </a>
+                    </router-link>
                 </li>
                 @can('create', \App\Models\Client::class)
                     <li class="c-sidebar-nav-item">
-                        <a class="c-sidebar-nav-link" href="/client/create">
-                            <i class="c-sidebar-nav-icon cil-user-plus"></i>
+                        <router-link
+                                class="c-sidebar-nav-link"
+                                :class="{'c-active': this.$route.name == 'client.create'}"
+                                :to="{name:'client.create'}">
+                            <i class="c-sidebar-nav-icon cil-plus"></i>
                             Add client
-                        </a>
+                        </router-link>
                     </li>
                 @endcan
                 <li class="c-sidebar-nav-item">
-                    <a class="c-sidebar-nav-link" href="/client/deleted">
+                    <router-link
+                            class="c-sidebar-nav-link"
+                            :class="{'c-active': this.$route.name == 'client.deleted'}"
+                            :to="{name:'client.deleted'}">
                         <i class="c-sidebar-nav-icon cil-user-x"></i>
                         Deleted clients
-                    </a>
+                    </router-link>
                 </li>
             </ul>
         </li>
@@ -72,24 +90,33 @@
             </a>
             <ul class="c-sidebar-nav-dropdown-items">
                 <li class="c-sidebar-nav-item">
-                    <a class="c-sidebar-nav-link" href="/project">
+                    <router-link
+                            class="c-sidebar-nav-link"
+                            :class="{'c-active': this.$route.name == 'project.index'}"
+                            :to="{name:'project.index'}">
                         <i class="c-sidebar-nav-icon cil-list-rich"></i>
                         Project list
-                    </a>
+                    </router-link>
                 </li>
                 @can('create', \App\Models\Project::class)
                     <li class="c-sidebar-nav-item">
-                        <a class="c-sidebar-nav-link" href="/project/create">
+                        <router-link
+                                class="c-sidebar-nav-link"
+                                :class="{'c-active': this.$route.name == 'project.create'}"
+                                :to="{name:'project.create'}">
                             <i class="c-sidebar-nav-icon cil-plus"></i>
                             Add project
-                        </a>
+                        </router-link>
                     </li>
                 @endcan
                 <li class="c-sidebar-nav-item">
-                    <a class="c-sidebar-nav-link" href="/project/deleted">
+                    <router-link
+                            class="c-sidebar-nav-link"
+                            :class="{'c-active': this.$route.name == 'project.deleted'}"
+                            :to="{name:'project.deleted'}">
                         <i class="c-sidebar-nav-icon cil-minus"></i>
                         Deleted projects
-                    </a>
+                    </router-link>
                 </li>
             </ul>
         </li>
@@ -100,27 +127,29 @@
             </a>
             <ul class="c-sidebar-nav-dropdown-items">
                 <li class="c-sidebar-nav-item">
-                    <a class="c-sidebar-nav-link" href="/task">
+                    <a class="c-sidebar-nav-link" href="{{ route('task.index') }}">
                         <i class="c-sidebar-nav-icon cil-list-rich"></i>
                         Task list
                     </a>
                 </li>
                 @can('create', \App\Models\Task::class)
                     <li class="c-sidebar-nav-item">
-                        <a class="c-sidebar-nav-link" href="/task/create">
+                        <a class="c-sidebar-nav-link" href="{{ route('task.create') }}">
                             <i class="c-sidebar-nav-icon cil-plus"></i>
                             Add task
                         </a>
                     </li>
                 @endcan
                 <li class="c-sidebar-nav-item">
-                    <a class="c-sidebar-nav-link" href="/task/deleted">
+                    <a class="c-sidebar-nav-link" href="{{ route('task.deleted') }}">
                         <i class="c-sidebar-nav-icon cil-minus"></i>
                         Deleted tasks
                     </a>
                 </li>
             </ul>
         </li>
+
+        <i class="cis-playlist-add-check"></i>
     </ul>
     <button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent"
             data-class="c-sidebar-minimized">
