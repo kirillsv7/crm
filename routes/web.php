@@ -47,17 +47,18 @@ Route::post('/email/verification-notification', function (Request $request) {
 Route::group([
     'middleware' => ['auth', 'verified'],
 ], function () {
+
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('user/deleted', [UserController::class, 'deleted'])->name('user.deleted');
-    Route::post('user/{user}', [UserController::class, 'restore'])->name('user.restore');
+    //Route::get('user/deleted', [UserController::class, 'deleted'])->name('user.deleted');
+    //Route::post('user/{user}', [UserController::class, 'restore'])->name('user.restore');
 
-    Route::get('client/deleted', [ClientController::class, 'deleted'])->name('client.deleted');
-    Route::post('client/{user}', [ClientController::class, 'restore'])->name('client.restore');
+    //Route::get('client/deleted', [ClientController::class, 'deleted'])->name('client.deleted');
+    //Route::post('client/{user}', [ClientController::class, 'restore'])->name('client.restore');
 
-    Route::post('project/{project}/remove-media/{id}', [ProjectController::class, 'removeMedia'])->name('project.remove-media');
-    Route::get('project/deleted', [ProjectController::class, 'deleted'])->name('project.deleted');
-    Route::post('project/{project}', [ProjectController::class, 'restore'])->name('project.restore');
+    //Route::post('project/{project}/remove-media/{id}', [ProjectController::class, 'removeMedia'])->name('project.remove-media');
+    //Route::get('project/deleted', [ProjectController::class, 'deleted'])->name('project.deleted');
+    //Route::post('project/{project}', [ProjectController::class, 'restore'])->name('project.restore');
 
     Route::post('task/add-response', [TaskController::class, 'addResponse'])->name('task.add-response');
     Route::post('task/{task}/remove-media/{id}', [TaskController::class, 'removeMedia'])->name('task.remove-media');
@@ -65,18 +66,20 @@ Route::group([
     Route::post('task/{task}', [TaskController::class, 'restore'])->name('task.restore');
 
     Route::resources([
-        'user'   => UserController::class,
-        'client' => ClientController::class,
+        //'user'   => UserController::class,
+        //'client' => ClientController::class,
     ], ['except' => ['show']]);
 
     Route::resources([
-        'project' => ProjectController::class,
+        //'project' => ProjectController::class,
         'task'    => TaskController::class,
     ]);
 
     Route::resource('response', ResponseController::class)->only('destroy');
 
     Route::post('media/upload', MediaUploadContoller::class)->name('media.upload');
+
+    Route::view('/{any}', 'layouts.vue')->where('any', '.*');
 });
 
 Route::fallback(function () {
