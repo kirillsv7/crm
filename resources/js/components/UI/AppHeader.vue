@@ -21,19 +21,17 @@
 </template>
 
 <script>
-import axios from "axios";
+import {onMounted} from "vue";
 import {useRouter} from "vue-router";
+import axios from "axios";
+import useApp from "../../composition/app";
 
 export default {
   name: 'AppHeader',
 
-  props: {
-    activeUser: Object
-  },
-
   setup(props, {emit}) {
-
     const router = useRouter()
+    const {activeUser, getActiveUser} = useApp()
     const postLogout = async () => {
       await axios.post('/logout').then(() => {
         emit('unauthenticated')
@@ -41,7 +39,10 @@ export default {
       })
     }
 
+    onMounted(getActiveUser)
+
     return {
+      activeUser,
       postLogout
     }
   }

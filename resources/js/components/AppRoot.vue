@@ -1,13 +1,13 @@
 <template>
-  <SidebarMenu v-if="activeUser.name"/>
+  <SidebarMenu v-if="authCheck"/>
   <div class="c-wrapper">
-    <AppHeader v-if="activeUser.name" :activeUser="activeUser" @unauthenticated="activeUser = {}"/>
-    <router-view @authenticated="getActiveUser"/>
+    <AppHeader v-if="authCheck" @unauthenticated="getAuthCheck"/>
+    <router-view @authenticated="getAuthCheck"/>
   </div>
 </template>
 
 <script>
-import {onMounted} from "vue";
+import {onBeforeMount} from "vue";
 import useApp from "../composition/app";
 import SidebarMenu from "./UI/SidebarMenu"
 import AppHeader from "./UI/AppHeader"
@@ -19,13 +19,13 @@ export default {
   },
 
   setup() {
-    const {activeUser, getActiveUser, redirectUnauthenticatedToLogin} = useApp()
+    const {authCheck, getAuthCheck, redirectUnauthenticatedToLogin} = useApp()
 
-    onMounted([redirectUnauthenticatedToLogin, getActiveUser])
+    onBeforeMount(redirectUnauthenticatedToLogin)
 
     return {
-      activeUser,
-      getActiveUser
+      authCheck,
+      getAuthCheck
     }
   }
 }

@@ -15,7 +15,10 @@ export default function useApp() {
 
     const getAuthCheck = async () => {
         const response = await axios.get('/api/v1/get-auth-check')
-        authCheck.value = response.data
+        if (response.data == 1)
+            authCheck.value = true
+        else
+            authCheck.value = false
     }
 
     const redirectUnauthenticatedToLogin = async () => {

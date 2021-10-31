@@ -29,7 +29,6 @@
               User list
             </router-link>
           </li>
-          @can('create', \App\Models\User::class)
           <li class="c-sidebar-nav-item">
             <router-link
                 class="c-sidebar-nav-link"
@@ -39,7 +38,6 @@
               Add user
             </router-link>
           </li>
-          @endcan
           <li class="c-sidebar-nav-item">
             <router-link
                 class="c-sidebar-nav-link"
@@ -66,7 +64,6 @@
               Client list
             </router-link>
           </li>
-          @can('create', \App\Models\Client::class)
           <li class="c-sidebar-nav-item">
             <router-link
                 class="c-sidebar-nav-link"
@@ -76,7 +73,6 @@
               Add client
             </router-link>
           </li>
-          @endcan
           <li class="c-sidebar-nav-item">
             <router-link
                 class="c-sidebar-nav-link"
@@ -103,7 +99,6 @@
               Project list
             </router-link>
           </li>
-          @can('create', \App\Models\Project::class)
           <li class="c-sidebar-nav-item">
             <router-link
                 class="c-sidebar-nav-link"
@@ -113,7 +108,6 @@
               Add project
             </router-link>
           </li>
-          @endcan
           <li class="c-sidebar-nav-item">
             <router-link
                 class="c-sidebar-nav-link"
@@ -137,14 +131,12 @@
               Task list
             </a>
           </li>
-          @can('create', \App\Models\Task::class)
           <li class="c-sidebar-nav-item">
             <a class="c-sidebar-nav-link" href="/task/create">
               <i class="c-sidebar-nav-icon cil-plus"></i>
               Add task
             </a>
           </li>
-          @endcan
           <li class="c-sidebar-nav-item">
             <a class="c-sidebar-nav-link" href="/task/deleted">
               <i class="c-sidebar-nav-icon cil-minus"></i>

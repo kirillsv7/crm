@@ -64,7 +64,6 @@ export default {
   name: 'LoginForm',
 
   setup(props, {emit}) {
-
     const router = useRouter()
     const {redirectAuthenticatedToDashboard} = useApp()
     const login = {}
