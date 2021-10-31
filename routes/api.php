@@ -21,29 +21,35 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group([
-    'prefix'     => 'v1',
-    'middleware' => 'auth:sanctum',
+    'prefix' => 'v1',
 ], function () {
-    Route::get('user/deleted', [UserController::class, 'deleted'])->name('user.deleted');
-    Route::post('user/{user}', [UserController::class, 'restore'])->name('user.restore');
+    Route::get('get-active-user', fn() => Auth::user())->name('getActiveUser');
+    Route::get('get-auth-check', fn() => Auth::check())->name('getAuthCheck');
 
-    Route::get('client/deleted', [ClientController::class, 'deleted'])->name('client.deleted');
-    Route::post('client/{client}', [ClientController::class, 'restore'])->name('client.restore');
+    Route::group([
+        'middleware' => 'auth:sanctum',
+    ], function () {
+        Route::get('user/deleted', [UserController::class, 'deleted'])->name('user.deleted');
+        Route::post('user/{user}', [UserController::class, 'restore'])->name('user.restore');
 
-    Route::get('project/deleted', [ProjectController::class, 'deleted'])->name('project.deleted');
-    Route::post('project/{project}', [ProjectController::class, 'restore'])->name('project.restore');
-    Route::get('project/statuses', [ProjectController::class, 'statuses'])->name('project.statuses');
+        Route::get('client/deleted', [ClientController::class, 'deleted'])->name('client.deleted');
+        Route::post('client/{client}', [ClientController::class, 'restore'])->name('client.restore');
 
-    Route::post('task/add-response', [TaskController::class, 'addResponse'])->name('task.add-response');
-    Route::get('task/deleted', [TaskController::class, 'deleted'])->name('task.deleted');
-    Route::post('task/{task}', [TaskController::class, 'restore'])->name('task.restore');
+        Route::get('project/deleted', [ProjectController::class, 'deleted'])->name('project.deleted');
+        Route::post('project/{project}', [ProjectController::class, 'restore'])->name('project.restore');
+        Route::get('project/statuses', [ProjectController::class, 'statuses'])->name('project.statuses');
 
-    Route::apiResources([
-        'user'    => UserController::class,
-        'client'  => ClientController::class,
-        'project' => ProjectController::class,
-        'task'    => TaskController::class,
-    ]);
+        Route::post('task/add-response', [TaskController::class, 'addResponse'])->name('task.add-response');
+        Route::get('task/deleted', [TaskController::class, 'deleted'])->name('task.deleted');
+        Route::post('task/{task}', [TaskController::class, 'restore'])->name('task.restore');
 
-    Route::apiResource('response', ResponseController::class)->only('destroy');
+        Route::apiResources([
+            'user'    => UserController::class,
+            'client'  => ClientController::class,
+            'project' => ProjectController::class,
+            'task'    => TaskController::class,
+        ]);
+
+        Route::apiResource('response', ResponseController::class)->only('destroy');
+    });
 });

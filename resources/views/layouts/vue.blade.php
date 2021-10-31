@@ -8,19 +8,8 @@
     <title>{{ isset($title) ? $title . ' :: ' . config('app.name', 'Laravel') : config('app.name', 'Laravel') }}</title>
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="c-app">
-    <div id="app" class="w-100">
-        @auth
-            @include('partials.vue-sidebar')
-        @endauth
-        <div class="c-wrapper c-fixed-components">
-            @auth
-                @include('partials.header')
-            @endauth
-            <router-view/>
-        </div>
-    </div>
+<body>
+    <div id="app" class="c-app"></div>
     <script src="{{ mix('js/app.js') }}" defer></script>
-    @stack('scripts')
 </body>
 </html>

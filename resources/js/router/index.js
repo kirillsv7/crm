@@ -1,5 +1,9 @@
 import {createRouter, createWebHistory} from "vue-router";
 
+import DashboardPage from "../components/DashboardPage"
+
+import LoginForm from "../components/Auth/LoginForm";
+
 import UserIndex from '../components/User/UserIndex'
 import UserCreate from '../components/User/UserCreate'
 import UserEdit from '../components/User/UserEdit'
@@ -16,6 +20,16 @@ import ProjectEdit from '../components/Project/ProjectEdit'
 import ProjectDeleted from '../components/Project/ProjectDeleted'
 
 const routes = [
+    {
+        path: '/',
+        name: 'dashboard',
+        component: DashboardPage
+    },
+    {
+        path: '/login',
+        name: 'auth.login',
+        component: LoginForm
+    },
     {
         path: '/user',
         name: 'user.index',

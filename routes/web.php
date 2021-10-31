@@ -24,11 +24,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes([
+/*Auth::routes([
     'register' => false,
     'verify'   => true,
-]);
+]);*/
 
+Route::view('/{any}', 'layouts.vue')->where('any', '.*');
+
+/*
 Route::get('/email/verify', function () {
     return view('auth.verify');
 })->middleware('auth')->name('verification.notice');
@@ -48,7 +51,7 @@ Route::group([
     'middleware' => ['auth', 'verified'],
 ], function () {
 
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    //Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     //Route::get('user/deleted', [UserController::class, 'deleted'])->name('user.deleted');
     //Route::post('user/{user}', [UserController::class, 'restore'])->name('user.restore');
@@ -84,10 +87,11 @@ Route::group([
 
 Route::fallback(function () {
     if (Auth::guest()) {
-        return response()->redirectTo(\route('login'));
+        return response()->redirectTo('/login');
     }
 
     return response()
         ->view('errors.404')
         ->setStatusCode(404);
 });
+*/
