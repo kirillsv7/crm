@@ -1,27 +1,36 @@
 <template>
-  <div class="container-fluid my-3">
-    <div class="row">
-      <div class="col-12">
-        <div class="card m-0">
-          <div class="card-header d-flex flex-wrap align-items-center justify-content-between">
-            Project deleted
-          </div>
-          <div class="card-body">
-            <ProjectTable :projects="projectsDeleted" :recover-project="recoverProject"/>
-          </div>
-          <div class="card-footer">
-            <div class="d-flex justify-content-center">
-              <PaginationElement :pagination="pagination"/>
+  <div class="position-relative">
+    <div class="container-fluid my-3">
+      <div class="row">
+        <div class="col-12">
+          <div class="card m-0">
+            <div class="card-header d-flex flex-wrap align-items-center justify-content-between">
+              Project deleted
+            </div>
+            <div class="card-body">
+              <ProjectTable :projects="projectsDeleted" :recover-project="recoverProject"/>
+            </div>
+            <div class="card-footer">
+              <div class="d-flex justify-content-center">
+                <PaginationElement :pagination="pagination"/>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="alert alert-success position-absolute shadow text-center"
+         style="top: 2rem; left: 50%; transform: translateX(-50%)"
+         role="alert"
+         v-if="restored"
+    >
+      Project restored!
+    </div>
   </div>
 </template>
 
 <script>
-import {onMounted, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router";
 import useProject from "../../composition/project";
 import ProjectTable from "./ProjectTable"
@@ -36,6 +45,7 @@ export default {
   },
 
   setup() {
+    const restored = ref(false)
     const route = useRoute()
     const {projectsDeleted, pagination, getProjectsDeleted, restoreProject} = useProject()
 
@@ -46,6 +56,10 @@ export default {
 
       await restoreProject(id);
       await getProjectsDeleted();
+
+      restored.value = true
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      restored.value = false
     }
 
     onMounted(getProjectsDeleted)
@@ -56,6 +70,7 @@ export default {
     )
 
     return {
+      restored,
       projectsDeleted,
       pagination,
       recoverProject
