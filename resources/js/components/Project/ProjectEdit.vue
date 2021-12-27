@@ -2,10 +2,6 @@
   <div class="container my-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
-        <div class="alert alert-success" role="alert" v-if="created || updated">
-          <template v-if="created">Project created!</template>
-          <template v-if="updated">Project updated!</template>
-        </div>
         <div class="card">
           <div class="card-header">Project edit</div>
           <div class="card-body">
@@ -95,13 +91,17 @@
             </form>
           </div>
         </div>
+        <div class="alert alert-success" role="alert" v-if="created || updated">
+          <template v-if="created">Project created!</template>
+          <template v-if="updated">Project updated!</template>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {onMounted} from "vue"
+import {onMounted, ref} from "vue"
 import useProject from "../../composition/project";
 import useClient from "../../composition/client";
 import useUser from "../../composition/user";
@@ -113,30 +113,40 @@ export default {
     id: {
       required: true,
       type: String
-    }
+    },
+    created: {
+      required: false,
+      type: Boolean,
+    },
   },
 
   setup(props) {
 
-    const {project, statuses, errors, created, updated, getProject, updateProject, getStatuses} = useProject()
+    const created = ref(props.created)
+    const updated = ref(false)
+
+    const {project, statuses, errors, getProject, updateProject, getStatuses} = useProject()
     const {clients, getClients} = useClient()
     const {users, getUsers} = useUser()
 
     const saveProject = async () => {
+      created.value = false
+      updated.value = false
       await updateProject(props.id)
+      updated.value = true
     }
 
     onMounted([getProject(props.id), getStatuses, getClients, getUsers])
 
     return {
+      created,
+      updated,
       project,
       statuses,
       clients,
       users,
       errors,
-      created,
-      updated,
-      saveProject
+      saveProject,
     }
   }
 }

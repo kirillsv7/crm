@@ -12,9 +12,6 @@ export default function useProject() {
     const projectsDeleted = ref({})
     const statuses = ref({})
     const errors = ref({})
-    const created = ref(false)
-    const updated = ref(false)
-    const deleted = ref(false)
 
     const getProjects = async () => {
         let response = await axios.get('/api/v1/project', {
@@ -35,8 +32,13 @@ export default function useProject() {
         errors.value = {}
         try {
             const response = await axios.post('/api/v1/project', project)
-            created.value = true
-            await router.push({name: 'project.edit', params: {id: response.data.data.id}})
+            await router.push({
+                name: 'project.edit',
+                params: {
+                    id: response.data.data.id,
+                    created: true
+                }
+            })
         } catch (e) {
             if (e.response.status === 422) {
                 errors.value = e.response.data.errors
@@ -46,10 +48,8 @@ export default function useProject() {
 
     const updateProject = async (id) => {
         errors.value = {}
-        updated.value = false
         try {
             await axios.put(`/api/v1/project/${id}`, project.value)
-            updated.value = true
         } catch (e) {
             if (e.response.status === 422) {
                 errors.value = e.response.data.errors
@@ -87,9 +87,6 @@ export default function useProject() {
         projectsDeleted,
         statuses,
         errors,
-        created,
-        updated,
-        deleted,
         getProjects,
         getProject,
         storeProject,
