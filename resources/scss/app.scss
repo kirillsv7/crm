@@ -2,20 +2,23 @@
 @import "~@coreui/icons/css/free.css";
 @import "~dropzone/dist/dropzone.css";
 
-.pagination{
-    margin-bottom: 0;
+.pagination {
+  margin-bottom: 0;
 }
 
-.dropzone{
-    min-height: auto;
+.dropzone {
+  min-height: auto;
 }
 
-.fade-vertical-enter-from,
-.fade-vertical-leave-to{
+.fade-vertical {
+  &-enter-from,
+  &-leave-to {
     opacity: 0;
     transform: translateY(-50px);
-}
-.fade-vertical-enter-active,
-.fade-vertical-leave-active{
+  }
+
+  &-enter-active,
+  &-leave-active {
     transition: all 500ms ease;
+  }
 }

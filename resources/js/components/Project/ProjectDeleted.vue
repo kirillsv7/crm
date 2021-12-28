@@ -1,30 +1,31 @@
 <template>
-  <div class="position-relative">
-    <div class="container-fluid my-3">
-      <div class="row">
-        <div class="col-12">
-          <div class="card m-0">
-            <div class="card-header d-flex flex-wrap align-items-center justify-content-between">
-              Project deleted
-            </div>
-            <div class="card-body">
-              <ProjectTable :projects="projectsDeleted" :recover-project="recoverProject"/>
-            </div>
-            <div class="card-footer">
-              <div class="d-flex justify-content-center">
-                <PaginationElement :pagination="pagination"/>
-              </div>
+  <div class="position-relative d-flex justify-content-center">
+    <transition name="fade-vertical">
+      <div class="alert alert-success position-absolute shadow text-center"
+           style="top: 2rem; z-index: 1;"
+           role="alert"
+           v-if="restored">
+        Project restored!
+      </div>
+    </transition>
+  </div>
+  <div class="container-fluid my-3">
+    <div class="row">
+      <div class="col-12">
+        <div class="card m-0">
+          <div class="card-header d-flex flex-wrap align-items-center justify-content-between">
+            Project deleted
+          </div>
+          <div class="card-body">
+            <ProjectTable :projects="projectsDeleted" :recover-project="recoverProject"/>
+          </div>
+          <div class="card-footer">
+            <div class="d-flex justify-content-center">
+              <PaginationElement :pagination="pagination"/>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="alert alert-success position-absolute shadow text-center"
-         style="top: 2rem; left: 50%; transform: translateX(-50%)"
-         role="alert"
-         v-if="restored"
-    >
-      Project restored!
     </div>
   </div>
 </template>

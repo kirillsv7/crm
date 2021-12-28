@@ -1,4 +1,15 @@
 <template>
+  <div class="position-relative d-flex justify-content-center">
+    <transition name="fade-vertical">
+      <div class="alert alert-success position-absolute shadow text-center"
+           style="top: 2rem; z-index: 1;"
+           role="alert"
+           v-if="created || updated">
+        <template v-if="created">Project created!</template>
+        <template v-if="updated">Project updated!</template>
+      </div>
+    </transition>
+  </div>
   <div class="container my-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -91,10 +102,6 @@
             </form>
           </div>
         </div>
-        <div class="alert alert-success" role="alert" v-if="created || updated">
-          <template v-if="created">Project created!</template>
-          <template v-if="updated">Project updated!</template>
-        </div>
       </div>
     </div>
   </div>
@@ -122,7 +129,7 @@ export default {
 
   setup(props) {
 
-    const created = ref(props.created)
+    const created = ref(false)
     const updated = ref(false)
 
     const {project, statuses, errors, getProject, updateProject, getStatuses} = useProject()
@@ -130,13 +137,21 @@ export default {
     const {users, getUsers} = useUser()
 
     const saveProject = async () => {
-      created.value = false
-      updated.value = false
       await updateProject(props.id)
       updated.value = true
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      updated.value = false
     }
 
-    onMounted([getProject(props.id), getStatuses, getClients, getUsers])
+    const toggleCreatedAlert = async () => {
+      if (props.created) {
+        created.value = true
+        await new Promise(resolve => setTimeout(resolve, 2000))
+        created.value = false
+      }
+    }
+
+    onMounted([getProject(props.id), getStatuses, getClients, getUsers, toggleCreatedAlert])
 
     return {
       created,
