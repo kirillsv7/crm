@@ -1,14 +1,5 @@
 <template>
-  <div class="position-relative d-flex justify-content-center">
-    <transition name="fade-vertical">
-      <div class="alert alert-success position-absolute shadow text-center"
-           style="top: 2rem; z-index: 1;"
-           role="alert"
-           v-if="restored">
-        Project restored!
-      </div>
-    </transition>
-  </div>
+  <CrudAlert :crudEvent="crudEvent">Project restored!</CrudAlert>
   <div class="container-fluid my-3">
     <div class="row">
       <div class="col-12">
@@ -36,31 +27,28 @@ import {useRoute} from "vue-router";
 import useProject from "../../composition/project";
 import ProjectTable from "./ProjectTable"
 import PaginationElement from "../UI/PaginationElement"
+import CrudAlert from "../UI/CrudAlert";
 
 export default {
   name: 'ProjectDeleted',
 
   components: {
     ProjectTable,
-    PaginationElement
+    PaginationElement,
+    CrudAlert
   },
 
   setup() {
-    const restored = ref(false)
+    const crudEvent = ref(null)
     const route = useRoute()
     const {projectsDeleted, pagination, getProjectsDeleted, restoreProject} = useProject()
 
     const recoverProject = async (id) => {
-      if (!window.confirm('Are you sure you want to restore?')) {
-        return
-      }
-
+      crudEvent.value = null
+      if (!window.confirm('Are you sure you want to restore?')) return
       await restoreProject(id);
       await getProjectsDeleted();
-
-      restored.value = true
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      restored.value = false
+      crudEvent.value = 'restored'
     }
 
     onMounted(getProjectsDeleted)
@@ -71,7 +59,7 @@ export default {
     )
 
     return {
-      restored,
+      crudEvent,
       projectsDeleted,
       pagination,
       recoverProject

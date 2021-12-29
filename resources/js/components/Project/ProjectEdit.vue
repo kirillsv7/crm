@@ -1,15 +1,6 @@
 <template>
-  <div class="position-relative d-flex justify-content-center">
-    <transition name="fade-vertical">
-      <div class="alert alert-success position-absolute shadow text-center"
-           style="top: 2rem; z-index: 1;"
-           role="alert"
-           v-if="created || updated">
-        <template v-if="created">Project created!</template>
-        <template v-if="updated">Project updated!</template>
-      </div>
-    </transition>
-  </div>
+  <CrudAlert :crudEvent="created">Project created!</CrudAlert>
+  <CrudAlert :crudEvent="updated">Project updated!</CrudAlert>
   <div class="container my-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -112,9 +103,14 @@ import {onMounted, ref} from "vue"
 import useProject from "../../composition/project";
 import useClient from "../../composition/client";
 import useUser from "../../composition/user";
+import CrudAlert from "../UI/CrudAlert";
 
 export default {
   name: 'ProjectEdit',
+
+  components: {
+    CrudAlert
+  },
 
   props: {
     id: {
@@ -129,25 +125,22 @@ export default {
 
   setup(props) {
 
-    const created = ref(false)
-    const updated = ref(false)
+    const created = ref(null)
+    const updated = ref(null)
 
     const {project, statuses, errors, getProject, updateProject, getStatuses} = useProject()
     const {clients, getClients} = useClient()
     const {users, getUsers} = useUser()
 
     const saveProject = async () => {
+      updated.value = null
       await updateProject(props.id)
-      updated.value = true
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      updated.value = false
+      updated.value = 'updated'
     }
 
     const toggleCreatedAlert = async () => {
       if (props.created) {
-        created.value = true
-        await new Promise(resolve => setTimeout(resolve, 2000))
-        created.value = false
+        created.value = 'created'
       }
     }
 
@@ -161,7 +154,7 @@ export default {
       clients,
       users,
       errors,
-      saveProject,
+      saveProject
     }
   }
 }

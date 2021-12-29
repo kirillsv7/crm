@@ -9,16 +9,3 @@
 .dropzone {
   min-height: auto;
 }
-
-.fade-vertical {
-  &-enter-from,
-  &-leave-to {
-    opacity: 0;
-    transform: translateY(-50px);
-  }
-
-  &-enter-active,
-  &-leave-active {
-    transition: all 500ms ease;
-  }
-}
