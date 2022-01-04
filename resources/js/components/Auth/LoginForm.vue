@@ -2,24 +2,24 @@
   <div class="container my-auto">
     <div class="row justify-content-center">
       <div class="col-md-8">
+
         <div class="card">
           <div class="card-header">Login</div>
-
           <div class="card-body">
-
-            <div class="alert alert-danger" role="alert" v-if="Object.keys(errors).length">
-              <template v-for="(error, field) in errors" :key="field">
-                {{ error[0] }}<br>
-              </template>
-            </div>
-
             <form id="login-form" @submit.prevent="postLogin">
 
               <div class="form-group row">
                 <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail</label>
                 <div class="col-md-6">
-                  <input class="form-control" name="email" type="email" autocomplete="email" autofocus
-                         v-model="login.email">
+                  <input class="form-control" name="email" type="email" autocomplete="email"
+                         :class="{'is-invalid': errors.email}"
+                         v-model="login.email"
+                  >
+                  <div class="invalid-feedback" v-if="errors.email">
+                    <template v-for="error in errors.email">
+                      {{ error }}
+                    </template>
+                  </div>
                 </div>
               </div>
 
@@ -27,7 +27,13 @@
                 <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
                 <div class="col-md-6">
                   <input class="form-control" name="password" type="password" autocomplete="current-password"
+                         :class="{'is-invalid': errors.password}"
                          v-model="login.password">
+                  <div class="invalid-feedback" v-if="errors.password">
+                    <template v-for="error in errors.password">
+                      {{ error }}
+                    </template>
+                  </div>
                 </div>
               </div>
 
@@ -43,35 +49,34 @@
               <div class="form-group row mb-0">
                 <div class="col-md-8 offset-md-4">
                   <button type="submit" class="btn btn-primary">Login</button>
-
                   <a class="btn btn-link" href="#">Forgot Your Password?</a>
                 </div>
               </div>
+
             </form>
           </div>
         </div>
+
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {onBeforeMount, ref} from "vue";
+import {onMounted, ref} from "vue";
 import {useRouter} from "vue-router";
-import useApp from "../../composition/app";
 
 export default {
   name: 'LoginForm',
 
   setup(props, {emit}) {
     const router = useRouter()
-    const {redirectAuthenticatedToDashboard} = useApp()
     const login = {}
     const errors = ref({})
 
     const postLogin = async () => {
       await axios.get('/sanctum/csrf-cookie').then(async () => {
-        await axios.post('login', {...login}).then(function () {
+        await axios.post('/login', {...login}).then(function () {
           emit('authenticated')
           router.push({name: 'dashboard'})
         }).catch(function (e) {
@@ -79,8 +84,6 @@ export default {
         })
       })
     }
-
-    onBeforeMount(redirectAuthenticatedToDashboard)
 
     return {
       login,

@@ -26,11 +26,6 @@ const routes = [
         component: DashboardPage
     },
     {
-        path: '/login',
-        name: 'auth.login',
-        component: LoginForm
-    },
-    {
         path: '/user',
         name: 'user.index',
         component: UserIndex

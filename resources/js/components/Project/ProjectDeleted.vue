@@ -8,7 +8,7 @@
             Project deleted
           </div>
           <div class="card-body">
-            <ProjectTable :projects="projectsDeleted" :recover-project="recoverProject"/>
+            <ProjectTable :projects="projectsDeleted" :recoverProject="recoverProject"/>
           </div>
           <div class="card-footer">
             <div class="d-flex justify-content-center">
@@ -39,12 +39,12 @@ export default {
   },
 
   setup() {
-    const crudEvent = ref(null)
+    const crudEvent = ref('')
     const route = useRoute()
     const {projectsDeleted, pagination, getProjectsDeleted, restoreProject} = useProject()
 
     const recoverProject = async (id) => {
-      crudEvent.value = null
+      crudEvent.value = ''
       if (!window.confirm('Are you sure you want to restore?')) return
       await restoreProject(id);
       await getProjectsDeleted();

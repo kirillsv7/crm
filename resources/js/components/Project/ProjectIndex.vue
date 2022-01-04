@@ -8,7 +8,7 @@
             Project list
           </div>
           <div class="card-body">
-            <ProjectTable :projects="projects" :delete-project="deleteProject"/>
+            <ProjectTable :projects="projects" :deleteProject="deleteProject"/>
           </div>
           <div class="card-footer">
             <div class="d-flex justify-content-center">
@@ -39,12 +39,12 @@ export default {
   },
 
   setup() {
-    const crudEvent = ref(null)
+    const crudEvent = ref('')
     const route = useRoute()
     const {projects, pagination, getProjects, destroyProject} = useProject()
 
     const deleteProject = async (id) => {
-      crudEvent.value = null
+      crudEvent.value = ''
       if (!window.confirm('Are you sure you want to delete?')) return
       await destroyProject(id);
       await getProjects();

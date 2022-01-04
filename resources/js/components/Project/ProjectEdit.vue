@@ -1,6 +1,5 @@
 <template>
-  <CrudAlert :crudEvent="created">Project created!</CrudAlert>
-  <CrudAlert :crudEvent="updated">Project updated!</CrudAlert>
+  <CrudAlert :crudEvent="crudEvent" :alertType="alertType">{{ crudEventText }}</CrudAlert>
   <div class="container my-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -125,30 +124,41 @@ export default {
 
   setup(props) {
 
-    const created = ref(null)
-    const updated = ref(null)
+    const crudEvent = ref('')
+    const crudEventText = ref(null)
+    const alertType = ref(null)
 
     const {project, statuses, errors, getProject, updateProject, getStatuses} = useProject()
     const {clients, getClients} = useClient()
     const {users, getUsers} = useUser()
 
     const saveProject = async () => {
-      updated.value = null
+      crudEvent.value = null
       await updateProject(props.id)
-      updated.value = 'updated'
+      if (Object.keys(errors.value).length === 0) {
+        crudEvent.value = 'updated'
+        crudEventText.value = 'Project updated!'
+        alertType.value = null
+      }else{
+        crudEvent.value = 'error'
+        crudEventText.value = 'Check fields!'
+        alertType.value = 'danger'
+      }
     }
 
     const toggleCreatedAlert = async () => {
       if (props.created) {
-        created.value = 'created'
+        crudEvent.value = 'created'
+        crudEventText.value = 'Project created!'
       }
     }
 
     onMounted([getProject(props.id), getStatuses, getClients, getUsers, toggleCreatedAlert])
 
     return {
-      created,
-      updated,
+      crudEvent,
+      crudEventText,
+      alertType,
       project,
       statuses,
       clients,

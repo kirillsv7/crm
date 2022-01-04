@@ -31,10 +31,9 @@ export default {
 
     const event = ref(null)
 
-    const processEvent = async () => {
+    const processEvent = () => {
       event.value = props.crudEvent
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      event.value = null
+      setTimeout(() => event.value = null, 2000)
     }
 
     onUpdated([processEvent])
@@ -53,18 +52,5 @@ export default {
 
 .alert {
   top: 2rem;
-}
-
-.fade-vertical {
-  &-enter-from,
-  &-leave-to {
-    opacity: 0;
-    transform: translateY(-50px);
-  }
-
-  &-enter-active,
-  &-leave-active {
-    transition: all 500ms ease;
-  }
 }
 </style>
