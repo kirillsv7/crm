@@ -35,7 +35,7 @@ export default {
     const postLogout = async () => {
       await axios.post('/logout').then(() => {
         emit('unauthenticated')
-        router.push({name: 'dashboard'})
+        router.push({name: 'auth.login'})
       })
     }
 

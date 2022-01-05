@@ -1,30 +1,27 @@
 <template>
   <SidebarMenu v-if="authCheck"/>
-  <div class="c-wrapper" v-if="authCheck">
-    <AppHeader @unauthenticated="getAuthCheck()"/>
-    <router-view/>
+  <div class="c-wrapper">
+    <AppHeader v-if="authCheck" @unauthenticated="getAuthCheck"/>
+    <router-view @authenticated="getAuthCheck"/>
   </div>
-  <LoginForm v-if="!authCheck" @authenticated="getAuthCheck()"/>
 </template>
 
 <script>
 import {onBeforeMount} from "vue";
 import useApp from "../composition/app";
-import LoginForm from "./Auth/LoginForm";
 import SidebarMenu from "./UI/SidebarMenu"
 import AppHeader from "./UI/AppHeader"
 
 export default {
   components: {
-    LoginForm,
     SidebarMenu,
     AppHeader
   },
 
   setup() {
-    const {authCheck, getAuthCheck} = useApp()
+    const {authCheck, getAuthCheck, redirectUnauthenticatedToLogin} = useApp()
 
-    onBeforeMount(getAuthCheck)
+    onBeforeMount(redirectUnauthenticatedToLogin)
 
     return {
       authCheck,

@@ -1,5 +1,5 @@
 import {ref} from "vue"
-import {useRoute, useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router"
 import axios from "axios"
 
 export default function useProject() {

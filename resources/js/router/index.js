@@ -21,6 +21,11 @@ import ProjectDeleted from '../components/Project/ProjectDeleted'
 
 const routes = [
     {
+        path: '/login',
+        name: 'auth.login',
+        component: LoginForm
+    },
+    {
         path: '/',
         name: 'dashboard',
         component: DashboardPage
