@@ -11,7 +11,7 @@
               <div class="form-group row">
                 <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail</label>
                 <div class="col-md-6">
-                  <input class="form-control" name="email" type="email" autocomplete="email" autofocus
+                  <input class="form-control" name="email" type="email" autocomplete="email"
                          :class="{'is-invalid': errors.email}"
                          v-model="login.email">
                   <div class="invalid-feedback" v-if="errors.email">
@@ -63,14 +63,10 @@
 </template>
 
 <script>
-import {onBeforeMount, ref} from "vue";
-import {useRouter} from "vue-router";
-import useApp from "../../composition/app";
+import {ref} from "vue";
 
 export default {
   setup(props, {emit}) {
-    const router = useRouter()
-    const {redirectAuthenticatedToDashboard} = useApp()
     const login = {}
     const errors = ref({})
 
@@ -78,19 +74,16 @@ export default {
       await axios.get('/sanctum/csrf-cookie').then(async () => {
         await axios.post('/login', {...login}).then(function () {
           emit('authenticated')
-          router.push({name: 'dashboard'})
         }).catch(function (e) {
           errors.value = e.response.data.errors
         })
       })
     }
 
-    onBeforeMount(redirectAuthenticatedToDashboard)
-
     return {
       login,
-      postLogin,
-      errors
+      errors,
+      postLogin
     }
   }
 }

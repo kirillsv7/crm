@@ -1,6 +1,5 @@
 import {createRouter, createWebHistory} from "vue-router";
 
-import Login from "../views/Auth/Login";
 import Dashboard from "../views/Dashboard"
 
 import UserIndex from '../views/User/Index'
@@ -19,11 +18,6 @@ import ProjectEdit from '../views/Project/Edit'
 import ProjectDeleted from '../views/Project/Deleted'
 
 const routes = [
-    {
-        path: '/login',
-        name: 'auth.login',
-        component: Login
-    },
     {
         path: '/',
         name: 'dashboard',
