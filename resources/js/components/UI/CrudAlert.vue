@@ -36,7 +36,7 @@ export default {
       setTimeout(() => event.value = null, 2000)
     }
 
-    onUpdated([processEvent])
+    onUpdated(processEvent)
 
     return {
       event
