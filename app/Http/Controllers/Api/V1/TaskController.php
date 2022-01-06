@@ -124,6 +124,10 @@ class TaskController extends Controller
         return response()->json(['message' => 'Task restored']);
     }
 
+    public function statuses(){
+        return response()->json(['data' => Task::$statuses]);
+    }
+
     /**
      * @param  AddResponseToTaskRequest  $request
      * @param  TaskService  $service

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUpdateProjectRequest;
+use App\Http\Resources\V1\ProjectListResource;
 use App\Http\Resources\V1\ProjectResource;
 use App\Models\Project;
 use App\Services\ProjectService;
@@ -117,7 +118,17 @@ class ProjectController extends Controller
         return response()->json(['message' => 'Project restored']);
     }
 
-    public function statuses(){
+    public function statuses()
+    {
         return response()->json(['data' => Project::$statuses]);
+    }
+
+    public function list()
+    {
+        return ProjectListResource::collection(
+            Project::select(['id', 'title'])
+                   ->without(['client', 'user'])
+                   ->get()
+        );
     }
 }

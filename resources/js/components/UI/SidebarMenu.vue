@@ -96,24 +96,32 @@
         </router-link>
       </li>
       <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" href="/task">
+        <router-link
+            class="c-sidebar-nav-link"
+            :class="{'c-active': this.$route.name == 'task.index'}"
+            :to="{name:'task.index'}">
           <i class="c-sidebar-nav-icon cil-list-rich"></i>
           Tasks
-        </a>
+        </router-link>
       </li>
       <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" href="/task/create">
+        <router-link
+            class="c-sidebar-nav-link"
+            :class="{'c-active': this.$route.name == 'task.create'}"
+            :to="{name:'task.create'}">
           <i class="c-sidebar-nav-icon cil-plus"></i>
           Add task
-        </a>
+        </router-link>
       </li>
       <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" href="/task/deleted">
+        <router-link
+            class="c-sidebar-nav-link"
+            :class="{'c-active': this.$route.name == 'task.deleted'}"
+            :to="{name:'task.deleted'}">
           <i class="c-sidebar-nav-icon cil-minus"></i>
           Deleted tasks
-        </a>
+        </router-link>
       </li>
-      <i class="cis-playlist-add-check"></i>
     </ul>
     <button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent"
             data-class="c-sidebar-minimized">

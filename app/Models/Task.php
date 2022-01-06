@@ -84,19 +84,8 @@ class Task extends Model implements HasMedia
         return self::$statuses[$this->status_id];
     }
 
-    public function getCreatedAtAttribute($created_at)
-    {
-        return Carbon::parse($created_at)->format('d/m/Y H:i:s');
-    }
-
-    public function getUpdatedAtAttribute($updated_at)
-    {
-        return Carbon::parse($updated_at)->format('d/m/Y H:i:s');
-    }
-
-    public function getDeletedAtAttribute($deleted_at)
-    {
-        return Carbon::parse($deleted_at)->format('d/m/Y H:i:s');
+    public function getDeletedAttribute(){
+        return $this->deleted_at !== null;
     }
 
     public function registerMediaConversions(Media $media = null): void

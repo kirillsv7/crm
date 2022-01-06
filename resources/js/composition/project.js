@@ -7,6 +7,7 @@ export default function useProject() {
     const route = useRoute()
     const router = useRouter()
     const projects = ref({})
+    const projectList = ref({})
     const pagination = ref({})
     const project = ref({
         'title': '',
@@ -28,6 +29,11 @@ export default function useProject() {
         })
         projects.value = response.data.data
         pagination.value = response.data.meta
+    }
+
+    const getProjectList = async () => {
+        let response = await axios.get('/api/v1/project/list')
+        projectList.value = response.data.data
     }
 
     const getProject = async (id) => {
@@ -89,12 +95,14 @@ export default function useProject() {
 
     return {
         projects,
+        projectList,
         pagination,
         project,
         projectsDeleted,
         statuses,
         errors,
         getProjects,
+        getProjectList,
         getProject,
         storeProject,
         updateProject,

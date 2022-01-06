@@ -17,12 +17,18 @@ import ProjectCreate from '../views/Project/Create'
 import ProjectEdit from '../views/Project/Edit'
 import ProjectDeleted from '../views/Project/Deleted'
 
+import TaskIndex from '../views/Task/Index'
+import TaskCreate from '../views/Task/Create'
+import TaskEdit from '../views/Task/Edit'
+import TaskDeleted from '../views/Task/Deleted'
+
 const routes = [
     {
         path: '/',
         name: 'dashboard',
         component: Dashboard
     },
+
     {
         path: '/user',
         name: 'user.index',
@@ -87,7 +93,29 @@ const routes = [
         path: '/project/deleted',
         name: 'project.deleted',
         component: ProjectDeleted
-    }
+    },
+
+    {
+        path: '/task',
+        name: 'task.index',
+        component: TaskIndex
+    },
+    {
+        path: '/task/create',
+        name: 'task.create',
+        component: TaskCreate
+    },
+    {
+        path: '/task/:id/edit',
+        name: 'task.edit',
+        component: TaskEdit,
+        props: true
+    },
+    {
+        path: '/task/deleted',
+        name: 'task.deleted',
+        component: TaskDeleted
+    },
 ]
 
 export default createRouter({
