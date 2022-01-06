@@ -1,4 +1,5 @@
 <template>
+  <CrudAlert :crudEvent="crudEvent" :alertType="alertType">{{ crudEventText }}</CrudAlert>
   <div class="container my-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -18,19 +19,24 @@
 </template>
 
 <script>
-import {reactive} from "vue"
+import {ref} from "vue"
 import useProject from "../../composition/project";
 import ProjectForm from "./ProjectForm";
+import CrudAlert from "../UI/CrudAlert";
 
 export default {
   name: 'ProjectCreate',
   components: {
-    ProjectForm
+    ProjectForm,
+    CrudAlert
   },
 
   setup() {
+    const crudEvent = ref('')
+    const crudEventText = ref(null)
+    const alertType = ref(null)
     const {errors, storeProject} = useProject()
-    const project = reactive({
+    const project = ref({
       'title': '',
       'description': '',
       'deadline': '',
@@ -40,10 +46,19 @@ export default {
     })
 
     const saveProject = async () => {
-      await storeProject({...project})
+      crudEvent.value = null
+      await storeProject({...project.value})
+      if (Object.keys(errors.value).length !== 0) {
+        crudEvent.value = 'error'
+        crudEventText.value = 'Check fields!'
+        alertType.value = 'danger'
+      }
     }
 
     return {
+      crudEvent,
+      crudEventText,
+      alertType,
       project,
       errors,
       saveProject
