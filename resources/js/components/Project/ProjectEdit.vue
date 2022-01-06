@@ -68,7 +68,7 @@ export default {
       }
     }
 
-    onMounted([getProject(props.id), toggleCreatedAlert])
+    onMounted(() => {getProject(props.id), toggleCreatedAlert()})
 
     return {
       crudEvent,

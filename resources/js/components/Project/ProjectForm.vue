@@ -113,7 +113,7 @@ export default {
     const {clients, getClients} = useClient()
     const {users, getUsers} = useUser()
 
-    onMounted([getStatuses, getClients, getUsers])
+    onMounted(() => {getStatuses(), getClients(), getUsers()})
 
     return {
       clients,
