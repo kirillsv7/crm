@@ -18,7 +18,7 @@ export default {
 
   props: {
     crudEvent: {
-      required: true,
+      required: false,
       type: String,
     },
     alertType: {

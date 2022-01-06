@@ -19,8 +19,9 @@
 </template>
 
 <script>
-import {onMounted, ref} from "vue"
+import {onMounted} from "vue"
 import useProject from "../../composition/project";
+import useCrudAlert from "../../composition/crudalert";
 import ProjectForm from "../../components/Project/Form";
 import CrudAlert from "../../components/UI/CrudAlert";
 
@@ -41,10 +42,8 @@ export default {
   },
 
   setup(props) {
-    const crudEvent = ref('')
-    const crudEventText = ref(null)
-    const alertType = ref(null)
     const {project, errors, getProject, updateProject} = useProject()
+    const {crudEvent, crudEventText, alertType} = useCrudAlert()
 
     const saveProject = async () => {
       crudEvent.value = null
@@ -67,7 +66,10 @@ export default {
       }
     }
 
-    onMounted(() => {getProject(props.id), toggleCreatedAlert()})
+    onMounted(() => {
+      getProject(props.id)
+      toggleCreatedAlert()
+    })
 
     return {
       crudEvent,

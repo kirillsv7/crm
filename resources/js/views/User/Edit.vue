@@ -19,8 +19,9 @@
 </template>
 
 <script>
-import {onMounted, ref} from "vue";
+import {onMounted} from "vue";
 import useUser from "../../composition/user";
+import useCrudAlert from "../../composition/crudalert";
 import UserForm from "../../components/User/Form";
 import CrudAlert from "../../components/UI/CrudAlert";
 
@@ -41,10 +42,8 @@ export default {
   },
 
   setup(props) {
-    const crudEvent = ref('')
-    const crudEventText = ref(null)
-    const alertType = ref(null)
     const {user, errors, getUser, updateUser} = useUser()
+    const {crudEvent, crudEventText, alertType} = useCrudAlert()
 
     const saveUser = async () => {
       crudEvent.value = null

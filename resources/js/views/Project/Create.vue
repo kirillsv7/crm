@@ -21,6 +21,7 @@
 <script>
 import {ref} from "vue"
 import useProject from "../../composition/project";
+import useCrudAlert from "../../composition/crudalert";
 import ProjectForm from "../../components/Project/Form";
 import CrudAlert from "../../components/UI/CrudAlert";
 
@@ -31,10 +32,8 @@ export default {
   },
 
   setup() {
-    const crudEvent = ref('')
-    const crudEventText = ref(null)
-    const alertType = ref(null)
     const {errors, storeProject} = useProject()
+    const {crudEvent, crudEventText, alertType} = useCrudAlert()
     const project = ref({
       'title': '',
       'description': '',

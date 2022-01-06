@@ -21,6 +21,7 @@
 <script>
 import {ref} from "vue";
 import useUser from "../../composition/user";
+import useCrudAlert from "../../composition/crudalert";
 import UserForm from "../../components/User/Form";
 import CrudAlert from "../../components/UI/CrudAlert";
 
@@ -31,10 +32,8 @@ export default {
   },
 
   setup() {
-    const crudEvent = ref('')
-    const crudEventText = ref(null)
-    const alertType = ref(null)
     const {errors, storeUser} = useUser()
+    const {crudEvent, crudEventText, alertType} = useCrudAlert()
     const user = ref({
       'name': '',
       'email': '',

@@ -1,5 +1,5 @@
 <template>
-  <CrudAlert :crudEvent="crudEvent">Project deleted!</CrudAlert>
+  <CrudAlert :crudEvent="crudEvent" :alertType="alertType">{{ crudEventText }}</CrudAlert>
   <div class="container-fluid my-3">
     <div class="row">
       <div class="col-12">
@@ -20,9 +20,10 @@
 </template>
 
 <script>
-import {onMounted, ref, watch} from "vue";
+import {onMounted, watch} from "vue";
 import {useRoute} from "vue-router"
 import useProject from "../../composition/project";
+import useCrudAlert from "../../composition/crudalert";
 import ProjectTable from "../../components/Project/Table";
 import PaginationElement from "../../components/UI/PaginationElement";
 import CrudAlert from "../../components/UI/CrudAlert";
@@ -35,16 +36,18 @@ export default {
   },
 
   setup() {
-    const crudEvent = ref('')
     const route = useRoute()
     const {projects, pagination, getProjects, destroyProject} = useProject()
+    const {crudEvent, crudEventText, alertType} = useCrudAlert()
 
     const deleteProject = async (id) => {
-      crudEvent.value = ''
+      crudEvent.value = null
       if (!window.confirm('Are you sure you want to delete?')) return
       await destroyProject(id);
       await getProjects();
       crudEvent.value = 'deleted'
+      crudEventText.value = 'Project deleted!'
+      alertType.value = 'warning'
     }
 
     onMounted(getProjects)
@@ -56,6 +59,8 @@ export default {
 
     return {
       crudEvent,
+      crudEventText,
+      alertType,
       projects,
       pagination,
       deleteProject
