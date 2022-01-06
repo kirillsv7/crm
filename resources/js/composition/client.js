@@ -7,16 +7,10 @@ export default function useClient() {
     const route = useRoute()
     const router = useRouter()
     const clients = ref({})
-    const pagination = ref({
-        links: {},
-        meta: {}
-    })
+    const pagination = ref({})
     const client = ref({})
     const clientsDeleted = ref({})
     const errors = ref({})
-    const created = ref(false)
-    const updated = ref(false)
-    const deleted = ref(false)
 
     const getClients = async () => {
         let response = await axios.get('/api/v1/client', {
@@ -37,8 +31,13 @@ export default function useClient() {
         errors.value = {}
         try {
             const response = await axios.post('/api/v1/client', client)
-            created.value = true
-            await router.push({name: 'client.edit', params: {id: response.data.data.id}})
+            await router.push({
+                name: 'client.edit',
+                params: {
+                    id: response.data.data.id,
+                    created: true
+                }
+            })
         } catch (e) {
             if (e.response.status === 422) {
                 errors.value = e.response.data.errors
@@ -48,10 +47,8 @@ export default function useClient() {
 
     const updateClient = async (id) => {
         errors.value = {}
-        updated.value = false
         try {
             await axios.put(`/api/v1/client/${id}`, client.value)
-            updated.value = true
         } catch (e) {
             if (e.response.status === 422) {
                 errors.value = e.response.data.errors
@@ -83,9 +80,6 @@ export default function useClient() {
         client,
         clientsDeleted,
         errors,
-        created,
-        updated,
-        deleted,
         getClients,
         getClient,
         storeClient,
