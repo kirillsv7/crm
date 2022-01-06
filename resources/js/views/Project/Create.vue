@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
       <div class="col-md-8">
         <div class="card">
-          <div class="card-header">Project edit</div>
+          <div class="card-header">Project create</div>
           <div class="card-body">
             <ProjectForm
                 :project="project"
@@ -19,56 +19,40 @@
 </template>
 
 <script>
-import {onMounted, ref} from "vue"
+import {ref} from "vue"
 import useProject from "../../composition/project";
-import ProjectForm from "./ProjectForm";
-import CrudAlert from "../UI/CrudAlert";
+import ProjectForm from "../../components/Project/Form";
+import CrudAlert from "../../components/UI/CrudAlert";
 
 export default {
-  name: 'ProjectEdit',
   components: {
     ProjectForm,
     CrudAlert
   },
-  props: {
-    id: {
-      required: true,
-      type: String
-    },
-    created: {
-      required: false,
-      type: Boolean,
-    },
-  },
 
-  setup(props) {
+  setup() {
     const crudEvent = ref('')
     const crudEventText = ref(null)
     const alertType = ref(null)
-    const {project, errors, getProject, updateProject} = useProject()
+    const {errors, storeProject} = useProject()
+    const project = ref({
+      'title': '',
+      'description': '',
+      'deadline': '',
+      'client_id': '',
+      'user_id': '',
+      'status_id': ''
+    })
 
     const saveProject = async () => {
       crudEvent.value = null
-      await updateProject(props.id)
-      if (Object.keys(errors.value).length === 0) {
-        crudEvent.value = 'updated'
-        crudEventText.value = 'Project updated!'
-        alertType.value = null
-      } else {
+      await storeProject({...project.value})
+      if (Object.keys(errors.value).length !== 0) {
         crudEvent.value = 'error'
         crudEventText.value = 'Check fields!'
         alertType.value = 'danger'
       }
     }
-
-    const toggleCreatedAlert = async () => {
-      if (props.created) {
-        crudEvent.value = 'created'
-        crudEventText.value = 'Project created!'
-      }
-    }
-
-    onMounted(() => {getProject(props.id), toggleCreatedAlert()})
 
     return {
       crudEvent,

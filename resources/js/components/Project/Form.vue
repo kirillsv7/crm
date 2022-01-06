@@ -92,7 +92,6 @@ import {onMounted} from "vue";
 import useProject from "../../composition/project";
 
 export default {
-  name: "ProjectForm",
   props: {
     project: {
       require: true,

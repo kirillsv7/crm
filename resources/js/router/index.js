@@ -1,34 +1,33 @@
 import {createRouter, createWebHistory} from "vue-router";
 
-import DashboardPage from "../components/DashboardPage"
+import Login from "../views/Auth/Login";
+import Dashboard from "../views/Dashboard"
 
-import LoginForm from "../components/Auth/LoginForm";
+import UserIndex from '../views/User/Index'
+import UserCreate from '../views/User/Create'
+import UserEdit from '../views/User/Edit'
+import UserDeleted from '../views/User/Deleted'
 
-import UserIndex from '../components/User/UserIndex'
-import UserCreate from '../components/User/UserCreate'
-import UserEdit from '../components/User/UserEdit'
-import UserDeleted from '../components/User/UserDeleted'
+import ClientIndex from '../views/Client/Index'
+import ClientCreate from '../views/Client/Create'
+import ClientEdit from '../views/Client/Edit'
+import ClientDeleted from '../views/Client/Deleted'
 
-import ClientIndex from '../components/Client/ClientIndex'
-import ClientCreate from '../components/Client/ClientCreate'
-import ClientEdit from '../components/Client/ClientEdit'
-import ClientDeleted from '../components/Client/ClientDeleted'
-
-import ProjectIndex from '../components/Project/ProjectIndex'
-import ProjectCreate from '../components/Project/ProjectCreate'
-import ProjectEdit from '../components/Project/ProjectEdit'
-import ProjectDeleted from '../components/Project/ProjectDeleted'
+import ProjectIndex from '../views/Project/Index'
+import ProjectCreate from '../views/Project/Create'
+import ProjectEdit from '../views/Project/Edit'
+import ProjectDeleted from '../views/Project/Deleted'
 
 const routes = [
     {
         path: '/login',
         name: 'auth.login',
-        component: LoginForm
+        component: Login
     },
     {
         path: '/',
         name: 'dashboard',
-        component: DashboardPage
+        component: Dashboard
     },
     {
         path: '/user',

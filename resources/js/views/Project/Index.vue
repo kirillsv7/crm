@@ -23,13 +23,11 @@
 import {onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router"
 import useProject from "../../composition/project";
-import ProjectTable from "./ProjectTable"
-import PaginationElement from "../UI/PaginationElement"
-import CrudAlert from "../UI/CrudAlert";
+import ProjectTable from "../../components/Project/Table";
+import PaginationElement from "../../components/UI/PaginationElement";
+import CrudAlert from "../../components/UI/CrudAlert";
 
 export default {
-  name: 'ProjectIndex',
-
   components: {
     ProjectTable,
     PaginationElement,

@@ -54,7 +54,6 @@
 
 <script>
 export default {
-  name: "UserForm",
   props: {
     user: {
       require: true,

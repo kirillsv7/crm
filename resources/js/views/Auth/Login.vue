@@ -68,8 +68,6 @@ import {useRouter} from "vue-router";
 import useApp from "../../composition/app";
 
 export default {
-  name: 'LoginForm',
-
   setup(props, {emit}) {
     const router = useRouter()
     const {redirectAuthenticatedToDashboard} = useApp()

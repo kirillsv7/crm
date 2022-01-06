@@ -21,11 +21,10 @@
 <script>
 import {onMounted, ref} from "vue";
 import useUser from "../../composition/user";
-import UserForm from "./UserForm";
-import CrudAlert from "../UI/CrudAlert";
+import UserForm from "../../components/User/Form";
+import CrudAlert from "../../components/UI/CrudAlert";
 
 export default {
-  name: 'UserEdit',
   components: {
     UserForm,
     CrudAlert

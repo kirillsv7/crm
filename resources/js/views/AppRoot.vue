@@ -9,8 +9,8 @@
 <script>
 import {onBeforeMount} from "vue";
 import useApp from "../composition/app";
-import SidebarMenu from "./UI/SidebarMenu"
-import AppHeader from "./UI/AppHeader"
+import SidebarMenu from "../components/UI/SidebarMenu";
+import AppHeader from "../components/UI/AppHeader";
 
 export default {
   components: {

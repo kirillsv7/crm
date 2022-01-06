@@ -22,12 +22,10 @@
 import {onMounted, watch} from "vue";
 import {useRoute} from "vue-router"
 import useClient from "../../composition/client";
-import ClientTable from "./ClientTable"
-import PaginationElement from "../UI/PaginationElement"
+import ClientTable from "../../components/Client/Table";
+import PaginationElement from "../../components/UI/PaginationElement";
 
 export default {
-  name: 'ClientIndex',
-
   components: {
     ClientTable,
     PaginationElement

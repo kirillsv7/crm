@@ -4,10 +4,10 @@
       <div class="col-12">
         <div class="card m-0">
           <div class="card-header d-flex flex-wrap align-items-center justify-content-between">
-            User deleted
+            User list
           </div>
           <div class="card-body">
-            <UserTable :users="usersDeleted" :recover-user="recoverUser"/>
+            <UserTable :users="users" :delete-user="deleteUser"/>
           </div>
           <div class="card-footer d-flex justify-content-center">
             <PaginationElement :pagination="pagination"/>
@@ -20,14 +20,12 @@
 
 <script>
 import {onMounted, watch} from "vue";
-import {useRoute} from "vue-router";
+import {useRoute} from "vue-router"
 import useUser from "../../composition/user";
-import UserTable from "./UserTable";
-import PaginationElement from "../UI/PaginationElement"
+import UserTable from "../../components/User/Table";
+import PaginationElement from "../../components/UI/PaginationElement";
 
 export default {
-  name: 'UserDeleted',
-
   components: {
     UserTable,
     PaginationElement
@@ -35,28 +33,28 @@ export default {
 
   setup() {
     const route = useRoute()
-    const {usersDeleted, pagination, getUsersDeleted, restoreUser} = useUser()
+    const {users, pagination, getUsers, destroyUser} = useUser()
 
-    const recoverUser = async (id) => {
-      if (!window.confirm('Are you sure you want to restore?')) {
+    const deleteUser = async (id) => {
+      if (!window.confirm('Are you sure you want to delete?')) {
         return
       }
 
-      await restoreUser(id);
-      await getUsersDeleted();
+      await destroyUser(id);
+      await getUsers();
     }
 
-    onMounted(getUsersDeleted)
+    onMounted(getUsers)
 
     watch(
         () => route.query.page,
-        getUsersDeleted
+        getUsers
     )
 
     return {
-      usersDeleted,
+      users,
       pagination,
-      recoverUser
+      deleteUser
     }
   }
 }
