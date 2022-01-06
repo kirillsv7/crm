@@ -1,5 +1,5 @@
 <template>
-  <nav v-if="pagination.total > 0">
+  <nav v-if="pagination.last_page != 1">
     <ul class="pagination">
       <template v-for="(link, index) in pagination.links" :key="index">
         <li
@@ -9,7 +9,7 @@
           <router-link
               class="page-link"
               v-if="link.url && !link.active"
-              :to="this.pageUrl(link.url)"
+              :to="pageUrl(link.url)"
               v-html="link.label"
               :aria-current="link.active ? 'page' : ''"/>
           <span class="page-link" v-else-if="link.active" v-html="link.label"></span>
