@@ -1,22 +1,16 @@
 import {ref} from "vue"
-import {useRoute, useRouter} from "vue-router";
-import axios from "axios";
+import {useRoute, useRouter} from "vue-router"
+import axios from "axios"
 
 export default function useUser() {
 
     const route = useRoute()
     const router = useRouter()
     const users = ref({})
-    const pagination = ref({
-        links: {},
-        meta: {}
-    })
+    const pagination = ref({})
     const user = ref({})
     const usersDeleted = ref({})
     const errors = ref({})
-    const created = ref(false)
-    const updated = ref(false)
-    const deleted = ref(false)
 
     const getUsers = async () => {
         let response = await axios.get('/api/v1/user', {
@@ -37,8 +31,13 @@ export default function useUser() {
         errors.value = {}
         try {
             const response = await axios.post('/api/v1/user', user)
-            created.value = true
-            await router.push({name: 'user.edit', params: {id: response.data.data.id}})
+            await router.push({
+                name: 'user.edit',
+                params: {
+                    id: response.data.data.id,
+                    created: true
+                }
+            })
         } catch (e) {
             if (e.response.status === 422) {
                 errors.value = e.response.data.errors
@@ -48,10 +47,8 @@ export default function useUser() {
 
     const updateUser = async (id) => {
         errors.value = {}
-        updated.value = false
         try {
             await axios.put(`/api/v1/user/${id}`, user.value)
-            updated.value = true
         } catch (e) {
             if (e.response.status === 422) {
                 errors.value = e.response.data.errors
@@ -83,9 +80,6 @@ export default function useUser() {
         user,
         usersDeleted,
         errors,
-        created,
-        updated,
-        deleted,
         getUsers,
         getUser,
         storeUser,

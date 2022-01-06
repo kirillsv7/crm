@@ -9,10 +9,8 @@
           <div class="card-body">
             <ClientTable :clients="clientsDeleted" :recover-client="recoverClient"/>
           </div>
-          <div class="card-footer">
-            <div class="d-flex justify-content-center">
-              <PaginationElement :pagination="pagination"/>
-            </div>
+          <div class="card-footer d-flex justify-content-center">
+            <PaginationElement :pagination="pagination"/>
           </div>
         </div>
       </div>

@@ -50,4 +50,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasRole('admin');
     }
+
+    public function getDeletedAttribute(){
+        return $this->deleted_at !== null;
+    }
 }

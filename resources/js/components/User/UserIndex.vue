@@ -3,14 +3,14 @@
     <div class="row">
       <div class="col-12">
         <div class="card m-0">
-          <div class="card-header">User list</div>
+          <div class="card-header d-flex flex-wrap align-items-center justify-content-between">
+            User list
+          </div>
           <div class="card-body">
             <UserTable :users="users" :delete-user="deleteUser"/>
           </div>
-          <div class="card-footer">
-            <div class="d-flex justify-content-center">
-              <PaginationElement :pagination="pagination"/>
-            </div>
+          <div class="card-footer d-flex justify-content-center">
+            <PaginationElement :pagination="pagination"/>
           </div>
         </div>
       </div>

@@ -21,6 +21,7 @@ class UserResource extends JsonResource
             'is_admin'   => $this->isAdmin(),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'deleted'    => $this->deleted,
             $this->mergeWhen($request->routeIs('user.show', 'user.update'), [
                 'roles'       => $this->getRoleNames(),
                 'permissions' => $this->getAllPermissions()->pluck('name'),

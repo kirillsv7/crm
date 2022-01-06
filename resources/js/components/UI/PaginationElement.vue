@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <nav v-if="pagination.total > 0">
     <ul class="pagination">
       <template v-for="(link, index) in pagination.links" :key="index">
         <li

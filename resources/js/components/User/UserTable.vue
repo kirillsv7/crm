@@ -17,7 +17,9 @@
           <td>{{ user.id }}</td>
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
-          <td>{{ user.isAdmin }}</td>
+          <td>
+            <i :class="[user.is_admin ? 'cil-check-alt text-success' : 'cil-x text-muted']"></i>
+          </td>
           <td>{{ user.created_at }}</td>
           <td>{{ user.updated_at }}</td>
           <td class="text-nowrap">
