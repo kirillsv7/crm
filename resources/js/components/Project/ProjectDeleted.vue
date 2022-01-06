@@ -10,10 +10,8 @@
           <div class="card-body">
             <ProjectTable :projects="projectsDeleted" :recoverProject="recoverProject"/>
           </div>
-          <div class="card-footer">
-            <div class="d-flex justify-content-center">
-              <PaginationElement :pagination="pagination"/>
-            </div>
+          <div class="card-footer d-flex justify-content-center">
+            <PaginationElement :pagination="pagination"/>
           </div>
         </div>
       </div>

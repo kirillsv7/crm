@@ -8,7 +8,14 @@ export default function useProject() {
     const router = useRouter()
     const projects = ref({})
     const pagination = ref({})
-    const project = ref({})
+    const project = ref({
+        'title': '',
+        'description': '',
+        'deadline': '',
+        'client_id': '',
+        'user_id': '',
+        'status_id': ''
+    })
     const projectsDeleted = ref({})
     const statuses = ref({})
     const errors = ref({})
