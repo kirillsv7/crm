@@ -22,19 +22,16 @@
 
 <script>
 import {inject, onMounted} from "vue";
-import {useRouter} from "vue-router";
 import axios from "axios";
 
 export default {
   name: 'AppHeader',
 
   setup() {
-    const router = useRouter()
     const {state, getAuthCheck, getActiveUser} = inject('auth')
     const postLogout = async () => {
       await axios.post('/logout').then(() => {
         getAuthCheck()
-        router.push({name: 'auth.login'})
       })
     }
 

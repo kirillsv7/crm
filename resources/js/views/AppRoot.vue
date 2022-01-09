@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import {onMounted, provide, ref} from "vue";
+import {onMounted, provide, ref, watch} from "vue";
 import {useRouter} from "vue-router";
 import auth from "../store/auth";
 import Login from "./Auth/Login";
@@ -32,6 +32,11 @@ export default {
       if (!state.authCheck)
         await router.push({name: 'auth.login'})
       loading.value = false
+    })
+
+    watch(() => state.authCheck, async (authCheck) => {
+      if (!authCheck)
+        await router.push({name: 'auth.login'})
     })
 
     provide('auth', auth)
