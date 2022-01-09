@@ -1,5 +1,7 @@
 import {createRouter, createWebHistory} from "vue-router";
 
+import AuthLogin from "../views/Auth/Login";
+
 import Dashboard from "../views/Dashboard"
 
 import UserIndex from '../views/User/Index'
@@ -23,6 +25,12 @@ import TaskEdit from '../views/Task/Edit'
 import TaskDeleted from '../views/Task/Deleted'
 
 const routes = [
+    {
+        path: '/login',
+        name: 'auth.login',
+        component: AuthLogin
+    },
+
     {
         path: '/',
         name: 'dashboard',

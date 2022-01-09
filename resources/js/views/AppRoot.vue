@@ -1,18 +1,16 @@
 <template>
   <div class="loading" v-if="loading"></div>
-  <Login v-if="!authCheck" @authenticated="getAuthCheck"/>
-  <template v-else>
-    <SidebarMenu/>
-    <div class="c-wrapper">
-      <AppHeader @unauthenticated="getAuthCheck"/>
-      <router-view/>
-    </div>
-  </template>
+  <SidebarMenu v-if="state.authCheck"/>
+  <div class="c-wrapper">
+    <AppHeader v-if="state.authCheck"/>
+    <router-view/>
+  </div>
 </template>
 
 <script>
-import {onMounted, ref} from "vue";
-import useApp from "../composition/app";
+import {onMounted, provide, ref} from "vue";
+import {useRouter} from "vue-router";
+import auth from "../store/auth";
 import Login from "./Auth/Login";
 import SidebarMenu from "../components/UI/SidebarMenu";
 import AppHeader from "../components/UI/AppHeader";
@@ -25,19 +23,22 @@ export default {
   },
 
   setup() {
-    const {authCheck, getAuthCheck} = useApp()
+    const router = useRouter()
+    const {state, getAuthCheck} = auth
     const loading = ref(true)
 
     onMounted(async () => {
-      await getAuthCheck().then(() => {
-        loading.value = false
-      })
+      await getAuthCheck()
+      if (!state.authCheck)
+        await router.push({name: 'auth.login'})
+      loading.value = false
     })
+
+    provide('auth', auth)
 
     return {
       loading,
-      authCheck,
-      getAuthCheck
+      state,
     }
   }
 }

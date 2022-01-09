@@ -63,22 +63,34 @@
 </template>
 
 <script>
-import {ref} from "vue";
+import {inject, onMounted, ref} from "vue";
+import {useRouter} from "vue-router";
 
 export default {
-  setup(props, {emit}) {
+  setup() {
+    const router = useRouter()
     const login = {}
+    const {state, getAuthCheck} = inject('auth')
     const errors = ref({})
 
     const postLogin = async () => {
-      await axios.get('/sanctum/csrf-cookie').then(async () => {
-        await axios.post('/login', {...login}).then(function () {
-          emit('authenticated')
-        }).catch(function (e) {
-          errors.value = e.response.data.errors
-        })
-      })
+      await axios.get('/sanctum/csrf-cookie')
+      await axios.post('/login', {...login})
+          .then(async () => {
+            await getAuthCheck()
+          })
+          .catch((e) => {
+            errors.value = e.response.data.errors
+          })
+      if (state.authCheck)
+        await router.push({name: 'dashboard'})
     }
+
+    onMounted(async () => {
+      await getAuthCheck()
+      if (state.authCheck)
+        await router.push({name: 'dashboard'})
+    })
 
     return {
       login,
