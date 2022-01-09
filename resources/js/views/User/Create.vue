@@ -42,7 +42,9 @@ export default {
     })
 
     const saveUser = async () => {
-      crudEvent.value = null
+      crudEvent.value = 'creating'
+      crudEventText.value = 'Creating user...'
+      alertType.value = 'info'
       await storeUser({...user.value})
       if (Object.keys(errors.value).length !== 0) {
         crudEvent.value = 'error'

@@ -46,7 +46,9 @@ export default {
     const {crudEvent, crudEventText, alertType} = useCrudAlert()
 
     const saveClient = async () => {
-      crudEvent.value = null
+      crudEvent.value = 'updating'
+      crudEventText.value = 'Updating client...'
+      alertType.value = 'info'
       await updateClient(props.id)
       if (Object.keys(errors.value).length === 0) {
         crudEvent.value = 'updated'

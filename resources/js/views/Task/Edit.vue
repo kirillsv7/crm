@@ -46,7 +46,9 @@ export default {
     const {crudEvent, crudEventText, alertType} = useCrudAlert()
 
     const saveTask = async () => {
-      crudEvent.value = null
+      crudEvent.value = 'updating'
+      crudEventText.value = 'Updating task...'
+      alertType.value = 'info'
       await updateTask(props.id)
       if (Object.keys(errors.value).length === 0) {
         crudEvent.value = 'updated'

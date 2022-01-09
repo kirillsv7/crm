@@ -46,7 +46,9 @@ export default {
     const {crudEvent, crudEventText, alertType} = useCrudAlert()
 
     const saveProject = async () => {
-      crudEvent.value = null
+      crudEvent.value = 'updating'
+      crudEventText.value = 'Updating project...'
+      alertType.value = 'info'
       await updateProject(props.id)
       if (Object.keys(errors.value).length === 0) {
         crudEvent.value = 'updated'

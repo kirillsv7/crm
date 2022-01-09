@@ -41,7 +41,9 @@ export default {
     })
 
     const saveClient = async () => {
-      crudEvent.value = null
+      crudEvent.value = 'creating'
+      crudEventText.value = 'Creating client...'
+      alertType.value = 'info'
       await storeClient({...client.value})
       if (Object.keys(errors.value).length !== 0) {
         crudEvent.value = 'error'

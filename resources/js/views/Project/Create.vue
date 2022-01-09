@@ -44,7 +44,9 @@ export default {
     })
 
     const saveProject = async () => {
-      crudEvent.value = null
+      crudEvent.value = 'creating'
+      crudEventText.value = 'Creating project...'
+      alertType.value = 'info'
       await storeProject({...project.value})
       if (Object.keys(errors.value).length !== 0) {
         crudEvent.value = 'error'
