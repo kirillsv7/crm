@@ -16,6 +16,7 @@ class TaskResource extends JsonResource
     {
         return [
             'id'          => $this->id,
+            'encrypted_id'=> $this->when($request->routeIs('task.show'), encrypt($this->id)),
             'title'       => $this->title,
             'description' => $this->when($request->routeIs('task.show'), $this->description),
             'project_id'  => $this->project->id ?? null,

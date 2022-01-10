@@ -37,9 +37,7 @@ export default {
     const task = ref({
       'title': '',
       'description': '',
-      'deadline': '',
-      'client_id': '',
-      'user_id': '',
+      'project_id': '',
       'status_id': ''
     })
 

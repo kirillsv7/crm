@@ -26,7 +26,8 @@ export default {
   props: {
     media: {
       required: true,
-      type: Object
+      type: Object,
+      default: {}
     }
   },
 

@@ -40,10 +40,10 @@ Route::group([
         Route::get('project/statuses', [ProjectController::class, 'statuses'])->name('project.statuses');
         Route::get('project/list', [ProjectController::class, 'list'])->name('project.list');
 
+        Route::post('task/add-response', [TaskController::class, 'addResponse'])->name('task.add-response');
         Route::get('task/deleted', [TaskController::class, 'deleted'])->name('task.deleted');
         Route::post('task/{task}', [TaskController::class, 'restore'])->name('task.restore');
         Route::get('task/statuses', [TaskController::class, 'statuses'])->name('task.statuses');
-        Route::post('task/add-response', [TaskController::class, 'addResponse'])->name('task.add-response');
 
         Route::apiResources([
             'user'    => UserController::class,

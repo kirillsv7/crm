@@ -44,7 +44,7 @@ export default {
   props: {
     response: {
       required: true,
-      type: Object
+      type: Object,
     }
   },
 

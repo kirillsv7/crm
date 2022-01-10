@@ -23,21 +23,25 @@
         </div>
         <TaskMedia :media="task.media"/>
         <TaskResponse v-for="response in task.responses" :key="response.id" :response="response"/>
+        <hr>
+        <ResponseForm v-if="task.encrypted_id" :encryptedId="task.encrypted_id"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import {onMounted, provide, watch} from "vue";
 import useTask from "../../composition/task";
 import useCrudAlert from "../../composition/crudalert";
 import CrudAlert from "../../components/UI/CrudAlert";
 import TaskMedia from "../../components/Task/Media";
 import TaskResponse from "../../components/Task/Response";
-import {onMounted} from "vue";
+import ResponseForm from "../../components/Task/ResponseForm";
 
 export default {
   components: {
+    ResponseForm,
     CrudAlert,
     TaskMedia,
     TaskResponse,
@@ -53,9 +57,11 @@ export default {
     const {task, errors, getTask} = useTask()
     const {crudEvent, crudEventText, alertType} = useCrudAlert()
 
-    onMounted(() => {
-      getTask(props.id)
+    onMounted(async () => {
+      await getTask(props.id)
     })
+
+    provide('task', task)
 
     return {
       crudEvent,

@@ -7,7 +7,6 @@ use App\Http\Requests\AddResponseToTaskRequest;
 use App\Http\Requests\CreateUpdateTaskRequest;
 use App\Http\Resources\V1\ResponseResource;
 use App\Http\Resources\V1\TaskResource;
-use App\Models\Response;
 use App\Models\Task;
 use App\Services\SpatieMediaLibrary\AddMediaToModel;
 use App\Services\TaskService;
