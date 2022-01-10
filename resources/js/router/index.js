@@ -21,6 +21,7 @@ import ProjectDeleted from '../views/Project/Deleted'
 
 import TaskIndex from '../views/Task/Index'
 import TaskCreate from '../views/Task/Create'
+import TaskShow from '../views/Task/Show'
 import TaskEdit from '../views/Task/Edit'
 import TaskDeleted from '../views/Task/Deleted'
 
@@ -112,6 +113,12 @@ const routes = [
         path: '/task/create',
         name: 'task.create',
         component: TaskCreate
+    },
+    {
+        path: '/task/:id',
+        name: 'task.show',
+        component: TaskShow,
+        props: true
     },
     {
         path: '/task/:id/edit',

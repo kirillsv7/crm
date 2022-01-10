@@ -27,12 +27,12 @@ class TaskResource extends JsonResource
             'created_at'  => $this->created_at,
             'updated_at'  => $this->updated_at,
             'deleted'     => $this->deleted,
-            /*'media'       => $this->when($request->routeIs('task.show'), MediaResource::collection(
+            'media'       => $this->when($request->routeIs('task.show'), MediaResource::collection(
                 $this->getMedia()
             )),
             'responses'   => $this->when($request->routeIs('task.show'), ResponseResource::collection(
                 $this->responses
-            )),*/
+            )),
         ];
     }
 }

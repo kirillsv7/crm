@@ -17,7 +17,11 @@
       <template v-for="task in tasks" :key="task.id">
         <tr>
           <td>{{ task.id }}</td>
-          <td>{{ task.title }}</td>
+          <td>
+            <router-link :to="{name: 'task.show', params: {id: task.id}}">
+            {{ task.title }}
+            </router-link>
+          </td>
           <td>{{ task.project }}</td>
           <td>{{ task.client }}</td>
           <td>{{ task.user }}</td>
