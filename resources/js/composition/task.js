@@ -8,7 +8,10 @@ export default function useTask() {
     const router = useRouter()
     const tasks = ref({})
     const pagination = ref({})
-    const task = ref({})
+    const task = ref({
+        media: {},
+        responses: {}
+    })
     const tasksDeleted = ref({})
     const statuses = ref({})
     const errors = ref({})

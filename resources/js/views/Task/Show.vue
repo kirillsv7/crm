@@ -22,6 +22,7 @@
           </div>
         </div>
         <TaskMedia :media="task.media"/>
+        <TaskResponse v-for="response in task.responses" :key="response.id" :response="response"/>
       </div>
     </div>
   </div>
@@ -32,12 +33,14 @@ import useTask from "../../composition/task";
 import useCrudAlert from "../../composition/crudalert";
 import CrudAlert from "../../components/UI/CrudAlert";
 import TaskMedia from "../../components/Task/Media";
+import TaskResponse from "../../components/Task/Response";
 import {onMounted} from "vue";
 
 export default {
   components: {
     CrudAlert,
-    TaskMedia
+    TaskMedia,
+    TaskResponse,
   },
   props: {
     id: {

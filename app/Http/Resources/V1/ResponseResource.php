@@ -18,6 +18,7 @@ class ResponseResource extends JsonResource
             'id'      => $this->id,
             'content' => $this->content,
             'user'    => $this->user->name,
+            'created_at' => $this->created_at,
             'media'   => $this->when($request->routeIs('task.show'), MediaResource::collection(
                 $this->getMedia()
             )),
