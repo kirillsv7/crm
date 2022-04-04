@@ -83,6 +83,7 @@ export default function useTask() {
     }
 
     const addResponse = async (taskResponse) => {
+        errors.value = {}
         try {
             const response = await axios.post('/api/v1/task/add-response', taskResponse)
             return response.data.data

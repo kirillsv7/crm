@@ -19,7 +19,7 @@
           <label>Media upload</label>
           <div class="dropzone"></div>
         </div>
-        <button class="btn btn-primary" type="submit">Send</button>
+        <button class="btn btn-primary" type="submit" :disabled="sending">{{ sending ? 'Sending...' : 'Send' }}</button>
       </form>
     </div>
   </div>
@@ -45,13 +45,16 @@ export default {
       task_id: '',
       content: ''
     })
+    const sending = ref(false)
 
     const sendResponse = async () => {
+      sending.value = true
       const response = await addResponse({...taskResponse.value})
       if (Object.keys(errors.value).length === 0) {
         task.value.responses.push(response)
         taskResponse.value.content = ''
       }
+      sending.value = false
     }
 
     onMounted(() => {
@@ -61,6 +64,7 @@ export default {
     return {
       taskResponse,
       errors,
+      sending,
       sendResponse
     }
   }
