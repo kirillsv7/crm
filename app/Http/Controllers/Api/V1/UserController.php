@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUpdateUserRequest;
+use App\Http\Resources\V1\UserListResource;
 use App\Http\Resources\V1\UserResource;
 use App\Models\User;
 use App\Services\UserService;
@@ -108,5 +109,12 @@ class UserController extends Controller
         $user->restore();
 
         return response()->json(['message' => 'User restored']);
+    }
+
+    public function list()
+    {
+        return UserListResource::collection(
+            User::select(['id', 'name'])->get()
+        );
     }
 }

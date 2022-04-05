@@ -21,8 +21,11 @@ class TaskController extends Controller
     public function index()
     {
         return TaskResource::collection(
-            Task::filterByStatus()
-                ->filterAssignedToUser()
+            Task::query()
+                ->filterByProject()
+                ->filterByClient()
+                ->filterByUser()
+                ->filterByStatus()
                 ->orderByDesc('id')
                 ->paginate()
                 ->withQueryString()
@@ -123,7 +126,8 @@ class TaskController extends Controller
         return response()->json(['message' => 'Task restored']);
     }
 
-    public function statuses(){
+    public function statuses()
+    {
         return response()->json(['data' => Task::$statuses]);
     }
 

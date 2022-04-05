@@ -8,7 +8,11 @@
             Task list
           </div>
           <div class="card-body">
-            <TaskTable :tasks="tasks" :deleteTask="deleteTask"/>
+            <TaskTable
+                :tasks="tasks"
+                :deleteTask="deleteTask"
+                @filtered="filterTasks"
+            />
           </div>
           <div class="card-footer d-flex justify-content-center">
             <PaginationElement :pagination="pagination"/>
@@ -50,12 +54,13 @@ export default {
       alertType.value = 'warning'
     }
 
+    const filterTasks = (filter) => {
+      getTasks(filter)
+    }
+
     onMounted(getTasks)
 
-    watch(
-        () => route.query.page,
-        getTasks
-    )
+    watch(() => route.query.page, getTasks)
 
     return {
       crudEvent,
@@ -63,6 +68,8 @@ export default {
       alertType,
       tasks,
       pagination,
+      getTasks,
+      filterTasks,
       deleteTask
     }
   }

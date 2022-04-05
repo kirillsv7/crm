@@ -7,6 +7,7 @@ export default function useUser() {
     const route = useRoute()
     const router = useRouter()
     const users = ref({})
+    const userList = ref({})
     const pagination = ref({})
     const user = ref({})
     const usersDeleted = ref({})
@@ -25,6 +26,11 @@ export default function useUser() {
     const getUser = async (id) => {
         let response = await axios.get(`/api/v1/user/${id}`)
         user.value = response.data.data
+    }
+
+    const getUserList = async () => {
+        let response = await axios.get('/api/v1/user/list')
+        userList.value = response.data.data
     }
 
     const storeUser = async (user) => {
@@ -76,11 +82,13 @@ export default function useUser() {
 
     return {
         users,
+        userList,
         pagination,
         user,
         usersDeleted,
         errors,
         getUsers,
+        getUserList,
         getUser,
         storeUser,
         updateUser,

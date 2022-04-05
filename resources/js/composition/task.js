@@ -15,10 +15,11 @@ export default function useTask() {
     const statuses = ref({})
     const errors = ref({})
 
-    const getTasks = async () => {
+    const getTasks = async (filter = {}) => {
         let response = await axios.get('/api/v1/task', {
             params: {
-                page: route.query.page
+                page: route.query.page,
+                ...filter
             }
         })
         tasks.value = response.data.data

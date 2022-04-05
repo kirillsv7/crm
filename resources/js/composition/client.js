@@ -1,12 +1,13 @@
 import {ref} from "vue"
-import {useRoute, useRouter} from "vue-router";
-import axios from "axios";
+import {useRoute, useRouter} from "vue-router"
+import axios from "axios"
 
 export default function useClient() {
 
     const route = useRoute()
     const router = useRouter()
     const clients = ref({})
+    const clientList = ref({})
     const pagination = ref({})
     const client = ref({})
     const clientsDeleted = ref({})
@@ -25,6 +26,11 @@ export default function useClient() {
     const getClient = async (id) => {
         let response = await axios.get(`/api/v1/client/${id}`)
         client.value = response.data.data
+    }
+
+    const getClientList = async () => {
+        let response = await axios.get('/api/v1/client/list')
+        clientList.value = response.data.data
     }
 
     const storeClient = async (client) => {
@@ -76,11 +82,13 @@ export default function useClient() {
 
     return {
         clients,
+        clientList,
         pagination,
         client,
         clientsDeleted,
         errors,
         getClients,
+        getClientList,
         getClient,
         storeClient,
         updateClient,

@@ -48,9 +48,50 @@ class Task extends Model implements HasMedia
         return $this->hasMany(Response::class);
     }
 
+    public function getStatusAttribute()
+    {
+        return self::$statuses[$this->status_id];
+    }
+
+    public function getDeletedAttribute()
+    {
+        return $this->deleted_at !== null;
+    }
+
+    public function scopeFilterByProject($query)
+    {
+        if (request('project_id')) {
+            return $query->where('project_id', request('project_id'));
+        }
+
+        return $query;
+    }
+
+    public function scopeFilterByClient($query)
+    {
+        if (request('client_id')) {
+            return $query->whereHas('project', function ($subQuery) {
+                $subQuery->where('client_id', request('client_id'));
+            });
+        }
+
+        return $query;
+    }
+
+    public function scopeFilterByUser($query)
+    {
+        if (request('user_id')) {
+            return $query->whereHas('project', function ($subQuery) {
+                $subQuery->where('user_id', request('user_id'));
+            });
+        }
+
+        return $query;
+    }
+
     public function scopeFilterByStatus($query)
     {
-        if (request()->has('status_id')) {
+        if (request('status_id')) {
             request()->validate([
                 'status_id' => [
                     'numeric',
@@ -77,15 +118,6 @@ class Task extends Model implements HasMedia
         }
 
         return $query;
-    }
-
-    public function getStatusAttribute()
-    {
-        return self::$statuses[$this->status_id];
-    }
-
-    public function getDeletedAttribute(){
-        return $this->deleted_at !== null;
     }
 
     public function registerMediaConversions(Media $media = null): void

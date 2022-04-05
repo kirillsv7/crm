@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUpdateClientRequest;
+use App\Http\Resources\V1\ClientListResource;
 use App\Http\Resources\V1\ClientResource;
 use App\Models\Client;
 
@@ -105,5 +106,12 @@ class ClientController extends Controller
         $client->restore();
 
         return response()->json(['message' => 'Client restored']);
+    }
+
+    public function list()
+    {
+        return ClientListResource::collection(
+            Client::select(['id', 'company'])->get()
+        );
     }
 }
