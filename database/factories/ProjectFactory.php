@@ -33,7 +33,7 @@ class ProjectFactory extends Factory
             'deadline'    => Carbon::now()->addDays(rand(30, 90)),
             'client_id'   => Client::inRandomOrder()->first()->id,
             'user_id'     => User::inRandomOrder()->first()->id,
-            'status_id'   => collect(Project::$statuses)->keys()->random(),
+            'status_id'   => collect(Project::$statusList)->keys()->random(),
         ];
     }
 

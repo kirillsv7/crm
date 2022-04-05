@@ -18,7 +18,7 @@
         onchange="this.form.submit();">
         All
     </label>
-    @foreach($modelStatuses as $id => $status)
+    @foreach($modelStatusList as $id => $status)
         <label class="btn btn-sm my-1 @if(request('status_id') == $id) btn-primary @else btn-secondary @endif">
             <input class="d-none" name="status_id" type="radio" value="{{ $id }}"
                    @if(request('status_id') == $id) checked @endif onchange="this.form.submit();">

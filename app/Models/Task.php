@@ -26,7 +26,7 @@ class Task extends Model implements HasMedia
 
     protected $with = ['project'];
 
-    public static $statuses = [
+    public static array $statusList = [
         '1' => 'Created',
         '2' => 'Working',
         '3' => 'Paused',
@@ -34,7 +34,7 @@ class Task extends Model implements HasMedia
         '5' => 'Finished',
     ];
 
-    protected $imageSizes = [
+    protected array $imageSizes = [
         'thumb' => [300, 200],
     ];
 
@@ -50,7 +50,7 @@ class Task extends Model implements HasMedia
 
     public function getStatusAttribute()
     {
-        return self::$statuses[$this->status_id];
+        return self::$statusList[$this->status_id];
     }
 
     public function getDeletedAttribute()
@@ -95,7 +95,7 @@ class Task extends Model implements HasMedia
             request()->validate([
                 'status_id' => [
                     'numeric',
-                    Rule::in(collect(self::$statuses)->keys()->prepend(0)),
+                    Rule::in(collect(self::$statusList)->keys()->prepend(0)),
                 ],
             ]);
             if (request('status_id') != 0) {

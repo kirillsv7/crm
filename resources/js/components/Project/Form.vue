@@ -69,7 +69,7 @@
       <select class="form-control" :class="{'is-invalid': errors.status_id}" name="status_id"
               v-model="project.status_id">
         <option value="">Select status</option>
-        <template v-for="(status, key) in statuses" :key="key">
+        <template v-for="(status, key) in statusList" :key="key">
           <option :value="key">
             {{ status }}
           </option>
@@ -108,16 +108,20 @@ export default {
   },
 
   setup() {
-    const {statuses, getStatuses} = useProject()
+    const {statusList, getStatusList} = useProject()
     const {clients, getClients} = useClient()
     const {users, getUsers} = useUser()
 
-    onMounted(() => {getStatuses(), getClients(), getUsers()})
+    onMounted(() => {
+      getStatusList()
+      getClients()
+      getUsers()
+    })
 
     return {
       clients,
       users,
-      statuses
+      statusList
     }
   }
 }

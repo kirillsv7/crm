@@ -118,9 +118,9 @@ class ProjectController extends Controller
         return response()->json(['message' => 'Project restored']);
     }
 
-    public function statuses()
+    public function statusList()
     {
-        return response()->json(['data' => Project::$statuses]);
+        return response()->json(['data' => Project::$statusList]);
     }
 
     public function list()

@@ -81,7 +81,7 @@
         <label>Status</label>
         <select class="form-control @error('status_id') is-invalid @enderror" name="status_id" required>
             <option value="">Select status</option>
-            @foreach(\App\Models\Project::$statuses as $id => $status)
+            @foreach(\App\Models\Project::$statusList as $id => $status)
                 <option value="{{ $id }}"
                         @if(isset($project->status_id) && $project->status_id === $id) selected @endif>
                     {{ $status }}

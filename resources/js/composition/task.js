@@ -12,7 +12,7 @@ export default function useTask() {
         responses: []
     })
     const tasksDeleted = ref({})
-    const statuses = ref({})
+    const statusList = ref({})
     const errors = ref({})
 
     const getTasks = async (filter = {}) => {
@@ -78,9 +78,9 @@ export default function useTask() {
         await axios.post(`/api/v1/task/${id}`)
     }
 
-    const getStatuses = async () => {
-        let response = await axios.get('/api/v1/task/statuses')
-        statuses.value = response.data.data
+    const getStatusList = async () => {
+        let response = await axios.get('/api/v1/task/statuslist')
+        statusList.value = response.data.data
     }
 
     const addResponse = async (taskResponse) => {
@@ -100,7 +100,7 @@ export default function useTask() {
         pagination,
         task,
         tasksDeleted,
-        statuses,
+        statusList,
         errors,
         getTasks,
         getTask,
@@ -109,7 +109,7 @@ export default function useTask() {
         destroyTask,
         getTasksDeleted,
         restoreTask,
-        getStatuses,
+        getStatusList,
         addResponse
     }
 }

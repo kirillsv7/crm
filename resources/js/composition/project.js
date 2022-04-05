@@ -18,7 +18,7 @@ export default function useProject() {
         'status_id': ''
     })
     const projectsDeleted = ref({})
-    const statuses = ref({})
+    const statusList = ref({})
     const errors = ref({})
 
     const getProjects = async () => {
@@ -88,9 +88,9 @@ export default function useProject() {
         await axios.post(`/api/v1/project/${id}`)
     }
 
-    const getStatuses = async () => {
-        let response = await axios.get('/api/v1/project/statuses')
-        statuses.value = response.data.data
+    const getStatusList = async () => {
+        let response = await axios.get('/api/v1/project/statuslist')
+        statusList.value = response.data.data
     }
 
     return {
@@ -99,7 +99,7 @@ export default function useProject() {
         pagination,
         project,
         projectsDeleted,
-        statuses,
+        statusList,
         errors,
         getProjects,
         getProjectList,
@@ -109,6 +109,6 @@ export default function useProject() {
         destroyProject,
         getProjectsDeleted,
         restoreProject,
-        getStatuses
+        getStatusList
     }
 }

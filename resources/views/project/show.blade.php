@@ -33,7 +33,7 @@
                 <div class="card m-0">
                     <div class="card-header d-flex flex-wrap align-items-center justify-content-between">
                         {{ __('Project tasks') }}
-                        @include('partials.table-filter', ['modelStatuses' => \App\Models\Task::$statuses, 'withoutUserFilter' => true])
+                        @include('partials.table-filter', ['modelStatusList' => \App\Models\Task::$statusList, 'withoutUserFilter' => true])
                     </div>
                     <div class="card-body">
                         @include('task.partials.tasks-table', ['tasks' => $tasks])

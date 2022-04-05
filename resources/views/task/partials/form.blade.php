@@ -49,7 +49,7 @@
         <label>Status</label>
         <select class="form-control @error('status_id') is-invalid @enderror" name="status_id" required>
             <option>Select status</option>
-            @foreach(\App\Models\Task::$statuses as $id => $status)
+            @foreach(\App\Models\Task::$statusList as $id => $status)
                 <option value="{{ $id }}" @if(isset($task->status_id) && $task->status_id === $id) selected @endif>
                     {{ $status }}
                 </option>

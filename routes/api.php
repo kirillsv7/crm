@@ -39,13 +39,13 @@ Route::group([
 
         Route::get('project/deleted', [ProjectController::class, 'deleted'])->name('project.deleted');
         Route::post('project/{project}', [ProjectController::class, 'restore'])->name('project.restore');
-        Route::get('project/statuses', [ProjectController::class, 'statuses'])->name('project.statuses');
+        Route::get('project/statuslist', [ProjectController::class, 'statusList'])->name('project.statuslist');
         Route::get('project/list', [ProjectController::class, 'list'])->name('project.list');
 
         Route::post('task/add-response', [TaskController::class, 'addResponse'])->name('task.add-response');
         Route::get('task/deleted', [TaskController::class, 'deleted'])->name('task.deleted');
         Route::post('task/{task}', [TaskController::class, 'restore'])->name('task.restore');
-        Route::get('task/statuses', [TaskController::class, 'statuses'])->name('task.statuses');
+        Route::get('task/statuslist', [TaskController::class, 'statusList'])->name('task.statuslist');
 
         Route::apiResources([
             'user'    => UserController::class,

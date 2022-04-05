@@ -42,7 +42,7 @@
       <select class="form-control" :class="{'is-invalid': errors.status_id}" name="status_id"
               v-model="task.status_id">
         <option value="">Select status</option>
-        <template v-for="(status, key) in statuses" :key="key">
+        <template v-for="(status, key) in statusList" :key="key">
           <option :value="key">
             {{ status }}
           </option>
@@ -80,17 +80,17 @@ export default {
   },
 
   setup() {
-    const {statuses, getStatuses} = useTask()
+    const {statusList, getStatusList} = useTask()
     const {projectList, getProjectList} = useProject()
 
     onMounted(() => {
-      getStatuses()
+      getStatusList()
       getProjectList()
     })
 
     return {
       projectList,
-      statuses
+      statusList
     }
   }
 }

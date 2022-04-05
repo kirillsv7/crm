@@ -49,7 +49,7 @@
         <td>
           <select class="form-control" v-model="filter.status_id">
             <option value="">Filter by status</option>
-            <template v-for="(status, id) in statuses" :key="id">
+            <template v-for="(status, id) in statusList" :key="id">
               <option :value="id">
                 {{ status }}
               </option>
@@ -121,7 +121,7 @@ export default {
     const {projectList, getProjectList} = useProject()
     const {clientList, getClientList} = useClient()
     const {userList, getUserList} = useUser()
-    const {statuses, getStatuses} = useTask()
+    const {statusList, getStatusList} = useTask()
     const filter = ref({
       project_id: null,
       client_id: null,
@@ -133,7 +133,7 @@ export default {
       getProjectList()
       getUserList()
       getClientList()
-      getStatuses()
+      getStatusList()
     })
 
     watch(filter.value, (filter) => {
@@ -144,7 +144,7 @@ export default {
       projectList,
       clientList,
       userList,
-      statuses,
+      statusList,
       filter
     }
   }

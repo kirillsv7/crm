@@ -8,7 +8,7 @@
                 <div class="card m-0">
                     <div class="card-header d-flex flex-wrap align-items-center justify-content-between">
                         {{ $title }}
-                        @include('partials.table-filter', ['modelStatuses' => \App\Models\Task::$statuses])
+                        @include('partials.table-filter', ['modelStatusList' => \App\Models\Task::$statusList])
                     </div>
                     <div class="card-body">
                         @include('task.partials.tasks-table')

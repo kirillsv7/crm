@@ -29,7 +29,7 @@ class TaskFactory extends Factory
             'title'       => $this->faker->realText(20),
             'description' => $this->faker->realText,
             'project_id'  => Project::inRandomOrder()->first()->id,
-            'status_id'   => collect(Task::$statuses)->keys()->random(),
+            'status_id'   => collect(Task::$statusList)->keys()->random(),
         ];
     }
 
