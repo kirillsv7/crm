@@ -9,9 +9,10 @@
           <router-link
               class="page-link"
               v-if="link.url && !link.active"
-              :to="pageUrl(link.url)"
+              :to="transformApiUrl(link.url)"
               v-html="link.label"
-              :aria-current="link.active ? 'page' : ''"/>
+              :aria-current="link.active ? 'page' : ''"
+          />
           <span class="page-link" v-else-if="link.active" v-html="link.label"></span>
           <span class="page-link" aria-hidden="true" v-else v-html="link.label"></span>
         </li>
@@ -21,6 +22,9 @@
 </template>
 
 <script>
+import {useRoute, useRouter} from "vue-router";
+import {onUpdated} from "vue";
+
 export default {
   props: {
     pagination: {
@@ -28,18 +32,37 @@ export default {
       type: Object,
     },
   },
-  updated() {
-    if (this.pagination.current_page > this.pagination.last_page) {
-      this.$router.push({path: this.$route.path, query: {page: this.pagination.last_page}})
-    }
-  },
-  methods: {
-    pageUrl(url) {
-      let page = this.$route.path
-      let number = (new URL(url)).searchParams.get("page");
-      return {path: page, query: {page: number}}
+
+  setup(props) {
+    const route = useRoute()
+    const router = useRouter()
+
+    onUpdated(() => {
+      if (props.pagination.current_page > props.pagination.last_page) {
+        const newUrl = transformApiUrl(props.pagination.links[0].url)
+        newUrl.query.page = props.pagination.last_page
+        router.push(newUrl)
+      }
+    })
+
+    const transformApiUrl = (link) => {
+      const url = new URL(link)
+      const params = new URLSearchParams(url.search)
+      const newParams = {}
+
+      params.forEach(function (value, key) {
+        newParams[key] = value
+      })
+
+      return {
+        path: route.path,
+        query: newParams
+      }
     }
 
+    return {
+      transformApiUrl
+    }
   }
 }
 </script>

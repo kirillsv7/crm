@@ -19,7 +19,10 @@ export default function useTask() {
         let response = await axios.get('/api/v1/task', {
             params: {
                 page: route.query.page,
-                ...filter
+                project_id: filter.project_id,
+                client_id: filter.client_id,
+                user_id: filter.user_id,
+                status_id: filter.status_id,
             }
         })
         tasks.value = response.data.data

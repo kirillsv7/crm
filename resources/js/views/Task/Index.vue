@@ -60,7 +60,7 @@ export default {
 
     onMounted(getTasks)
 
-    watch(() => route.query.page, getTasks)
+    watch(() => route.query, getTasks)
 
     return {
       crudEvent,
