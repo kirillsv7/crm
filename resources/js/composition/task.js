@@ -68,7 +68,7 @@ export default function useTask() {
     }
 
     const getTasksDeleted = async () => {
-        let response = await axios.get('/api/v1/task/deleted', {
+        let response = await axios.get('/api/v1/task-deleted', {
             params: {
                 page: route.query.page
             }

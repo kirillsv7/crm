@@ -127,7 +127,7 @@ const routes = [
         props: true
     },
     {
-        path: '/task/deleted',
+        path: '/task-deleted',
         name: 'task.deleted',
         component: TaskDeleted
     },
