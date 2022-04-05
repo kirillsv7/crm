@@ -50,12 +50,9 @@ export default {
       alertType.value = 'warning'
     }
 
-    onMounted(getTasksDeleted)
+    onMounted(getTasksDeleted(route.query))
 
-    watch(
-        () => route.query.page,
-        getTasksDeleted
-    )
+    watch(() => route.query, getTasksDeleted)
 
     return {
       crudEvent,

@@ -18,7 +18,7 @@
         <td></td>
         <td>
           <select class="form-control" v-model="filter.project_id">
-            <option value="">Filter by project</option>
+            <option :value="null">Filter by project</option>
             <template v-for="project in projectList" :key="project.id">
               <option :value="project.id">
                 {{ project.title }}
@@ -28,7 +28,7 @@
         </td>
         <td>
           <select class="form-control" v-model="filter.client_id">
-            <option value="">Filter by client</option>
+            <option :value="null">Filter by client</option>
             <template v-for="client in clientList" :key="client.id">
               <option :value="client.id">
                 {{ client.company }}
@@ -38,7 +38,7 @@
         </td>
         <td>
           <select class="form-control" v-model="filter.user_id">
-            <option value="">Filter by user</option>
+            <option :value="null">Filter by user</option>
             <template v-for="user in userList" :key="user.id">
               <option :value="user.id">
                 {{ user.name }}
@@ -48,7 +48,7 @@
         </td>
         <td>
           <select class="form-control" v-model="filter.status_id">
-            <option value="">Filter by status</option>
+            <option :value="null">Filter by status</option>
             <template v-for="(status, id) in statusList" :key="id">
               <option :value="id">
                 {{ status }}
@@ -77,7 +77,8 @@
           <td>{{ task.created_at }}</td>
           <td>{{ task.updated_at }}</td>
           <td class="text-nowrap">
-            <router-link class="btn btn-secondary btn-sm mr-1" :to="{name: 'task.edit', params: {id: task.id}}"
+            <router-link class="btn btn-secondary btn-sm mr-1"
+                         :to="{name: 'task.edit', params: {id: task.id}}"
                          v-if="!task.deleted">
               <i class="cil-pencil"></i>
             </router-link>
@@ -96,11 +97,12 @@
 </template>
 
 <script>
+import {onMounted, ref, watch} from "vue";
+import {useRoute, useRouter} from "vue-router";
 import useTask from "../../composition/task";
 import useProject from "../../composition/project";
 import useUser from "../../composition/user";
 import useClient from "../../composition/client";
-import {onMounted, ref, watch} from "vue";
 
 export default {
   props: {
@@ -117,16 +119,18 @@ export default {
     }
   },
 
-  setup(props, context) {
+  setup() {
+    const route = useRoute()
+    const router = useRouter()
     const {projectList, getProjectList} = useProject()
     const {clientList, getClientList} = useClient()
     const {userList, getUserList} = useUser()
     const {statusList, getStatusList} = useTask()
     const filter = ref({
-      project_id: null,
-      client_id: null,
-      user_id: null,
-      status_id: null,
+      project_id: route.query.project_id ?? null,
+      client_id: route.query.client_id ?? null,
+      user_id: route.query.user_id ?? null,
+      status_id: route.query.status_id ?? null,
     })
 
     onMounted(() => {
@@ -137,7 +141,13 @@ export default {
     })
 
     watch(filter.value, (filter) => {
-      context.emit('filtered', filter)
+      const validFilter = Object.keys(filter)
+          .filter((k) => filter[k] != null)
+          .reduce((a, k) => ({...a, [k]: filter[k]}), {})
+      router.push({
+        path: route.path,
+        query: validFilter
+      })
     })
 
     return {

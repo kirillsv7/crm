@@ -8,11 +8,7 @@
             Task list
           </div>
           <div class="card-body">
-            <TaskTable
-                :tasks="tasks"
-                :deleteTask="deleteTask"
-                @filtered="filterTasks"
-            />
+            <TaskTable :tasks="tasks" :deleteTask="deleteTask"/>
           </div>
           <div class="card-footer d-flex justify-content-center">
             <PaginationElement :pagination="pagination"/>
@@ -54,11 +50,7 @@ export default {
       alertType.value = 'warning'
     }
 
-    const filterTasks = (filter) => {
-      getTasks(filter)
-    }
-
-    onMounted(getTasks)
+    onMounted(getTasks(route.query))
 
     watch(() => route.query, getTasks)
 
@@ -68,8 +60,6 @@ export default {
       alertType,
       tasks,
       pagination,
-      getTasks,
-      filterTasks,
       deleteTask
     }
   }
