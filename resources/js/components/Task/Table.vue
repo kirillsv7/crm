@@ -72,7 +72,7 @@
           </td>
           <td>{{ task.project }}</td>
           <td>{{ task.client }}</td>
-          <td>{{ task.user }}</td>
+          <td v-html="task.user"></td>
           <td>{{ task.status }}</td>
           <td>{{ task.created_at }}</td>
           <td>{{ task.updated_at }}</td>

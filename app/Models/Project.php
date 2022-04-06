@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\ProjectNonDeletedRelationsScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -44,7 +45,7 @@ class Project extends Model implements HasMedia
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     public function client(): BelongsTo
@@ -55,6 +56,20 @@ class Project extends Model implements HasMedia
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class);
+    }
+
+    public function getDeadlineInvertedAttribute()
+    {
+        return Carbon::parse($this->deadline)->format('d/m/Y');
+    }
+
+    public function getStatusAttribute()
+    {
+        return self::$statusList[$this->status_id];
+    }
+
+    public function getDeletedAttribute(){
+        return $this->deleted_at !== null;
     }
 
     public function scopeFilterByStatus($query)
@@ -86,18 +101,9 @@ class Project extends Model implements HasMedia
         return $query;
     }
 
-    public function getDeadlineInvertedAttribute()
+    protected static function booted()
     {
-        return Carbon::parse($this->deadline)->format('d/m/Y');
-    }
-
-    public function getStatusAttribute()
-    {
-        return self::$statusList[$this->status_id];
-    }
-
-    public function getDeletedAttribute(){
-        return $this->deleted_at !== null;
+        static::addGlobalScope(new ProjectNonDeletedRelationsScope);
     }
 
     public function registerMediaConversions(Media $media = null): void

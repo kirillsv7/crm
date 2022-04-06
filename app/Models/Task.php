@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
+use App\Scopes\TaskNonDeletedRelationsScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -118,6 +118,11 @@ class Task extends Model implements HasMedia
         }
 
         return $query;
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new TaskNonDeletedRelationsScope);
     }
 
     public function registerMediaConversions(Media $media = null): void

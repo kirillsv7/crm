@@ -21,7 +21,7 @@
           <td>{{ project.title }}</td>
           <td>{{ project.deadline }}</td>
           <td>{{ project.client }}</td>
-          <td>{{ project.user }}</td>
+          <td v-html="project.user"></td>
           <td>{{ project.tasks_count }}</td>
           <td>{{ project.status }}</td>
           <td>{{ project.created_at }}</td>
