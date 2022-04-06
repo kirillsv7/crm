@@ -59,6 +59,8 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
+        $task->load(['media', 'responses']);
+
         return new TaskResource($task);
     }
 
