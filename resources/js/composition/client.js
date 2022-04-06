@@ -67,7 +67,7 @@ export default function useClient() {
     }
 
     const getClientsDeleted = async () => {
-        let response = await axios.get('/api/v1/client/deleted', {
+        let response = await axios.get('/api/v1/client-deleted', {
             params: {
                 page: route.query.page
             }

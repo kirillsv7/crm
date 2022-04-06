@@ -67,7 +67,7 @@ export default function useUser() {
     }
 
     const getUsersDeleted = async () => {
-        let response = await axios.get('/api/v1/user/deleted', {
+        let response = await axios.get('/api/v1/user-deleted', {
             params: {
                 page: route.query.page
             }

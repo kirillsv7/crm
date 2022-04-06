@@ -55,7 +55,7 @@ const routes = [
         props: true
     },
     {
-        path: '/user/deleted',
+        path: '/user-deleted',
         name: 'user.deleted',
         component: UserDeleted
     },
@@ -77,7 +77,7 @@ const routes = [
         props: true
     },
     {
-        path: '/client/deleted',
+        path: '/client-deleted',
         name: 'client.deleted',
         component: ClientDeleted
     },
@@ -99,7 +99,7 @@ const routes = [
         props: true
     },
     {
-        path: '/project/deleted',
+        path: '/project-deleted',
         name: 'project.deleted',
         component: ProjectDeleted
     },
