@@ -133,6 +133,12 @@ export default {
       status_id: route.query.status_id ?? null,
     })
 
+    const cleanFilter = (filter) => {
+      return Object.keys(filter)
+          .filter((k) => filter[k] != null)
+          .reduce((a, k) => ({...a, [k]: filter[k]}), {})
+    }
+
     onMounted(() => {
       getProjectList()
       getUserList()
@@ -141,12 +147,9 @@ export default {
     })
 
     watch(filter.value, (filter) => {
-      const validFilter = Object.keys(filter)
-          .filter((k) => filter[k] != null)
-          .reduce((a, k) => ({...a, [k]: filter[k]}), {})
       router.push({
         path: route.path,
-        query: validFilter
+        query: cleanFilter(filter)
       })
     })
 
