@@ -114,7 +114,9 @@ class UserController extends Controller
     public function list()
     {
         return UserListResource::collection(
-            User::select(['id', 'name'])->get()
+            User::select(['id', 'name'])
+                ->withTrashed()
+                ->get()
         );
     }
 }
