@@ -44,7 +44,7 @@ export default {
       crudEvent.value = null
       if (!window.confirm('Are you sure you want to restore?')) return
       await restoreTask(id);
-      await getTasksDeleted();
+      await getTasksDeleted(route.query);
       crudEvent.value = 'restored'
       crudEventText.value = 'Task restored!'
       alertType.value = 'warning'

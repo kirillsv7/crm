@@ -15,16 +15,8 @@ export default function useTask() {
     const statusList = ref({})
     const errors = ref({})
 
-    const getTasks = async (filter = {}) => {
-        let response = await axios.get('/api/v1/task', {
-            params: {
-                page: route.query.page,
-                project_id: filter.project_id,
-                client_id: filter.client_id,
-                user_id: filter.user_id,
-                status_id: filter.status_id,
-            }
-        })
+    const getTasks = async (params = {}) => {
+        let response = await axios.get('/api/v1/task', {params})
         tasks.value = response.data.data
         pagination.value = response.data.meta
     }
@@ -67,16 +59,8 @@ export default function useTask() {
         await axios.delete(`/api/v1/task/${id}`)
     }
 
-    const getTasksDeleted = async (filter = {}) => {
-        let response = await axios.get('/api/v1/task-deleted', {
-            params: {
-                page: route.query.page,
-                project_id: filter.project_id,
-                client_id: filter.client_id,
-                user_id: filter.user_id,
-                status_id: filter.status_id,
-            }
-        })
+    const getTasksDeleted = async (params = {}) => {
+        let response = await axios.get('/api/v1/task-deleted', {params})
         tasksDeleted.value = response.data.data
         pagination.value = response.data.meta
     }

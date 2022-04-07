@@ -44,7 +44,7 @@ export default {
       crudEvent.value = null
       if (!window.confirm('Are you sure you want to delete?')) return
       await destroyTask(id);
-      await getTasks();
+      await getTasks(route.query);
       crudEvent.value = 'deleted'
       crudEventText.value = 'Task deleted!'
       alertType.value = 'warning'
