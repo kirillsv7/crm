@@ -67,10 +67,14 @@ export default function useTask() {
         await axios.delete(`/api/v1/task/${id}`)
     }
 
-    const getTasksDeleted = async () => {
+    const getTasksDeleted = async (filter = {}) => {
         let response = await axios.get('/api/v1/task-deleted', {
             params: {
-                page: route.query.page
+                page: route.query.page,
+                project_id: filter.project_id,
+                client_id: filter.client_id,
+                user_id: filter.user_id,
+                status_id: filter.status_id,
             }
         })
         tasksDeleted.value = response.data.data

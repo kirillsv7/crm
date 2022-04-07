@@ -10,15 +10,12 @@ use App\Http\Resources\V1\TaskResource;
 use App\Models\Task;
 use App\Services\SpatieMediaLibrary\AddMediaToModel;
 use App\Services\TaskService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         return TaskResource::collection(
             Task::query()
@@ -32,15 +29,7 @@ class TaskController extends Controller
         );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  CreateUpdateTaskRequest  $request
-     * @param  AddMediaToModel  $addMediaToModel
-     * @return TaskResource
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function store(CreateUpdateTaskRequest $request, AddMediaToModel $addMediaToModel)
+    public function store(CreateUpdateTaskRequest $request, AddMediaToModel $addMediaToModel): TaskResource
     {
         $this->authorize('create', Task::class);
 
@@ -51,29 +40,14 @@ class TaskController extends Controller
         return new TaskResource($task);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  Task  $task
-     * @return TaskResource
-     */
-    public function show(Task $task)
+    public function show(Task $task): TaskResource
     {
         $task->load(['media', 'responses']);
 
         return new TaskResource($task);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  CreateUpdateTaskRequest  $request
-     * @param  Task  $task
-     * @param  AddMediaToModel  $addMediaToModel
-     * @return TaskResource
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function update(CreateUpdateTaskRequest $request, Task $task, AddMediaToModel $addMediaToModel)
+    public function update(CreateUpdateTaskRequest $request, Task $task, AddMediaToModel $addMediaToModel): TaskResource
     {
         $this->authorize('update', $task);
 
@@ -84,14 +58,7 @@ class TaskController extends Controller
         return new TaskResource($task);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Task  $task
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function destroy(Task $task)
+    public function destroy(Task $task): JsonResponse
     {
         $this->authorize('delete', $task);
 
@@ -100,24 +67,22 @@ class TaskController extends Controller
         return response()->json(['message' => 'Task deleted']);
     }
 
-    /**
-     * Display a listing of the deleted resources.
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function deleted()
+    public function deleted(): AnonymousResourceCollection
     {
-        return TaskResource::collection(Task::onlyTrashed()->paginate());
+        return TaskResource::collection(
+            Task::query()
+                ->onlyTrashed()
+                ->filterByProject()
+                ->filterByClient()
+                ->filterByUser()
+                ->filterByStatus()
+                ->orderByDesc('id')
+                ->paginate()
+                ->withQueryString()
+        );
     }
 
-    /**
-     * Restore the specified resource to storage.
-     *
-     * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function restore($id)
+    public function restore($id): JsonResponse
     {
         $task = Task::onlyTrashed()->findOrFail($id);
 
@@ -128,18 +93,12 @@ class TaskController extends Controller
         return response()->json(['message' => 'Task restored']);
     }
 
-    public function statusList()
+    public function statusList(): JsonResponse
     {
         return response()->json(['data' => Task::$statusList]);
     }
 
-    /**
-     * @param  AddResponseToTaskRequest  $request
-     * @param  TaskService  $service
-     * @return ResponseResource
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function addResponse(AddResponseToTaskRequest $request, TaskService $service)
+    public function addResponse(AddResponseToTaskRequest $request, TaskService $service): ResponseResource
     {
         $task = Task::findOrFail(decrypt($request->input('task_id')));
 
