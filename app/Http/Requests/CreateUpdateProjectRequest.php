@@ -34,4 +34,13 @@ class CreateUpdateProjectRequest extends FormRequest
             'media.*'     => 'string|distinct',
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'client_id' => 'client',
+            'user_id' => 'user',
+            'status_id' => 'status',
+        ];
+    }
 }

@@ -32,4 +32,12 @@ class CreateUpdateTaskRequest extends FormRequest
             'media.*'     => 'string|distinct',
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'project_id' => 'project',
+            'status_id'  => 'status',
+        ];
+    }
 }
