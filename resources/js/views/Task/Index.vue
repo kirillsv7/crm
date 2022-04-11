@@ -43,10 +43,13 @@ export default {
     const deleteTask = async (id) => {
       crudEvent.value = null
       if (!window.confirm('Are you sure you want to delete?')) return
+      crudEvent.value = 'deleting'
+      crudEventText.value = 'Deleting task...'
+      alertType.value = 'info'
       await destroyTask(id);
       crudEvent.value = 'deleted'
       crudEventText.value = 'Task deleted!'
-      alertType.value = 'warning'
+      alertType.value = 'success'
     }
 
     onMounted(getTasks)

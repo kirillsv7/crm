@@ -14,16 +14,18 @@ export default function useTask() {
     const errors = ref({})
 
     const getTasks = async () => {
-        let response = await axios.get('/api/v1/task', {
-            params: route.query
-        })
-        tasks.value = response.data.data
-        pagination.value = response.data.meta
+        await axios.get('/api/v1/task', {params: route.query})
+            .then(response => {
+                tasks.value = response.data.data
+                pagination.value = response.data.meta
+            })
     }
 
     const getTask = async (id) => {
-        let response = await axios.get(`/api/v1/task/${id}`)
-        task.value = response.data.data
+        await axios.get(`/api/v1/task/${id}`)
+            .then(response => {
+                task.value = response.data.data
+            })
     }
 
     const storeTask = async () => {
@@ -38,36 +40,38 @@ export default function useTask() {
                     }
                 })
             })
-            .catch(processException)
+            .catch(handleException)
     }
 
     const updateTask = async (id) => {
         errors.value = {}
         await axios.put(`/api/v1/task/${id}`, task.value)
-            .catch(processException)
+            .catch(handleException)
     }
 
     const destroyTask = async (id) => {
         await axios.delete(`/api/v1/task/${id}`)
-        await getTasks()
+            .then(getTasks)
     }
 
     const getTasksDeleted = async () => {
-        let response = await axios.get('/api/v1/task-deleted', {
-            params: route.query
-        })
-        tasksDeleted.value = response.data.data
-        pagination.value = response.data.meta
+        await axios.get('/api/v1/task-deleted', {params: route.query})
+            .then(response => {
+                tasksDeleted.value = response.data.data
+                pagination.value = response.data.meta
+            })
     }
 
     const restoreTask = async (id) => {
         await axios.post(`/api/v1/task/${id}`)
-        await getTasksDeleted()
+            .then(getTasksDeleted)
     }
 
     const getStatusList = async () => {
-        let response = await axios.get('/api/v1/task/statuslist')
-        statusList.value = response.data.data
+        await axios.get('/api/v1/task/statuslist')
+            .then(response => {
+                statusList.value = response.data.data
+            })
     }
 
     const addResponse = async (taskResponse) => {
@@ -77,12 +81,12 @@ export default function useTask() {
             .then(response => {
                 addedResponse = response.data.data
             })
-            .catch(processException)
+            .catch(handleException)
 
         return addedResponse
     }
 
-    const processException = (e) => {
+    const handleException = (e) => {
         if (e.response.status === 422)
             errors.value = e.response.data.errors
         else

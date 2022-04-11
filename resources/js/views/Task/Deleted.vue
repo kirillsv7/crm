@@ -43,10 +43,13 @@ export default {
     const recoverTask = async (id) => {
       crudEvent.value = null
       if (!window.confirm('Are you sure you want to restore?')) return
+      crudEvent.value = 'restoring'
+      crudEventText.value = 'Restoring task...'
+      alertType.value = 'info'
       await restoreTask(id);
       crudEvent.value = 'restored'
       crudEventText.value = 'Task restored!'
-      alertType.value = 'warning'
+      alertType.value = 'success'
     }
 
     onMounted(getTasksDeleted)
