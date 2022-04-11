@@ -1,4 +1,4 @@
-import {ref} from "vue"
+import {reactive, ref} from "vue"
 import {useRoute, useRouter} from "vue-router"
 import axios from "axios"
 
@@ -8,9 +8,7 @@ export default function useTask() {
     const router = useRouter()
     const tasks = ref({})
     const pagination = ref({})
-    const task = ref({
-        responses: []
-    })
+    const task = ref({})
     const tasksDeleted = ref({})
     const statusList = ref({})
     const errors = ref({})
@@ -28,33 +26,25 @@ export default function useTask() {
         task.value = response.data.data
     }
 
-    const storeTask = async (task) => {
+    const storeTask = async () => {
         errors.value = {}
-        try {
-            const response = await axios.post('/api/v1/task', task)
-            await router.push({
-                name: 'task.edit',
-                params: {
-                    id: response.data.data.id,
-                    created: true
-                }
+        await axios.post('/api/v1/task', task.value)
+            .then(response => {
+                router.push({
+                    name: 'task.edit',
+                    params: {
+                        id: response.data.data.id,
+                        created: true
+                    }
+                })
             })
-        } catch (e) {
-            if (e.response.status === 422) {
-                errors.value = e.response.data.errors
-            }
-        }
+            .catch(processException)
     }
 
     const updateTask = async (id) => {
         errors.value = {}
-        try {
-            await axios.put(`/api/v1/task/${id}`, task.value)
-        } catch (e) {
-            if (e.response.status === 422) {
-                errors.value = e.response.data.errors
-            }
-        }
+        await axios.put(`/api/v1/task/${id}`, task.value)
+            .catch(processException)
     }
 
     const destroyTask = async (id) => {
@@ -82,14 +72,21 @@ export default function useTask() {
 
     const addResponse = async (taskResponse) => {
         errors.value = {}
-        try {
-            const response = await axios.post('/api/v1/task/add-response', taskResponse)
-            return response.data.data
-        } catch (e) {
-            if (e.response.status === 422) {
-                errors.value = e.response.data.errors
-            }
-        }
+        let addedResponse = null
+        await axios.post('/api/v1/task/add-response', taskResponse)
+            .then(response => {
+                addedResponse = response.data.data
+            })
+            .catch(processException)
+
+        return addedResponse
+    }
+
+    const processException = (e) => {
+        if (e.response.status === 422)
+            errors.value = e.response.data.errors
+        else
+            console.log(e.response)
     }
 
     return {

@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import {ref} from "vue"
 import useTask from "../../composition/task";
 import useCrudAlert from "../../composition/crudalert";
 import TaskForm from "../../components/Task/Form";
@@ -32,20 +31,14 @@ export default {
   },
 
   setup() {
-    const {errors, storeTask} = useTask()
+    const {task, errors, storeTask} = useTask()
     const {crudEvent, crudEventText, alertType} = useCrudAlert()
-    const task = ref({
-      'title': '',
-      'description': '',
-      'project_id': '',
-      'status_id': ''
-    })
 
     const saveTask = async () => {
       crudEvent.value = 'creating'
-      crudEventText.value = 'Creatung task...'
+      crudEventText.value = 'Creating task...'
       alertType.value = 'info'
-      await storeTask({...task.value})
+      await storeTask(task.value)
       if (Object.keys(errors.value).length !== 0) {
         crudEvent.value = 'error'
         crudEventText.value = 'Check fields!'
