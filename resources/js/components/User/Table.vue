@@ -15,7 +15,7 @@
       <template v-for="user in users" :key="user.id">
         <tr>
           <td>{{ user.id }}</td>
-          <td>{{ user.name }}</td>
+          <td v-html="user.name"></td>
           <td>{{ user.email }}</td>
           <td>
             <i :class="[user.is_admin ? 'cil-check-alt text-success' : 'cil-x text-muted']"></i>
