@@ -75,15 +75,15 @@ export default {
 
     const postLogin = async () => {
       await axios.get('/sanctum/csrf-cookie')
-      await axios.post('/login', {...login})
+      await axios.post('/login', login)
           .then(async () => {
             await getAuthCheck()
+            if (state.authCheck)
+              await router.push({name: 'dashboard'})
           })
           .catch((e) => {
             errors.value = e.response.data.errors
           })
-      if (state.authCheck)
-        await router.push({name: 'dashboard'})
     }
 
     onMounted(async () => {

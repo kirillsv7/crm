@@ -30,9 +30,8 @@ export default {
   setup() {
     const {state, getAuthCheck, getActiveUser} = inject('auth')
     const postLogout = async () => {
-      await axios.post('/logout').then(() => {
-        getAuthCheck()
-      })
+      await axios.post('/logout')
+          .then(getAuthCheck)
     }
 
     onMounted(getActiveUser)

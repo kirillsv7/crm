@@ -11,13 +11,11 @@
 import {onMounted, provide, ref, watch} from "vue";
 import {useRouter} from "vue-router";
 import auth from "../store/auth";
-import Login from "./Auth/Login";
 import SidebarMenu from "../components/UI/SidebarMenu";
 import AppHeader from "../components/UI/AppHeader";
 
 export default {
   components: {
-    Login,
     SidebarMenu,
     AppHeader
   },
