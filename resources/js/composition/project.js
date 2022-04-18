@@ -75,7 +75,7 @@ export default function useProject() {
     }
 
     const getProjectsDeleted = async () => {
-        let response = await axios.get('/api/v1/project-deleted', {
+        let response = await axios.get('/api/v1/project/deleted', {
             params: {
                 page: route.query.page
             }

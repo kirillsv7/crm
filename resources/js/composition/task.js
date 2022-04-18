@@ -55,7 +55,7 @@ export default function useTask() {
     }
 
     const getTasksDeleted = async () => {
-        await axios.get('/api/v1/task-deleted', {params: route.query})
+        await axios.get('/api/v1/task/deleted', {params: route.query})
             .then(response => {
                 tasksDeleted.value = response.data.data
                 pagination.value = response.data.meta

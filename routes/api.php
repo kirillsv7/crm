@@ -29,21 +29,21 @@ Route::group([
     Route::group([
         'middleware' => 'auth:sanctum',
     ], function () {
-        Route::get('user-deleted', [UserController::class, 'deleted'])->name('user.deleted');
+        Route::get('user/deleted', [UserController::class, 'deleted'])->name('user.deleted');
         Route::post('user/{user}', [UserController::class, 'restore'])->name('user.restore');
         Route::get('user/list', [UserController::class, 'list'])->name('user.list');
 
-        Route::get('client-deleted', [ClientController::class, 'deleted'])->name('client.deleted');
+        Route::get('client/deleted', [ClientController::class, 'deleted'])->name('client.deleted');
         Route::post('client/{client}', [ClientController::class, 'restore'])->name('client.restore');
         Route::get('client/list', [ClientController::class, 'list'])->name('client.list');
 
-        Route::get('project-deleted', [ProjectController::class, 'deleted'])->name('project.deleted');
+        Route::get('project/deleted', [ProjectController::class, 'deleted'])->name('project.deleted');
         Route::post('project/{project}', [ProjectController::class, 'restore'])->name('project.restore');
         Route::get('project/statuslist', [ProjectController::class, 'statusList'])->name('project.statuslist');
         Route::get('project/list', [ProjectController::class, 'list'])->name('project.list');
 
         Route::post('task/add-response', [TaskController::class, 'addResponse'])->name('task.add-response');
-        Route::get('task-deleted', [TaskController::class, 'deleted'])->name('task.deleted');
+        Route::get('task/deleted', [TaskController::class, 'deleted'])->name('task.deleted');
         Route::post('task/{task}', [TaskController::class, 'restore'])->name('task.restore');
         Route::get('task/statuslist', [TaskController::class, 'statusList'])->name('task.statuslist');
 
