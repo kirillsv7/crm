@@ -40,8 +40,10 @@ class TaskController extends Controller
         return new TaskResource($task);
     }
 
-    public function show(Task $task): TaskResource
+    public function show($id): TaskResource
     {
+        $task = Task::withTrashed()->findOrFail($id);
+
         $task->load(['media', 'responses']);
 
         return new TaskResource($task);
