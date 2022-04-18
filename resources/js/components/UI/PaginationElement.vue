@@ -9,7 +9,7 @@
           <router-link
               class="page-link"
               v-if="link.url && !link.active"
-              :to="link.url"
+              :to="convertedApiURL(link.url)"
               v-html="link.label"
               :aria-current="link.active ? 'page' : ''"
           />
@@ -22,12 +22,25 @@
 </template>
 
 <script>
+import {useRoute} from "vue-router";
+
 export default {
   props: {
     pagination: {
       required: true,
       type: Object,
     },
+  },
+  setup() {
+    const route = useRoute()
+
+    const convertedApiURL = (url) => {
+      const path = route.path
+      const query = Object.fromEntries((new URL(url)).searchParams.entries())
+      return {path, query}
+    }
+
+    return {convertedApiURL}
   }
 }
 </script>
