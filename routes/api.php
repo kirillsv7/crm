@@ -23,12 +23,13 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'prefix' => 'v1',
 ], function () {
-    Route::get('get-active-user', fn() => Auth::user())->name('getActiveUser');
     Route::get('get-auth-check', fn() => Auth::check())->name('getAuthCheck');
 
     Route::group([
         'middleware' => 'auth:sanctum',
     ], function () {
+        Route::get('get-active-user', fn() => Auth::user())->name('getActiveUser');
+
         Route::get('user/deleted', [UserController::class, 'deleted'])->name('user.deleted');
         Route::post('user/{user}', [UserController::class, 'restore'])->name('user.restore');
         Route::get('user/list', [UserController::class, 'list'])->name('user.list');

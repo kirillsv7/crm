@@ -7,7 +7,7 @@
     <ul class="c-header-nav ml-auto">
       <li class="c-header-nav-item px-3">
         <i class="c-icon cil-user mr-2"></i>
-        {{ state.activeUser.name }}
+        {{ state.user.name }}
       </li>
       <li class="c-header-nav-item px-3">
         <button class="btn btn-link" @click="postLogout">
@@ -15,24 +15,18 @@
           Logout
         </button>
       </li>
-
     </ul>
   </header>
 </template>
 
 <script>
 import {inject, onMounted} from "vue";
-import axios from "axios";
+import useAuth from "../../composition/auth";
 
 export default {
-  name: 'AppHeader',
-
   setup() {
-    const {state, getAuthCheck, getActiveUser} = inject('auth')
-    const postLogout = async () => {
-      await axios.post('/logout')
-          .then(getAuthCheck)
-    }
+    const {state, getActiveUser} = inject('storeAuth')
+    const {postLogout} = useAuth()
 
     onMounted(getActiveUser)
 

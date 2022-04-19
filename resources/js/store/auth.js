@@ -2,18 +2,18 @@ import {reactive} from "vue";
 import axios from "axios";
 
 const state = reactive({
-    authCheck: false,
-    activeUser: {}
+    auth: false,
+    user: {}
 })
 
 const getAuthCheck = async () => {
-    const response = await axios.get('/api/v1/get-auth-check')
-    state.authCheck = response.data === 1
+    await axios.get('/api/v1/get-auth-check')
+        .then(response => state.auth = response.data === 1)
 }
 
-const getActiveUser = async () => {
-    const response = await axios.get('/api/v1/get-active-user')
-    state.activeUser = response.data
+const getActiveUser = () => {
+    axios.get('/api/v1/get-active-user')
+        .then(response => state.user = response.data)
 }
 
 export default {

@@ -1,3 +1,4 @@
+import axios from "axios";
 import {createRouter, createWebHistory} from "vue-router";
 
 import AuthLogin from "../views/Auth/Login";
@@ -133,7 +134,21 @@ const routes = [
     },
 ]
 
-export default createRouter({
+const router = createRouter({
     history: createWebHistory(),
     routes
 })
+
+router.beforeEach((to, from) => {
+    axios.interceptors.response.use(
+        response => response,
+        e => {
+            if (e.response.status === 401 || e.response.status === 419) {
+                location.assign('/login')
+            }
+            return Promise.reject(e)
+        }
+    )
+})
+
+export default router

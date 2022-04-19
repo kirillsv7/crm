@@ -1,16 +1,15 @@
 <template>
-  <div class="loading" v-if="loading"></div>
-  <SidebarMenu v-if="state.authCheck"/>
+  <SidebarMenu v-if="state.auth"/>
   <div class="c-wrapper">
-    <AppHeader v-if="state.authCheck"/>
+    <AppHeader v-if="state.auth"/>
     <router-view/>
   </div>
 </template>
 
 <script>
-import {onMounted, provide, ref, watch} from "vue";
+import {onMounted, provide, watch} from "vue";
 import {useRouter} from "vue-router";
-import auth from "../store/auth";
+import storeAuth from "../store/auth";
 import SidebarMenu from "../components/UI/SidebarMenu";
 import AppHeader from "../components/UI/AppHeader";
 
@@ -22,26 +21,24 @@ export default {
 
   setup() {
     const router = useRouter()
-    const {state, getAuthCheck} = auth
-    const loading = ref(true)
+    const {state, getAuthCheck} = storeAuth
 
-    onMounted(async () => {
-      await getAuthCheck()
-      if (!state.authCheck)
-        await router.push({name: 'auth.login'})
-      loading.value = false
+    onMounted(() => {
+      getAuthCheck().then(() => {
+        if (!state.auth)
+          router.push({name: 'auth.login'})
+      })
     })
 
-    watch(() => state.authCheck, async (authCheck) => {
-      if (!authCheck)
+    watch(() => state.auth, async (auth) => {
+      if (!auth)
         await router.push({name: 'auth.login'})
     })
 
-    provide('auth', auth)
+    provide('storeAuth', storeAuth)
 
     return {
-      loading,
-      state,
+      state
     }
   }
 }

@@ -63,33 +63,26 @@
 </template>
 
 <script>
-import {inject, onMounted, ref} from "vue";
+import {inject, onBeforeUnmount, onMounted} from "vue";
 import {useRouter} from "vue-router";
+import useAuth from "../../composition/auth";
 
 export default {
   setup() {
     const router = useRouter()
-    const login = {}
-    const {state, getAuthCheck} = inject('auth')
-    const errors = ref({})
+    const {state, getAuthCheck} = inject('storeAuth')
+    const {login, errors, postLogin} = useAuth()
 
-    const postLogin = async () => {
-      await axios.get('/sanctum/csrf-cookie')
-      await axios.post('/login', login)
-          .then(async () => {
-            await getAuthCheck()
-            if (state.authCheck)
-              await router.push({name: 'dashboard'})
+    onMounted(() => {
+      getAuthCheck()
+          .then(() => {
+            if (state.auth)
+              router.push({name: 'dashboard'})
           })
-          .catch((e) => {
-            errors.value = e.response.data.errors
-          })
-    }
+    })
 
-    onMounted(async () => {
-      await getAuthCheck()
-      if (state.authCheck)
-        await router.push({name: 'dashboard'})
+    onBeforeUnmount(() => {
+      getAuthCheck()
     })
 
     return {
