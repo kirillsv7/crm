@@ -68,7 +68,8 @@ class Project extends Model implements HasMedia
         return self::$statusList[$this->status_id];
     }
 
-    public function getDeletedAttribute(){
+    public function getIsDeletedAttribute(): bool
+    {
         return $this->deleted_at !== null;
     }
 

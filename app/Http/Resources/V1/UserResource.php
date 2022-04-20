@@ -18,10 +18,10 @@ class UserResource extends JsonResource
             'id'         => $this->id,
             'name'       => $this->name,
             'email'      => $this->email,
-            'is_admin'   => $this->isAdmin(),
+            'is_admin'   => $this->isAdmin,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'deleted'    => $this->deleted,
+            'is_deleted' => $this->isDeleted,
             $this->mergeWhen($request->routeIs('user.show', 'user.update'), [
                 'roles'       => $this->getRoleNames(),
                 'permissions' => $this->getAllPermissions()->pluck('name'),

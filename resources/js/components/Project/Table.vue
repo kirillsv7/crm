@@ -28,13 +28,13 @@
           <td>{{ project.updated_at }}</td>
           <td class="text-nowrap">
             <router-link class="btn btn-secondary btn-sm mr-1" :to="{name: 'project.edit', params: {id: project.id}}"
-                         v-if="!project.deleted">
+                         v-if="!project.is_deleted">
               <i class="cil-pencil"></i>
             </router-link>
-            <button class="btn btn-light btn-sm mr-1" @click="deleteProject(project.id)" v-if="!project.deleted">
+            <button class="btn btn-light btn-sm mr-1" @click="deleteProject(project.id)" v-if="!project.is_deleted">
               <i class="cil-trash"></i>
             </button>
-            <button class="btn btn-danger btn-sm" @click="recoverProject(project.id)" v-if="project.deleted">
+            <button class="btn btn-danger btn-sm" @click="recoverProject(project.id)" v-if="project.is_deleted">
               <i class="cil-reload"></i>
             </button>
           </td>

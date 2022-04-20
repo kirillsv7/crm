@@ -46,7 +46,7 @@
         <div class="custom-control custom-switch mb-3">
             <input name="is_admin" type="hidden" value="0">
             <input id="is_admin" class="custom-control-input" name="is_admin" type="checkbox" value="1"
-                   @if(isset($user) && $user->isAdmin()) checked @endif>
+                   @if(isset($user) && $user->isAdmin) checked @endif>
             <label class="custom-control-label" for="is_admin">Is admin</label>
         </div>
     @endcan

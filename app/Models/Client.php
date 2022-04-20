@@ -14,7 +14,8 @@ class Client extends Model
 
     protected $fillable = ['company', 'vat', 'address'];
 
-    public function getDeletedAttribute(){
+    public function getIsDeletedAttribute(): bool
+    {
         return $this->deleted_at !== null;
     }
 }

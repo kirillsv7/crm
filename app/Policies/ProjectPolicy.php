@@ -18,7 +18,7 @@ class ProjectPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->isAdmin() || $user->hasPermissionTo('project-viewAny');
+        return $user->isAdmin || $user->hasPermissionTo('project-viewAny');
     }
 
     /**
@@ -30,7 +30,7 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project)
     {
-        return $user->isAdmin() || $user->hasPermissionTo('project-view');
+        return $user->isAdmin || $user->hasPermissionTo('project-view');
     }
 
     /**
@@ -41,7 +41,7 @@ class ProjectPolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin() || $user->hasPermissionTo('project-create');
+        return $user->isAdmin || $user->hasPermissionTo('project-create');
     }
 
     /**
@@ -53,7 +53,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project)
     {
-        return $user->isAdmin() || $user->hasPermissionTo('project-update');
+        return $user->isAdmin || $user->hasPermissionTo('project-update');
     }
 
     /**
@@ -65,7 +65,7 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project)
     {
-        return $user->isAdmin() || $user->hasPermissionTo('project-delete');
+        return $user->isAdmin || $user->hasPermissionTo('project-delete');
     }
 
     /**
@@ -77,7 +77,7 @@ class ProjectPolicy
      */
     public function restore(User $user, Project $project)
     {
-        return $user->isAdmin() || $user->hasPermissionTo('project-restore');
+        return $user->isAdmin || $user->hasPermissionTo('project-restore');
     }
 
     /**
@@ -89,7 +89,7 @@ class ProjectPolicy
      */
     public function forceDelete(User $user, Project $project)
     {
-        return $user->isAdmin() || $user->hasPermissionTo('project-forceDelete');
+        return $user->isAdmin || $user->hasPermissionTo('project-forceDelete');
     }
 
     /**
@@ -99,6 +99,6 @@ class ProjectPolicy
      */
     public function manageMedia(User $user, Project $project)
     {
-        return $user->isAdmin() || $user->hasPermissionTo('project-manageMedia');
+        return $user->isAdmin || $user->hasPermissionTo('project-manageMedia');
     }
 }

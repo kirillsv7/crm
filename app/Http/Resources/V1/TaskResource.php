@@ -27,7 +27,7 @@ class TaskResource extends JsonResource
             'status'       => $this->status,
             'created_at'   => $this->created_at,
             'updated_at'   => $this->updated_at,
-            'deleted'      => $this->deleted,
+            'is_deleted'   => $this->isDeleted,
             'media'        => MediaResource::collection($this->whenLoaded('media')),
             'responses'    => ResponseResource::collection($this->whenLoaded('responses')),
         ];

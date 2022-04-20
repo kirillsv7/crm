@@ -46,19 +46,19 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function isAdmin()
+    public function getNameAttribute()
+    {
+        return !$this->isDeleted
+            ? $this->getRawOriginal('name')
+            : "<del>" . $this->getRawOriginal('name') . "</del>";
+    }
+
+    public function getIsAdminAttribute(): bool
     {
         return $this->hasRole('admin');
     }
 
-    public function getNameAttribute()
-    {
-        return !$this->deleted
-            ? $this->getRawOriginal('name')
-            : '<i class="cil-warning"></i> ' . $this->getRawOriginal('name');
-    }
-
-    public function getDeletedAttribute()
+    public function getIsDeletedAttribute(): bool
     {
         return $this->deleted_at !== null;
     }

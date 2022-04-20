@@ -24,13 +24,13 @@
           <td>{{ user.updated_at }}</td>
           <td class="text-nowrap">
             <router-link class="btn btn-secondary btn-sm mr-1" :to="{name: 'user.edit', params: {id: user.id}}"
-                         v-if="!user.deleted">
+                         v-if="!user.is_deleted">
               <i class="cil-pencil"></i>
             </router-link>
-            <button class="btn btn-light btn-sm mr-1" @click="deleteUser(user.id)" v-if="!user.deleted">
+            <button class="btn btn-light btn-sm mr-1" @click="deleteUser(user.id)" v-if="!user.is_deleted">
               <i class="cil-trash"></i>
             </button>
-            <button class="btn btn-danger btn-sm" @click="recoverUser(user.id)" v-if="user.deleted">
+            <button class="btn btn-danger btn-sm" @click="recoverUser(user.id)" v-if="user.is_deleted">
               <i class="cil-reload"></i>
             </button>
           </td>

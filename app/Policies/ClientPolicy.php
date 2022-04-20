@@ -18,7 +18,7 @@ class ClientPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->isAdmin() || $user->hasPermissionTo('client-viewAny');
+        return $user->isAdmin || $user->hasPermissionTo('client-viewAny');
     }
 
     /**
@@ -30,7 +30,7 @@ class ClientPolicy
      */
     public function view(User $user, Client $client)
     {
-        return $user->isAdmin() || $user->hasPermissionTo('client-view');
+        return $user->isAdmin || $user->hasPermissionTo('client-view');
     }
 
     /**
@@ -41,7 +41,7 @@ class ClientPolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin() || $user->hasPermissionTo('client-create');
+        return $user->isAdmin || $user->hasPermissionTo('client-create');
     }
 
     /**
@@ -53,7 +53,7 @@ class ClientPolicy
      */
     public function update(User $user, Client $client)
     {
-        return $user->isAdmin() || $user->hasPermissionTo('client-update');
+        return $user->isAdmin || $user->hasPermissionTo('client-update');
     }
 
     /**
@@ -65,7 +65,7 @@ class ClientPolicy
      */
     public function delete(User $user, Client $client)
     {
-        return $user->isAdmin() || $user->hasPermissionTo('client-delete');
+        return $user->isAdmin || $user->hasPermissionTo('client-delete');
     }
 
     /**
@@ -77,7 +77,7 @@ class ClientPolicy
      */
     public function restore(User $user, Client $client)
     {
-        return $user->isAdmin() || $user->hasPermissionTo('client-restore');
+        return $user->isAdmin || $user->hasPermissionTo('client-restore');
     }
 
     /**
@@ -89,6 +89,6 @@ class ClientPolicy
      */
     public function forceDelete(User $user, Client $client)
     {
-        return $user->isAdmin() || $user->hasPermissionTo('client-forceDelete');
+        return $user->isAdmin || $user->hasPermissionTo('client-forceDelete');
     }
 }

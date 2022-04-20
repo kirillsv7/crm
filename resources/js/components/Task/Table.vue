@@ -79,13 +79,13 @@
           <td class="text-nowrap">
             <router-link class="btn btn-secondary btn-sm mr-1"
                          :to="{name: 'task.edit', params: {id: task.id}}"
-                         v-if="!task.deleted">
+                         v-if="!task.is_deleted">
               <i class="cil-pencil"></i>
             </router-link>
-            <button class="btn btn-light btn-sm mr-1" @click="deleteTask(task.id)" v-if="!task.deleted">
+            <button class="btn btn-light btn-sm mr-1" @click="deleteTask(task.id)" v-if="!task.is_deleted">
               <i class="cil-trash"></i>
             </button>
-            <button class="btn btn-danger btn-sm" @click="recoverTask(task.id)" v-if="task.deleted">
+            <button class="btn btn-danger btn-sm" @click="recoverTask(task.id)" v-if="task.is_deleted">
               <i class="cil-reload"></i>
             </button>
           </td>

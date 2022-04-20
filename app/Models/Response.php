@@ -38,21 +38,6 @@ class Response extends Model implements HasMedia
         return $this->belongsTo(User::class);
     }
 
-    public function getCreatedAtAttribute($created_at)
-    {
-        return Carbon::parse($created_at)->format('d/m/Y H:i:s');
-    }
-
-    public function getUpdatedAtAttribute($updated_at)
-    {
-        return Carbon::parse($updated_at)->format('d/m/Y H:i:s');
-    }
-
-    public function getDeletedAtAttribute($deleted_at)
-    {
-        return Carbon::parse($deleted_at)->format('d/m/Y H:i:s');
-    }
-
     public function registerMediaConversions(Media $media = null): void
     {
         foreach ($this->imageSizes as $name => $dimensions) {

@@ -19,6 +19,6 @@ class ResponsePolicy
      */
     public function delete(User $user, Response $response)
     {
-        return $user->isAdmin() || $user->hasPermissionTo('response-delete');
+        return $user->isAdmin || $user->hasPermissionTo('response-delete');
     }
 }
