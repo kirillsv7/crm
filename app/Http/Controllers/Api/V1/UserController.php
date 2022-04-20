@@ -18,7 +18,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        return UserResource::collection(User::paginate());
+        return UserResource::collection(
+            User::query()
+                ->with(['roles'])
+                ->paginate()
+        );
     }
 
     /**
