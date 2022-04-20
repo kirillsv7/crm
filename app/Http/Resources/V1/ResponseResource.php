@@ -3,6 +3,7 @@
 namespace App\Http\Resources\V1;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class ResponseResource extends JsonResource
 {
@@ -15,13 +16,12 @@ class ResponseResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'      => $this->id,
-            'content' => $this->content,
-            'user'    => $this->user->name,
+            'id'         => $this->id,
+            'content'    => Str::limit($this->content),
+            'user'       => $this->user,
+            'task'       => $this->task,
             'created_at' => $this->created_at,
-            'media'   => $this->when($request->routeIs('task.show'), MediaResource::collection(
-                $this->getMedia()
-            )),
+            'media'      => MediaResource::collection($this->whenLoaded('media')),
         ];
     }
 }

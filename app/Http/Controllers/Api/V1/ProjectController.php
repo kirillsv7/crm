@@ -7,6 +7,7 @@ use App\Http\Requests\CreateUpdateProjectRequest;
 use App\Http\Resources\V1\ProjectListResource;
 use App\Http\Resources\V1\ProjectResource;
 use App\Models\Project;
+use App\Models\Task;
 use App\Services\ProjectService;
 
 class ProjectController extends Controller
@@ -128,6 +129,21 @@ class ProjectController extends Controller
         return ProjectListResource::collection(
             Project::select(['id', 'title'])
                    ->without(['client', 'user'])
+                   ->get()
+        );
+    }
+
+    public function recentlyAddedTask()
+    {
+        return ProjectResource::collection(
+            Project::withCount('tasks')
+                   ->orderByDesc(
+                       Task::select('id')
+                           ->whereColumn('tasks.project_id', 'projects.id')
+                           ->orderByDesc('id')
+                           ->limit(1)
+                   )
+                   ->limit(5)
                    ->get()
         );
     }

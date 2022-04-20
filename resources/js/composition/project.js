@@ -93,6 +93,14 @@ export default function useProject() {
         statusList.value = response.data.data
     }
 
+    const getRecentlyAddedTask = () => {
+        axios.get('api/v1/project/recently-added-task')
+            .then(response => {
+                projects.value = response.data.data
+            })
+
+    }
+
     return {
         projects,
         projectList,
@@ -109,6 +117,7 @@ export default function useProject() {
         destroyProject,
         getProjectsDeleted,
         restoreProject,
-        getStatusList
+        getStatusList,
+        getRecentlyAddedTask
     }
 }

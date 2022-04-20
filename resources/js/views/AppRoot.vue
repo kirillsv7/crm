@@ -43,15 +43,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.loading {
-  background: #ebedef;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 999;
-}
-</style>

@@ -1,4 +1,4 @@
-import {reactive, ref} from "vue"
+import {ref} from "vue"
 import {useRoute, useRouter} from "vue-router"
 import axios from "axios"
 
@@ -86,6 +86,13 @@ export default function useTask() {
         return addedResponse
     }
 
+    const getRecentlyResponsed = () => {
+        axios.get('/api/v1/task/recently-responsed')
+            .then(response => {
+                tasks.value = response.data.data
+            })
+    }
+
     const handleException = (e) => {
         if (e.response.status === 422)
             errors.value = e.response.data.errors
@@ -108,6 +115,7 @@ export default function useTask() {
         getTasksDeleted,
         restoreTask,
         getStatusList,
-        addResponse
+        addResponse,
+        getRecentlyResponsed
     }
 }

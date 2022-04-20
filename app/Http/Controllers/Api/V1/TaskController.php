@@ -7,6 +7,7 @@ use App\Http\Requests\AddResponseToTaskRequest;
 use App\Http\Requests\CreateUpdateTaskRequest;
 use App\Http\Resources\V1\ResponseResource;
 use App\Http\Resources\V1\TaskResource;
+use App\Models\Response;
 use App\Models\Task;
 use App\Services\SpatieMediaLibrary\AddMediaToModel;
 use App\Services\TaskService;
@@ -109,5 +110,20 @@ class TaskController extends Controller
         $response = $service->addResponse($request->validated());
 
         return new ResponseResource($response);
+    }
+
+    public function recentlyResponsed(): AnonymousResourceCollection
+    {
+        return TaskResource::collection(
+            Task::query()
+                ->orderByDesc(
+                    Response::select('id')
+                            ->whereColumn('responses.task_id', 'tasks.id')
+                            ->orderByDesc('id')
+                            ->limit(1)
+                )
+                ->limit(5)
+                ->get()
+        );
     }
 }

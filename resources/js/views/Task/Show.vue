@@ -23,7 +23,7 @@
         </div>
         <TaskMedia :media="task.media"/>
         <TaskResponse v-for="response in task.responses" :key="response.id" :response="response"/>
-        <template v-if="!task.is_deleted">
+        <template v-if="!task.deleted">
           <hr>
           <ResponseForm v-if="task.encrypted_id" :encryptedId="task.encrypted_id"/>
         </template>

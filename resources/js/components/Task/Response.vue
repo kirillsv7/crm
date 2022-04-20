@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header d-flex flex-wrap align-items-center">
-      Response by: {{ response.user }} |
+      Response by: {{ response.user.name }} |
       at: {{ response.created_at }}
 
       <a class="btn btn-link btn-sm ml-auto text-muted" id="response-{{ response.id }}"
