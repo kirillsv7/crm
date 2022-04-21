@@ -45,7 +45,7 @@ class TaskController extends Controller
     {
         $task = Task::withTrashed()->findOrFail($id);
 
-        $task->load(['media', 'responses']);
+        $task->load(['media', 'responses.task']);
 
         return new TaskResource($task);
     }

@@ -4,8 +4,9 @@
       Response by: {{ response.user.name }} |
       at: {{ response.created_at }}
 
-      <a class="btn btn-link btn-sm ml-auto text-muted" id="response-{{ response.id }}"
-         href="#response-{{ response.id }}">#{{ response.id }}</a>
+      <router-link :to="{hash: '#response-' + response.id}" class="btn btn-link btn-sm ml-auto text-muted"
+                   :id="'response-'+response.id">#{{ response.id }}
+      </router-link>
       |
       <button class="btn btn-link btn-sm" type="submit"
               onclick="return confirm('Are you sure you want to delete?');">
