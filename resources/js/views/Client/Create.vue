@@ -1,5 +1,5 @@
 <template>
-  <CrudAlert :crudEvent="crudEvent" :alertType="alertType">{{ crudEventText }}</CrudAlert>
+  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="container my-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -21,41 +21,38 @@
 <script>
 import {ref} from "vue";
 import useClient from "../../composition/client";
-import useCrudAlert from "../../composition/crudalert";
 import ClientForm from "../../components/Client/Form";
-import CrudAlert from "../../components/UI/CrudAlert";
+import AlertElement from "../../components/UI/AlertElement";
 
 export default {
   components: {
     ClientForm,
-    CrudAlert
+    AlertElement
   },
 
   setup() {
     const {errors, storeClient} = useClient()
-    const {crudEvent, crudEventText, alertType} = useCrudAlert()
     const client = ref({
       'company': '',
       'vat': '',
       'address': '',
     })
+    const alertMessage = ref('')
+    const alertClass = ref('')
 
     const saveClient = async () => {
-      crudEvent.value = 'creating'
-      crudEventText.value = 'Creating client...'
-      alertType.value = 'info'
+      alertMessage.value = 'Creating client...'
+      alertClass.value = 'info'
       await storeClient({...client.value})
       if (Object.keys(errors.value).length !== 0) {
-        crudEvent.value = 'error'
-        crudEventText.value = 'Check fields!'
-        alertType.value = 'danger'
+        alertMessage.value = 'Check fields!'
+        alertClass.value = 'danger'
       }
     }
 
     return {
-      crudEvent,
-      crudEventText,
-      alertType,
+      alertMessage,
+      alertClass,
       client,
       errors,
       saveClient

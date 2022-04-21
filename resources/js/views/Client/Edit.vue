@@ -1,5 +1,5 @@
 <template>
-  <CrudAlert :crudEvent="crudEvent" :alertType="alertType">{{ crudEventText }}</CrudAlert>
+  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="container my-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -19,16 +19,15 @@
 </template>
 
 <script>
-import {onMounted} from "vue";
+import {onMounted, ref} from "vue";
 import useClient from "../../composition/client";
-import useCrudAlert from "../../composition/crudalert";
 import ClientForm from "../../components/Client/Form";
-import CrudAlert from "../../components/UI/CrudAlert";
+import AlertElement from "../../components/UI/AlertElement";
 
 export default {
   components: {
     ClientForm,
-    CrudAlert
+    AlertElement
   },
   props: {
     id: {
@@ -43,28 +42,25 @@ export default {
 
   setup(props) {
     const {client, errors, getClient, updateClient} = useClient()
-    const {crudEvent, crudEventText, alertType} = useCrudAlert()
+    const alertMessage = ref('')
+    const alertClass = ref('')
 
     const saveClient = async () => {
-      crudEvent.value = 'updating'
-      crudEventText.value = 'Updating client...'
-      alertType.value = 'info'
+      alertMessage.value = 'Updating client...'
+      alertClass.value = 'info'
       await updateClient(props.id)
       if (Object.keys(errors.value).length === 0) {
-        crudEvent.value = 'updated'
-        crudEventText.value = 'Client updated!'
-        alertType.value = null
+        alertMessage.value = 'Client updated!'
+        alertClass.value = null
       } else {
-        crudEvent.value = 'error'
-        crudEventText.value = 'Check fields!'
-        alertType.value = 'danger'
+        alertMessage.value = 'Check fields!'
+        alertClass.value = 'danger'
       }
     }
 
     const toggleCreatedAlert = async () => {
       if (props.created) {
-        crudEvent.value = 'created'
-        crudEventText.value = 'Client created!'
+        alertMessage.value = 'Client created!'
       }
     }
 
@@ -74,9 +70,8 @@ export default {
     })
 
     return {
-      crudEvent,
-      crudEventText,
-      alertType,
+      alertMessage,
+      alertClass,
       client,
       errors,
       saveClient

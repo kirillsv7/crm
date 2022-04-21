@@ -1,5 +1,5 @@
 <template>
-  <CrudAlert :crudEvent="crudEvent" :alertType="alertType">{{ crudEventText }}</CrudAlert>
+  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="container my-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -19,16 +19,15 @@
 </template>
 
 <script>
-import {onMounted} from "vue"
+import {onMounted, ref} from "vue"
 import useTask from "../../composition/task";
-import useCrudAlert from "../../composition/crudalert";
 import TaskForm from "../../components/Task/Form";
-import CrudAlert from "../../components/UI/CrudAlert";
+import AlertElement from "../../components/UI/AlertElement";
 
 export default {
   components: {
     TaskForm,
-    CrudAlert
+    AlertElement
   },
   props: {
     id: {
@@ -43,28 +42,25 @@ export default {
 
   setup(props) {
     const {task, errors, getTask, updateTask} = useTask()
-    const {crudEvent, crudEventText, alertType} = useCrudAlert()
+    const alertMessage = ref('')
+    const alertClass = ref('')
 
     const saveTask = async () => {
-      crudEvent.value = 'updating'
-      crudEventText.value = 'Updating task...'
-      alertType.value = 'info'
+      alertMessage.value = 'Updating task...'
+      alertClass.value = 'info'
       try {
         await updateTask(props.id)
-        crudEvent.value = 'updated'
-        crudEventText.value = 'Task updated!'
-        alertType.value = 'success'
+        alertMessage.value = 'Task updated!'
+        alertClass.value = 'success'
       } catch (e) {
-        crudEvent.value = 'error'
-        crudEventText.value = e.message
-        alertType.value = 'danger'
+        alertMessage.value = e.message
+        alertClass.value = 'danger'
       }
     }
 
     const toggleCreatedAlert = async () => {
       if (props.created) {
-        crudEvent.value = 'created'
-        crudEventText.value = 'Task created!'
+        alertMessage.value = 'Task created!'
       }
     }
 
@@ -74,9 +70,8 @@ export default {
     })
 
     return {
-      crudEvent,
-      crudEventText,
-      alertType,
+      alertMessage,
+      alertClass,
       task,
       errors,
       saveTask

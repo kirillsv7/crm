@@ -1,5 +1,5 @@
 <template>
-  <CrudAlert :crudEvent="crudEvent" :alertType="alertType">{{ crudEventText }}</CrudAlert>
+  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="container-fluid my-3">
     <div class="row">
       <div class="col-12">
@@ -20,34 +20,32 @@
 </template>
 
 <script>
-import {onMounted, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router";
 import useUser from "../../composition/user";
-import useCrudAlert from "../../composition/crudalert";
 import UserTable from "../../components/User/Table";
 import PaginationElement from "../../components/UI/PaginationElement";
-import CrudAlert from "../../components/UI/CrudAlert";
+import AlertElement from "../../components/UI/AlertElement";
 
 export default {
   components: {
     UserTable,
     PaginationElement,
-    CrudAlert
+    AlertElement
   },
 
   setup() {
     const route = useRoute()
     const {usersDeleted, pagination, getUsersDeleted, restoreUser} = useUser()
-    const {crudEvent, crudEventText, alertType} = useCrudAlert()
+    const alertMessage = ref('')
+    const alertClass = ref('')
 
     const recoverUser = async (id) => {
-      crudEvent.value = null
       if (!window.confirm('Are you sure you want to restore?')) return
       await restoreUser(id);
       await getUsersDeleted();
-      crudEvent.value = 'restored'
-      crudEventText.value = 'User restored!'
-      alertType.value = 'warning'
+      alertMessage.value = 'User restored!'
+      alertClass.value = 'warning'
     }
 
     onMounted(getUsersDeleted)
@@ -58,9 +56,8 @@ export default {
     )
 
     return {
-      crudEvent,
-      crudEventText,
-      alertType,
+      alertMessage,
+      alertClass,
       usersDeleted,
       pagination,
       recoverUser

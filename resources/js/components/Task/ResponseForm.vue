@@ -1,5 +1,5 @@
 <template>
-  <CrudAlert :crudEvent="crudEvent" :alertType="alertType">{{ crudEventText }}</CrudAlert>
+  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="card">
     <div class="card-header">Add response</div>
     <div class="card-body">
@@ -29,12 +29,11 @@
 <script>
 import {inject, onMounted, ref} from "vue";
 import useTask from "../../composition/task";
-import useCrudAlert from "../../composition/crudalert";
-import CrudAlert from "../UI/CrudAlert";
+import AlertElement from "../UI/AlertElement";
 
 export default {
   components: {
-    CrudAlert
+    AlertElement
   },
 
   props: {
@@ -48,29 +47,27 @@ export default {
   setup(props) {
     const task = inject('task')
     const {errors, addResponse} = useTask()
-    const {crudEvent, crudEventText, alertType} = useCrudAlert()
     const taskResponse = ref({
       task_id: '',
       content: ''
     })
+    const alertMessage = ref('')
+    const alertClass = ref('')
     const sending = ref(false)
 
     const sendResponse = async () => {
       sending.value = true
       try {
-        crudEvent.value = 'adding'
-        crudEventText.value = 'Adding response...'
-        alertType.value = 'info'
+        alertMessage.value = 'Adding response...'
+        alertClass.value = 'info'
         const response = await addResponse(taskResponse.value)
         task.value.responses.push(response)
         taskResponse.value.content = ''
-        crudEvent.value = 'added'
-        crudEventText.value = 'Response added!'
-        alertType.value = 'success'
+        alertMessage.value = 'Response added!'
+        alertClass.value = 'success'
       } catch (e) {
-        crudEvent.value = 'error'
-        crudEventText.value = e.message
-        alertType.value = 'danger'
+        alertMessage.value = e.message
+        alertClass.value = 'danger'
       }
       sending.value = false
     }
@@ -80,9 +77,8 @@ export default {
     })
 
     return {
-      crudEvent,
-      crudEventText,
-      alertType,
+      alertMessage,
+      alertClass,
       taskResponse,
       errors,
       sending,

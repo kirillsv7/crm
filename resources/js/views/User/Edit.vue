@@ -1,5 +1,5 @@
 <template>
-  <CrudAlert :crudEvent="crudEvent" :alertType="alertType">{{ crudEventText }}</CrudAlert>
+  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="container my-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -19,16 +19,15 @@
 </template>
 
 <script>
-import {onMounted} from "vue";
+import {onMounted, ref} from "vue";
 import useUser from "../../composition/user";
-import useCrudAlert from "../../composition/crudalert";
 import UserForm from "../../components/User/Form";
-import CrudAlert from "../../components/UI/CrudAlert";
+import AlertElement from "../../components/UI/AlertElement";
 
 export default {
   components: {
     UserForm,
-    CrudAlert
+    AlertElement
   },
   props: {
     id: {
@@ -43,28 +42,25 @@ export default {
 
   setup(props) {
     const {user, errors, getUser, updateUser} = useUser()
-    const {crudEvent, crudEventText, alertType} = useCrudAlert()
+    const alertMessage = ref('')
+    const alertClass = ref('')
 
     const saveUser = async () => {
-      crudEvent.value = 'updating'
-      crudEventText.value = 'Updating user...'
-      alertType.value = 'info'
+      alertMessage.value = 'Updating user...'
+      alertClass.value = 'info'
       await updateUser(props.id)
       if (Object.keys(errors.value).length === 0) {
-        crudEvent.value = 'updated'
-        crudEventText.value = 'User updated!'
-        alertType.value = null
+        alertMessage.value = 'User updated!'
+        alertClass.value = null
       } else {
-        crudEvent.value = 'error'
-        crudEventText.value = 'Check fields!'
-        alertType.value = 'danger'
+        alertMessage.value = 'Check fields!'
+        alertClass.value = 'danger'
       }
     }
 
     const toggleCreatedAlert = async () => {
       if (props.created) {
-        crudEvent.value = 'created'
-        crudEventText.value = 'User created!'
+        alertMessage.value = 'User created!'
       }
     }
 
@@ -74,9 +70,8 @@ export default {
     })
 
     return {
-      crudEvent,
-      crudEventText,
-      alertType,
+      alertMessage,
+      alertClass,
       user,
       errors,
       saveUser

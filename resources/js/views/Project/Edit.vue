@@ -1,5 +1,5 @@
 <template>
-  <CrudAlert :crudEvent="crudEvent" :alertType="alertType">{{ crudEventText }}</CrudAlert>
+  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="container my-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -19,16 +19,15 @@
 </template>
 
 <script>
-import {onMounted} from "vue"
+import {onMounted, ref} from "vue"
 import useProject from "../../composition/project";
-import useCrudAlert from "../../composition/crudalert";
 import ProjectForm from "../../components/Project/Form";
-import CrudAlert from "../../components/UI/CrudAlert";
+import AlertElement from "../../components/UI/AlertElement";
 
 export default {
   components: {
     ProjectForm,
-    CrudAlert
+    AlertElement
   },
   props: {
     id: {
@@ -43,28 +42,25 @@ export default {
 
   setup(props) {
     const {project, errors, getProject, updateProject} = useProject()
-    const {crudEvent, crudEventText, alertType} = useCrudAlert()
+    const alertMessage = ref('')
+    const alertClass = ref('')
 
     const saveProject = async () => {
-      crudEvent.value = 'updating'
-      crudEventText.value = 'Updating project...'
-      alertType.value = 'info'
+      alertMessage.value = 'Updating project...'
+      alertClass.value = 'info'
       await updateProject(props.id)
       if (Object.keys(errors.value).length === 0) {
-        crudEvent.value = 'updated'
-        crudEventText.value = 'Project updated!'
-        alertType.value = null
+        alertMessage.value = 'Project updated!'
+        alertClass.value = null
       } else {
-        crudEvent.value = 'error'
-        crudEventText.value = 'Check fields!'
-        alertType.value = 'danger'
+        alertMessage.value = 'Check fields!'
+        alertClass.value = 'danger'
       }
     }
 
     const toggleCreatedAlert = async () => {
       if (props.created) {
-        crudEvent.value = 'created'
-        crudEventText.value = 'Project created!'
+        alertMessage.value = 'Project created!'
       }
     }
 
@@ -74,9 +70,8 @@ export default {
     })
 
     return {
-      crudEvent,
-      crudEventText,
-      alertType,
+      alertMessage,
+      alertClass,
       project,
       errors,
       saveProject

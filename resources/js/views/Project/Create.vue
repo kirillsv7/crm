@@ -1,5 +1,5 @@
 <template>
-  <CrudAlert :crudEvent="crudEvent" :alertType="alertType">{{ crudEventText }}</CrudAlert>
+  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="container my-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -21,19 +21,17 @@
 <script>
 import {ref} from "vue"
 import useProject from "../../composition/project";
-import useCrudAlert from "../../composition/crudalert";
 import ProjectForm from "../../components/Project/Form";
-import CrudAlert from "../../components/UI/CrudAlert";
+import AlertElement from "../../components/UI/AlertElement";
 
 export default {
   components: {
     ProjectForm,
-    CrudAlert
+    AlertElement
   },
 
   setup() {
     const {errors, storeProject} = useProject()
-    const {crudEvent, crudEventText, alertType} = useCrudAlert()
     const project = ref({
       'title': '',
       'description': '',
@@ -42,23 +40,22 @@ export default {
       'user_id': '',
       'status_id': ''
     })
+    const alertMessage = ref('')
+    const alertClass = ref('')
 
     const saveProject = async () => {
-      crudEvent.value = 'creating'
-      crudEventText.value = 'Creating project...'
-      alertType.value = 'info'
+      alertMessage.value = 'Creating project...'
+      alertClass.value = 'info'
       await storeProject({...project.value})
       if (Object.keys(errors.value).length !== 0) {
-        crudEvent.value = 'error'
-        crudEventText.value = 'Check fields!'
-        alertType.value = 'danger'
+        alertMessage.value = 'Check fields!'
+        alertClass.value = 'danger'
       }
     }
 
     return {
-      crudEvent,
-      crudEventText,
-      alertType,
+      alertMessage,
+      alertClass,
       project,
       errors,
       saveProject

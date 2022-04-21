@@ -1,5 +1,5 @@
 <template>
-  <CrudAlert :crudEvent="crudEvent" :alertType="alertType">{{ crudEventText }}</CrudAlert>
+  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="container-fluid my-3">
     <div class="row">
       <div class="col-12">
@@ -20,34 +20,32 @@
 </template>
 
 <script>
-import {onMounted, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router";
 import useProject from "../../composition/project";
-import useCrudAlert from "../../composition/crudalert";
 import ProjectTable from "../../components/Project/Table";
 import PaginationElement from "../../components/UI/PaginationElement";
-import CrudAlert from "../../components/UI/CrudAlert";
+import AlertElement from "../../components/UI/AlertElement";
 
 export default {
   components: {
     ProjectTable,
     PaginationElement,
-    CrudAlert
+    AlertElement
   },
 
   setup() {
     const route = useRoute()
     const {projectsDeleted, pagination, getProjectsDeleted, restoreProject} = useProject()
-    const {crudEvent, crudEventText, alertType} = useCrudAlert()
+    const alertMessage = ref('')
+    const alertClass = ref('')
 
     const recoverProject = async (id) => {
-      crudEvent.value = null
       if (!window.confirm('Are you sure you want to restore?')) return
       await restoreProject(id);
       await getProjectsDeleted();
-      crudEvent.value = 'restored'
-      crudEventText.value = 'Project restored!'
-      alertType.value = 'warning'
+      alertMessage.value = 'Project restored!'
+      alertClass.value = 'warning'
     }
 
     onMounted(getProjectsDeleted)
@@ -58,9 +56,8 @@ export default {
     )
 
     return {
-      crudEvent,
-      crudEventText,
-      alertType,
+      alertMessage,
+      alertClass,
       projectsDeleted,
       pagination,
       recoverProject

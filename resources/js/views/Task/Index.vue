@@ -1,5 +1,5 @@
 <template>
-  <CrudAlert :crudEvent="crudEvent" :alertType="alertType">{{ crudEventText }}</CrudAlert>
+  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="container-fluid my-3">
     <div class="row">
       <div class="col-12">
@@ -20,36 +20,33 @@
 </template>
 
 <script>
-import {onMounted, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router"
 import useTask from "../../composition/task";
-import useCrudAlert from "../../composition/crudalert";
 import TaskTable from "../../components/Task/Table";
 import PaginationElement from "../../components/UI/PaginationElement";
-import CrudAlert from "../../components/UI/CrudAlert";
+import AlertElement from "../../components/UI/AlertElement";
 
 export default {
   components: {
     TaskTable,
     PaginationElement,
-    CrudAlert
+    AlertElement
   },
 
   setup() {
     const route = useRoute()
     const {tasks, pagination, getTasks, destroyTask} = useTask()
-    const {crudEvent, crudEventText, alertType} = useCrudAlert()
+    const alertMessage = ref('')
+    const alertClass = ref('')
 
     const deleteTask = async (id) => {
-      crudEvent.value = null
       if (!window.confirm('Are you sure you want to delete?')) return
-      crudEvent.value = 'deleting'
-      crudEventText.value = 'Deleting task...'
-      alertType.value = 'info'
+      alertMessage.value = 'Deleting task...'
+      alertClass.value = 'info'
       await destroyTask(id);
-      crudEvent.value = 'deleted'
-      crudEventText.value = 'Task deleted!'
-      alertType.value = 'success'
+      alertMessage.value = 'Task deleted!'
+      alertClass.value = 'success'
     }
 
     onMounted(getTasks)
@@ -57,9 +54,8 @@ export default {
     watch(() => route.query, getTasks)
 
     return {
-      crudEvent,
-      crudEventText,
-      alertType,
+      alertMessage,
+      alertClass,
       tasks,
       pagination,
       deleteTask

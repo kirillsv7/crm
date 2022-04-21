@@ -1,10 +1,10 @@
 <template>
   <transition name="fade-vertical">
-    <div class="alert-container position-relative d-flex justify-content-center" v-if="event">
+    <div class="alert-container position-relative d-flex justify-content-center" v-if="message">
       <div class="alert position-absolute shadow text-center"
-           :class="[alertType ? 'alert-'+alertType : 'alert-success']"
+           :class="[alertClass ? 'alert-'+alertClass : 'alert-success']"
            role="alert">
-        <slot></slot>
+        {{ message }}
       </div>
     </div>
   </transition>
@@ -14,33 +14,33 @@
 import {onUpdated, ref} from "vue";
 
 export default {
-  name: "CrudAlert",
+  name: "AlertElement",
 
   props: {
-    crudEvent: {
-      required: false,
+    alertMessage: {
+      required: true,
       type: String,
     },
-    alertType: {
+    alertClass: {
       required: false,
       type: String
+    },
+    alertTimeout: {
+      required: false,
+      type: Number
     }
   },
 
   setup(props) {
-
-    const event = ref(null)
-
+    const message = ref(null)
     const processEvent = () => {
-      event.value = props.crudEvent
-      setTimeout(() => event.value = null, 2000)
+      message.value = props.alertMessage
+      setTimeout(() => message.value = null, props.alertTimeout ?? 2000)
     }
 
     onUpdated(processEvent)
 
-    return {
-      event
-    }
+    return {message}
   }
 }
 </script>

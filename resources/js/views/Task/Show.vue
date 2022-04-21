@@ -33,10 +33,8 @@
 </template>
 
 <script>
-import {onMounted, provide, watch} from "vue";
+import {onMounted, provide} from "vue";
 import useTask from "../../composition/task";
-import useCrudAlert from "../../composition/crudalert";
-import CrudAlert from "../../components/UI/CrudAlert";
 import TaskMedia from "../../components/Task/Media";
 import TaskResponse from "../../components/Task/Response";
 import ResponseForm from "../../components/Task/ResponseForm";
@@ -44,7 +42,6 @@ import ResponseForm from "../../components/Task/ResponseForm";
 export default {
   components: {
     ResponseForm,
-    CrudAlert,
     TaskMedia,
     TaskResponse,
   },

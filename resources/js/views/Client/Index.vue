@@ -1,5 +1,5 @@
 <template>
-  <CrudAlert :crudEvent="crudEvent" :alertType="alertType">{{ crudEventText }}</CrudAlert>
+  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="container-fluid my-3">
     <div class="row">
       <div class="col-12">
@@ -20,34 +20,32 @@
 </template>
 
 <script>
-import {onMounted, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router"
 import useClient from "../../composition/client";
-import useCrudAlert from "../../composition/crudalert";
 import ClientTable from "../../components/Client/Table";
 import PaginationElement from "../../components/UI/PaginationElement";
-import CrudAlert from "../../components/UI/CrudAlert";
+import AlertElement from "../../components/UI/AlertElement";
 
 export default {
   components: {
     ClientTable,
     PaginationElement,
-    CrudAlert
+    AlertElement
   },
 
   setup() {
     const route = useRoute()
     const {clients, pagination, getClients, destroyClient} = useClient()
-    const {crudEvent, crudEventText, alertType} = useCrudAlert()
+    const alertMessage = ref('')
+    const alertClass = ref('')
 
     const deleteClient = async (id) => {
-      crudEvent.value = null
       if (!window.confirm('Are you sure you want to delete?')) return
       await destroyClient(id);
       await getClients();
-      crudEvent.value = 'deleted'
-      crudEventText.value = 'Client deleted!'
-      alertType.value = 'warning'
+      alertMessage.value = 'Client deleted!'
+      alertClass.value = 'warning'
     }
 
     onMounted(getClients)
@@ -58,9 +56,8 @@ export default {
     )
 
     return {
-      crudEvent,
-      crudEventText,
-      alertType,
+      alertMessage,
+      alertClass,
       clients,
       pagination,
       deleteClient

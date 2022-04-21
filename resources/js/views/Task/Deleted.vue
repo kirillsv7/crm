@@ -1,5 +1,5 @@
 <template>
-  <CrudAlert :crudEvent="crudEvent" :alertType="alertType">{{ crudEventText }}</CrudAlert>
+  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="container-fluid my-3">
     <div class="row">
       <div class="col-12">
@@ -20,36 +20,33 @@
 </template>
 
 <script>
-import {onMounted, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router";
 import useTask from "../../composition/task";
-import useCrudAlert from "../../composition/crudalert";
 import TaskTable from "../../components/Task/Table";
 import PaginationElement from "../../components/UI/PaginationElement";
-import CrudAlert from "../../components/UI/CrudAlert";
+import AlertElement from "../../components/UI/AlertElement";
 
 export default {
   components: {
     TaskTable,
     PaginationElement,
-    CrudAlert
+    AlertElement
   },
 
   setup() {
     const route = useRoute()
     const {tasks, pagination, getTasksDeleted, restoreTask} = useTask()
-    const {crudEvent, crudEventText, alertType} = useAlertElement()
+    const alertMessage = ref('')
+    const alertClass = ref('')
 
     const recoverTask = async (id) => {
-      crudEvent.value = null
       if (!window.confirm('Are you sure you want to restore?')) return
-      crudEvent.value = 'restoring'
-      crudEventText.value = 'Restoring task...'
-      alertType.value = 'info'
+      alertMessage.value = 'Restoring task...'
+      alertClass.value = 'info'
       await restoreTask(id);
-      crudEvent.value = 'restored'
-      crudEventText.value = 'Task restored!'
-      alertType.value = 'success'
+      alertMessage.value = 'Task restored!'
+      alertClass.value = 'success'
     }
 
     onMounted(getTasksDeleted)
@@ -57,9 +54,8 @@ export default {
     watch(() => route.query, getTasksDeleted)
 
     return {
-      crudEvent,
-      crudEventText,
-      alertType,
+      alertMessage,
+      alertClass,
       tasks,
       pagination,
       recoverTask
