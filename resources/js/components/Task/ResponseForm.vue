@@ -1,4 +1,5 @@
 <template>
+  <CrudAlert :crudEvent="crudEvent" :alertType="alertType">{{ crudEventText }}</CrudAlert>
   <div class="card">
     <div class="card-header">Add response</div>
     <div class="card-body">
@@ -26,10 +27,16 @@
 </template>
 
 <script>
-import useTask from "../../composition/task";
 import {inject, onMounted, ref} from "vue";
+import useTask from "../../composition/task";
+import useCrudAlert from "../../composition/crudalert";
+import CrudAlert from "../UI/CrudAlert";
 
 export default {
+  components: {
+    CrudAlert
+  },
+
   props: {
     encryptedId: {
       default: '',
@@ -41,6 +48,7 @@ export default {
   setup(props) {
     const task = inject('task')
     const {errors, addResponse} = useTask()
+    const {crudEvent, crudEventText, alertType} = useCrudAlert()
     const taskResponse = ref({
       task_id: '',
       content: ''
@@ -49,10 +57,20 @@ export default {
 
     const sendResponse = async () => {
       sending.value = true
-      const response = await addResponse({...taskResponse.value})
-      if (Object.keys(errors.value).length === 0) {
+      try {
+        crudEvent.value = 'adding'
+        crudEventText.value = 'Adding response...'
+        alertType.value = 'info'
+        const response = await addResponse(taskResponse.value)
         task.value.responses.push(response)
         taskResponse.value.content = ''
+        crudEvent.value = 'added'
+        crudEventText.value = 'Response added!'
+        alertType.value = 'success'
+      } catch (e) {
+        crudEvent.value = 'error'
+        crudEventText.value = e.message
+        alertType.value = 'danger'
       }
       sending.value = false
     }
@@ -62,6 +80,9 @@ export default {
     })
 
     return {
+      crudEvent,
+      crudEventText,
+      alertType,
       taskResponse,
       errors,
       sending,

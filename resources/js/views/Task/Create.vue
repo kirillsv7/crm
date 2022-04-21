@@ -38,10 +38,11 @@ export default {
       crudEvent.value = 'creating'
       crudEventText.value = 'Creating task...'
       alertType.value = 'info'
-      await storeTask(task.value)
-      if (Object.keys(errors.value).length !== 0) {
+      try {
+        await storeTask(task.value)
+      }catch (e){
         crudEvent.value = 'error'
-        crudEventText.value = 'Check fields!'
+        crudEventText.value = e.message
         alertType.value = 'danger'
       }
     }

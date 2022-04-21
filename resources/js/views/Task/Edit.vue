@@ -49,15 +49,15 @@ export default {
       crudEvent.value = 'updating'
       crudEventText.value = 'Updating task...'
       alertType.value = 'info'
-      await updateTask(props.id)
-      if (Object.keys(errors.value).length !== 0) {
-        crudEvent.value = 'error'
-        crudEventText.value = 'Check fields!'
-        alertType.value = 'danger'
-      } else {
+      try {
+        await updateTask(props.id)
         crudEvent.value = 'updated'
         crudEventText.value = 'Task updated!'
-        alertType.value = null
+        alertType.value = 'success'
+      } catch (e) {
+        crudEvent.value = 'error'
+        crudEventText.value = e.message
+        alertType.value = 'danger'
       }
     }
 

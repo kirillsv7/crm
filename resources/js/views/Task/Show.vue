@@ -56,8 +56,7 @@ export default {
   },
 
   setup(props) {
-    const {task, errors, getTask} = useTask()
-    const {crudEvent, crudEventText, alertType} = useCrudAlert()
+    const {task, getTask} = useTask()
 
     onMounted(async () => {
       await getTask(props.id)
@@ -66,11 +65,7 @@ export default {
     provide('task', task)
 
     return {
-      crudEvent,
-      crudEventText,
-      alertType,
-      task,
-      errors,
+      task
     }
   }
 }

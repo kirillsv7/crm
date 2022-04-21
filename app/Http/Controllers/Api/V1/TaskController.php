@@ -54,9 +54,9 @@ class TaskController extends Controller
     {
         $this->authorize('update', $task);
 
-        $task->update($request->except('media'));
+        $task->update($request->except('new_media'));
 
-        $addMediaToModel($request->input('media', []), $task);
+        $addMediaToModel($request->input('new_media', []), $task);
 
         return new TaskResource($task);
     }

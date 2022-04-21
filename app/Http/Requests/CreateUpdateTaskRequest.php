@@ -11,9 +11,13 @@ class CreateUpdateTaskRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return true;
+        return match ($this->method()) {
+            'POST'  => $this->user()->isAdmin || $this->user()->hasPermissionTo('task-create'),
+            'PUT'   => $this->user()->isAdmin || $this->user()->hasPermissionTo('task-update'),
+            default => false
+        };
     }
 
     /**
@@ -21,19 +25,19 @@ class CreateUpdateTaskRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'title'       => 'required|string',
             'description' => 'required|string',
             'project_id'  => 'required|integer|exists:projects,id',
             'status_id'   => 'required|integer',
-            'media'       => 'array',
-            'media.*'     => 'string|distinct',
+            'new_media'       => 'array',
+            'new_media.*'     => 'string|distinct',
         ];
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'project_id' => 'project',

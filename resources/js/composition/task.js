@@ -14,90 +14,90 @@ export default function useTask() {
     const errors = ref({})
 
     const getTasks = async () => {
-        await axios.get('/api/v1/task', {params: route.query})
-            .then(response => {
-                tasks.value = response.data.data
-                pagination.value = response.data.meta
-            })
+        const response = await axios.get('/api/v1/task', {params: route.query})
+        tasks.value = response.data.data
+        pagination.value = response.data.meta
     }
 
     const getTask = async (id) => {
-        await axios.get(`/api/v1/task/${id}`)
-            .then(response => {
-                task.value = response.data.data
-            })
+        const response = await axios.get(`/api/v1/task/${id}`)
+        task.value = response.data.data
     }
 
     const storeTask = async () => {
-        errors.value = {}
-        await axios.post('/api/v1/task', task.value)
-            .then(response => {
-                router.push({
-                    name: 'task.edit',
-                    params: {
-                        id: response.data.data.id,
-                        created: true
-                    }
-                })
+        try {
+            errors.value = {}
+            const response = await axios.post('/api/v1/task', task.value)
+            await router.push({
+                name: 'task.edit',
+                params: {
+                    id: response.data.data.id,
+                    created: true
+                }
             })
-            .catch(handleException)
+        } catch (e) {
+            await handleException(e)
+        }
     }
 
     const updateTask = async (id) => {
-        errors.value = {}
-        await axios.put(`/api/v1/task/${id}`, task.value)
-            .catch(handleException)
+        try {
+            errors.value = {}
+            await axios.put(`/api/v1/task/${id}`, task.value)
+        } catch (e) {
+            await handleException(e)
+        }
     }
 
     const destroyTask = async (id) => {
         await axios.delete(`/api/v1/task/${id}`)
-            .then(getTasks)
+        await getTasks()
     }
 
     const getTasksDeleted = async () => {
-        await axios.get('/api/v1/task/deleted', {params: route.query})
-            .then(response => {
-                tasksDeleted.value = response.data.data
-                pagination.value = response.data.meta
-            })
+        const response = await axios.get('/api/v1/task/deleted', {params: route.query})
+        tasks.value = response.data.data
+        pagination.value = response.data.meta
     }
 
     const restoreTask = async (id) => {
         await axios.post(`/api/v1/task/${id}`)
-            .then(getTasksDeleted)
+        await getTasksDeleted()
     }
 
     const getStatusList = async () => {
-        await axios.get('/api/v1/task/statuslist')
-            .then(response => {
-                statusList.value = response.data.data
-            })
+        const response = await axios.get('/api/v1/task/statuslist')
+        statusList.value = response.data.data
     }
 
     const addResponse = async (taskResponse) => {
-        errors.value = {}
-        let addedResponse = null
-        await axios.post('/api/v1/task/add-response', taskResponse)
-            .then(response => {
-                addedResponse = response.data.data
-            })
-            .catch(handleException)
-
-        return addedResponse
+        try {
+            errors.value = {}
+            const response = await axios.post('/api/v1/task/add-response', taskResponse)
+            return response.data.data
+        } catch (e) {
+            await handleException(e)
+        }
     }
 
-    const getRecentlyResponsed = () => {
-        axios.get('/api/v1/task/recently-responsed')
-            .then(response => {
-                tasks.value = response.data.data
-            })
+    const getRecentlyResponsed = async () => {
+        const response = await axios.get('/api/v1/task/recently-responsed')
+        tasks.value = response.data.data
     }
 
     const handleException = (e) => {
-        if (e.response.status === 422)
-            errors.value = e.response.data.errors
-        else
-            console.log(e.response)
+        switch (e.response.status) {
+            case 422:
+                errors.value = e.response.data.errors
+                throw new Error('Check fields!')
+                break
+            case 403:
+                throw new Error('Not autorized!')
+                break
+            default:
+                console.log(e.response)
+                break
+        }
     }
 
     return {
