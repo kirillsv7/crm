@@ -15,7 +15,7 @@
               <dt>Client</dt>
               <dd>{{ task.client }}</dd>
               <dt>Assigned user</dt>
-              <dd>{{ task.user }}</dd>
+              <dd v-html="task.user"></dd>
               <dt>Status</dt>
               <dd>{{ task.status }}</dd>
             </dl>

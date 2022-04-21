@@ -23,7 +23,7 @@
                         {{ response.content }}
                       </router-link>
                     </td>
-                    <td>{{ response.user.name }}</td>
+                    <td v-html="response.user"></td>
                     <td>{{ response.task.title }}</td>
                     <td>{{ response.created_at }}</td>
                   </tr>

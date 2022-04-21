@@ -18,7 +18,7 @@ class ResponseResource extends JsonResource
         return [
             'id'         => $this->id,
             'content'    => Str::limit($this->content),
-            'user'       => $this->user,
+            'user'       => $this->user->name,
             'task'       => $this->task,
             'created_at' => $this->created_at,
             'media'      => MediaResource::collection($this->whenLoaded('media')),

@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
+use App\Scopes\ResponseNonDeletedRelationsScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -28,14 +29,19 @@ class Response extends Model implements HasMedia
         'thumb' => [300, 200],
     ];
 
-    public function task()
+    public function task(): BelongsTo
     {
         return $this->belongsTo(Task::class);
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();;
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new ResponseNonDeletedRelationsScope);
     }
 
     public function registerMediaConversions(Media $media = null): void
