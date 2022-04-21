@@ -9,7 +9,6 @@ export default function useTask() {
     const tasks = ref({})
     const pagination = ref({})
     const task = ref({})
-    const tasksDeleted = ref({})
     const statusList = ref({})
     const errors = ref({})
 
@@ -104,7 +103,6 @@ export default function useTask() {
         tasks,
         pagination,
         task,
-        tasksDeleted,
         statusList,
         errors,
         getTasks,

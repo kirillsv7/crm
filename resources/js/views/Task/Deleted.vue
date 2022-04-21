@@ -8,7 +8,7 @@
             Task deleted
           </div>
           <div class="card-body">
-            <TaskTable :tasks="tasksDeleted" :recoverTask="recoverTask"/>
+            <TaskTable :tasks="tasks" :recoverTask="recoverTask"/>
           </div>
           <div class="card-footer d-flex justify-content-center">
             <PaginationElement :pagination="pagination"/>
@@ -37,8 +37,8 @@ export default {
 
   setup() {
     const route = useRoute()
-    const {tasksDeleted, pagination, getTasksDeleted, restoreTask} = useTask()
-    const {crudEvent, crudEventText, alertType} = useCrudAlert()
+    const {tasks, pagination, getTasksDeleted, restoreTask} = useTask()
+    const {crudEvent, crudEventText, alertType} = useAlertElement()
 
     const recoverTask = async (id) => {
       crudEvent.value = null
@@ -60,7 +60,7 @@ export default {
       crudEvent,
       crudEventText,
       alertType,
-      tasksDeleted,
+      tasks,
       pagination,
       recoverTask
     }
