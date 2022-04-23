@@ -4,30 +4,23 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUpdateClientRequest;
-use App\Http\Resources\V1\ClientListResource;
-use App\Http\Resources\V1\ClientResource;
+use App\Http\Resources\V1\Client\ListResource as ClientListResource;
+use App\Http\Resources\V1\Client\Resource as ClientResource;
 use App\Models\Client;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ClientController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
-        return ClientResource::collection(Client::paginate());
+        return ClientResource::collection(
+            Client::query()
+                  ->paginate()
+        );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  CreateUpdateClientRequest  $request
-     * @return ClientResource
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function store(CreateUpdateClientRequest $request)
+    public function store(CreateUpdateClientRequest $request): ClientResource
     {
         $this->authorize('create', Client::class);
 
@@ -36,26 +29,12 @@ class ClientController extends Controller
         return new ClientResource($client);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  Client  $client
-     * @return ClientResource
-     */
-    public function show(Client $client)
+    public function show(Client $client): ClientResource
     {
         return new ClientResource($client);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  CreateUpdateClientRequest  $request
-     * @param  Client  $client
-     * @return ClientResource
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function update(CreateUpdateClientRequest $request, Client $client)
+    public function update(CreateUpdateClientRequest $request, Client $client): ClientResource
     {
         $this->authorize('update', $client);
 
@@ -64,14 +43,7 @@ class ClientController extends Controller
         return new ClientResource($client);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Client  $client
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function destroy(Client $client)
+    public function destroy(Client $client): JsonResponse
     {
         $this->authorize('delete', $client);
 
@@ -80,24 +52,16 @@ class ClientController extends Controller
         return response()->json(['message' => 'Client deleted']);
     }
 
-    /**
-     * Display a listing of the deleted resources.
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function deleted()
+    public function deleted(): AnonymousResourceCollection
     {
-        return ClientResource::collection(Client::onlyTrashed()->paginate());
+        return ClientResource::collection(
+            Client::query()
+                  ->onlyTrashed()
+                  ->paginate()
+        );
     }
 
-    /**
-     * Restore the specified resource to storage.
-     *
-     * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function restore($id)
+    public function restore($id): JsonResponse
     {
         $client = Client::onlyTrashed()->findOrFail($id);
 
@@ -108,10 +72,12 @@ class ClientController extends Controller
         return response()->json(['message' => 'Client restored']);
     }
 
-    public function list()
+    public function list(): AnonymousResourceCollection
     {
         return ClientListResource::collection(
-            Client::select(['id', 'company'])->get()
+            Client::query()
+                  ->select(['id', 'company'])
+                  ->get()
         );
     }
 }

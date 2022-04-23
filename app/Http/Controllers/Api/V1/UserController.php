@@ -4,19 +4,16 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUpdateUserRequest;
-use App\Http\Resources\V1\UserListResource;
-use App\Http\Resources\V1\UserResource;
+use App\Http\Resources\V1\User\ListResource as UserListResource;
+use App\Http\Resources\V1\User\Resource as UserResource;
 use App\Models\User;
 use App\Services\UserService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         return UserResource::collection(
             User::query()
@@ -25,15 +22,7 @@ class UserController extends Controller
         );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  CreateUpdateUserRequest  $request
-     * @param  UserService  $service
-     * @return UserResource
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function store(CreateUpdateUserRequest $request, UserService $service)
+    public function store(CreateUpdateUserRequest $request, UserService $service): UserResource
     {
         $this->authorize('create', User::class);
 
@@ -42,43 +31,23 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  User  $user
-     * @return UserResource
-     */
-    public function show(User $user)
+    public function show(User $user): UserResource
     {
         return new UserResource($user);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  CreateUpdateUserRequest  $request
-     * @param  User  $user
-     * @param  UserService  $service
-     * @return UserResource
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function update(CreateUpdateUserRequest $request, User $user, UserService $service)
+    public function update(CreateUpdateUserRequest $request, User $user, UserService $service): UserResource
     {
         $this->authorize('update', $user);
 
         $user = $service->update($user, $request->validated());
 
+        $user->load('roles');
+
         return new UserResource($user);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  User  $user
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function destroy(User $user)
+    public function destroy(User $user): JsonResponse
     {
         $this->authorize('delete', $user);
 
@@ -87,24 +56,16 @@ class UserController extends Controller
         return response()->json(['message' => 'User deleted']);
     }
 
-    /**
-     * Display a listing of the deleted resources.
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function deleted()
+    public function deleted(): AnonymousResourceCollection
     {
-        return UserResource::collection(User::onlyTrashed()->paginate());
+        return UserResource::collection(
+            User::query()
+                ->onlyTrashed()
+                ->paginate()
+        );
     }
 
-    /**
-     * Restore the specified resource to storage.
-     *
-     * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function restore($id)
+    public function restore($id): JsonResponse
     {
         $user = User::onlyTrashed()->findOrFail($id);
 
@@ -115,10 +76,12 @@ class UserController extends Controller
         return response()->json(['message' => 'User restored']);
     }
 
-    public function list()
+    public function list(): AnonymousResourceCollection
     {
         return UserListResource::collection(
-            User::select(['id', 'name'])
+            User::query()
+                ->select(['id', 'name'])
+                ->with(['roles'])
                 ->withTrashed()
                 ->get()
         );

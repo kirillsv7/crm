@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Resources\V1;
+namespace App\Http\Resources\V1\Task;
 
+use App\Http\Resources\V1\Media\Resource as MediaResource;
+use App\Http\Resources\V1\Response\Resource as ResponseResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TaskResource extends JsonResource
+class Resource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,7 +21,7 @@ class TaskResource extends JsonResource
             'encrypted_id' => $this->when($request->routeIs('task.show'), encrypt($this->id)),
             'title'        => $this->title,
             'description'  => $this->when($request->routeIs('task.show'), $this->description),
-            'project_id'   => $this->project->id,
+            'project_id'   => $this->project_id,
             'project'      => $this->project->title,
             'client'       => $this->project->client->company,
             'user'         => $this->project->user->name,

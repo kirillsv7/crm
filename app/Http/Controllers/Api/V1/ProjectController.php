@@ -4,23 +4,23 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUpdateProjectRequest;
-use App\Http\Resources\V1\ProjectListResource;
-use App\Http\Resources\V1\ProjectResource;
+use App\Http\Resources\V1\Project\ListResource as ProjectListResource;
+use App\Http\Resources\V1\Project\Resource as ProjectResource;
 use App\Models\Project;
 use App\Models\Task;
 use App\Services\ProjectService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProjectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function index(): AnonymousResourceCollection
     {
         return ProjectResource::collection(
-            Project::withCount('tasks')
+            Project::query()
+                   ->with(['user', 'client'])
+                   ->withCount('tasks')
                    ->filterByStatus()
                    ->filterAssignedToUser()
                    ->orderByDesc('id')
@@ -29,15 +29,7 @@ class ProjectController extends Controller
         );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  CreateUpdateProjectRequest  $request
-     * @param  ProjectService  $service
-     * @return ProjectResource
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function store(CreateUpdateProjectRequest $request, ProjectService $service)
+    public function store(CreateUpdateProjectRequest $request, ProjectService $service): ProjectResource
     {
         $this->authorize('create', Project::class);
 
@@ -46,28 +38,16 @@ class ProjectController extends Controller
         return new ProjectResource($project);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  Project  $project
-     * @return ProjectResource
-     */
-    public function show(Project $project)
+    public function show(Project $project): ProjectResource
     {
         return new ProjectResource($project);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  CreateUpdateProjectRequest  $request
-     * @param  Project  $project
-     * @param  ProjectService  $service
-     * @return ProjectResource
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function update(CreateUpdateProjectRequest $request, Project $project, ProjectService $service)
-    {
+    public function update(
+        CreateUpdateProjectRequest $request,
+        Project $project,
+        ProjectService $service
+    ): ProjectResource {
         $this->authorize('update', $project);
 
         $project = $service->update($project, $request->validated());
@@ -75,14 +55,7 @@ class ProjectController extends Controller
         return new ProjectResource($project);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Project  $project
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function destroy(Project $project)
+    public function destroy(Project $project): JsonResponse
     {
         $this->authorize('delete', $project);
 
@@ -91,24 +64,18 @@ class ProjectController extends Controller
         return response()->json(['message' => 'Project deleted']);
     }
 
-    /**
-     * Display a listing of the deleted resources.
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function deleted()
+    public function deleted(): AnonymousResourceCollection
     {
-        return ProjectResource::collection(Project::onlyTrashed()->paginate());
+        return ProjectResource::collection(
+            Project::query()
+                   ->with(['user', 'client'])
+                   ->withCount('tasks') // TODO: Return 0, needs to be fixed
+                   ->onlyTrashed()
+                   ->paginate()
+        );
     }
 
-    /**
-     * Restore the specified resource to storage.
-     *
-     * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function restore($id)
+    public function restore($id): JsonResponse
     {
         $project = Project::onlyTrashed()->findOrFail($id);
 
@@ -119,24 +86,26 @@ class ProjectController extends Controller
         return response()->json(['message' => 'Project restored']);
     }
 
-    public function statusList()
+    public function statusList(): JsonResponse
     {
         return response()->json(['data' => Project::$statusList]);
     }
 
-    public function list()
+    public function list(): AnonymousResourceCollection
     {
         return ProjectListResource::collection(
-            Project::select(['id', 'title'])
-                   ->without(['client', 'user'])
+            Project::query()
+                   ->select(['id', 'title'])
                    ->get()
         );
     }
 
-    public function recentlyAddedTask()
+    public function recentlyAddedTask(): AnonymousResourceCollection
     {
         return ProjectResource::collection(
-            Project::withCount('tasks')
+            Project::query()
+                   ->with(['client', 'user'])
+                   ->withCount(['tasks'])
                    ->orderByDesc(
                        Task::select('id')
                            ->whereColumn('tasks.project_id', 'projects.id')

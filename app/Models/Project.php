@@ -29,8 +29,6 @@ class Project extends Model implements HasMedia
         'status_id',
     ];
 
-    protected $with = ['client', 'user'];
-
     public static array $statusList = [
         '1' => 'Created',
         '2' => 'Working',

@@ -20,8 +20,8 @@
           <td>{{ project.id }}</td>
           <td>{{ project.title }}</td>
           <td>{{ project.deadline }}</td>
-          <td>{{ project.client }}</td>
-          <td v-html="project.user"></td>
+          <td>{{ project.client_company }}</td>
+          <td v-html="project.user_name"></td>
           <td>{{ project.tasks_count }}</td>
           <td>{{ project.status }}</td>
           <td>{{ project.created_at }}</td>

@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\ResponseResource;
+use App\Http\Resources\V1\Response\LatestResource as ResponseLatestResource;
 use App\Models\Response;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ResponseController extends Controller
@@ -23,8 +22,8 @@ class ResponseController extends Controller
 
     public function latest(): AnonymousResourceCollection
     {
-        return ResponseResource::collection(
-            Response::with(['task:id,title', 'user:id,name'])
+        return ResponseLatestResource::collection(
+            Response::with(['task:id,title', 'user:id,name,deleted_at'])
                     ->without('media')
                     ->orderByDesc('id')
                     ->limit(5)

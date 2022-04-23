@@ -20,11 +20,6 @@ class Response extends Model implements HasMedia
         'user_id',
     ];
 
-    protected $with = [
-        'user',
-        'media',
-    ];
-
     protected $imageSizes = [
         'thumb' => [300, 200],
     ];

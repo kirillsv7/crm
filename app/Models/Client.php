@@ -12,7 +12,11 @@ class Client extends Model
 
     protected $perPage = 20;
 
-    protected $fillable = ['company', 'vat', 'address'];
+    protected $fillable = [
+        'company',
+        'vat',
+        'address',
+    ];
 
     public function getIsDeletedAttribute(): bool
     {

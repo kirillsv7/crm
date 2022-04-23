@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Resources\V1;
+namespace App\Http\Resources\V1\Project;
 
-use App\Models\Task;
+use App\Http\Resources\V1\Media\Resource as MediaResource;
+use App\Http\Resources\V1\Task\Resource as TaskResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProjectResource extends JsonResource
+class Resource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -21,10 +22,10 @@ class ProjectResource extends JsonResource
             'description'       => $this->when($request->routeIs('project.show'), $this->description),
             'deadline'          => $this->deadline,
             'deadline_inverted' => $this->deadline_inverted,
-            'client_id'         => $this->client->id,
-            'client'            => $this->client->company,
-            'user_id'           => $this->user->id,
-            'user'              => $this->user->name,
+            'client_id'         => $this->client_id,
+            'client_company'    => $this->client->company,
+            'user_id'           => $this->user_id,
+            'user_name'         => $this->user->name,
             'tasks_count'       => $this->tasks_count,
             'status_id'         => $this->status_id,
             'status'            => $this->status,
@@ -32,15 +33,8 @@ class ProjectResource extends JsonResource
             'updated_at'        => $this->updated_at,
             'deleted_at'        => $this->deleted_at,
             'is_deleted'        => $this->isDeleted,
-            /*'media'             => $this->when($request->routeIs('project.show'), MediaResource::collection(
-                $this->getMedia()
-            )),
-            'tasks'             => $this->when($request->routeIs('project.show'), TaskResource::collection(
-                $this->tasks()->filterByStatus()
-                     ->orderByDesc('id')
-                     ->paginate()
-                     ->withQueryString()
-            )),*/
+            'media'             => MediaResource::collection($this->whenLoaded('media')),
+            'tasks'             => TaskResource::collection($this->whenLoaded('tasks')),
         ];
     }
 }

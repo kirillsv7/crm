@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddResponseToTaskRequest;
 use App\Http\Requests\CreateUpdateTaskRequest;
-use App\Http\Resources\V1\ResponseResource;
-use App\Http\Resources\V1\TaskResource;
+use App\Http\Resources\V1\Response\Resource as ResponseResource;
+use App\Http\Resources\V1\Task\Resource as TaskResource;
 use App\Models\Response;
 use App\Models\Task;
 use App\Services\SpatieMediaLibrary\AddMediaToModel;
@@ -20,6 +20,7 @@ class TaskController extends Controller
     {
         return TaskResource::collection(
             Task::query()
+                ->with(['project.client', 'project.user'])
                 ->filterByProject()
                 ->filterByClient()
                 ->filterByUser()
@@ -45,7 +46,7 @@ class TaskController extends Controller
     {
         $task = Task::withTrashed()->findOrFail($id);
 
-        $task->load(['media', 'responses.task']);
+        $task->load(['media', 'responses.user']);
 
         return new TaskResource($task);
     }
@@ -74,6 +75,7 @@ class TaskController extends Controller
     {
         return TaskResource::collection(
             Task::query()
+                ->with(['project.client', 'project.user'])
                 ->onlyTrashed()
                 ->filterByProject()
                 ->filterByClient()
@@ -116,6 +118,7 @@ class TaskController extends Controller
     {
         return TaskResource::collection(
             Task::query()
+                ->with(['project.client', 'project.user'])
                 ->orderByDesc(
                     Response::select('id')
                             ->whereColumn('responses.task_id', 'tasks.id')

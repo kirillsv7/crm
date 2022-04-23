@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Resources\V1;
+namespace App\Http\Resources\V1\Response;
 
+use App\Http\Resources\V1\Media\Resource as MediaResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
-class UserResource extends JsonResource
+class Resource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,12 +18,10 @@ class UserResource extends JsonResource
     {
         return [
             'id'         => $this->id,
-            'name'       => $this->name,
-            'email'      => $this->email,
-            'is_admin'   => $this->isAdmin,
+            'content'    => Str::limit($this->content),
+            'user'       => $this->user->name,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'is_deleted' => $this->isDeleted,
+            'media'      => MediaResource::collection($this->whenLoaded('media')),
         ];
     }
 }

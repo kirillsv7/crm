@@ -24,8 +24,6 @@ class Task extends Model implements HasMedia
         'status_id',
     ];
 
-    protected $with = ['project'];
-
     public static array $statusList = [
         '1' => 'Created',
         '2' => 'Working',
