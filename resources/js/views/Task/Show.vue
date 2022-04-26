@@ -21,7 +21,7 @@
             </dl>
           </div>
         </div>
-        <TaskMedia :media="task.media"/>
+        <MediaElement :media="task.media"/>
         <TaskResponse v-for="response in task.responses" :key="response.id" :response="response"/>
         <template v-if="!task.deleted">
           <hr>
@@ -35,14 +35,14 @@
 <script>
 import {onMounted, provide} from "vue";
 import useTask from "../../composition/task";
-import TaskMedia from "../../components/Task/Media";
+import MediaElement from "../../components/UI/MediaElement";
 import TaskResponse from "../../components/Task/Response";
 import ResponseForm from "../../components/Task/ResponseForm";
 
 export default {
   components: {
     ResponseForm,
-    TaskMedia,
+    MediaElement,
     TaskResponse,
   },
   props: {
@@ -55,9 +55,7 @@ export default {
   setup(props) {
     const {task, getTask} = useTask()
 
-    onMounted(async () => {
-      await getTask(props.id)
-    })
+    onMounted(getTask(props.id))
 
     provide('task', task)
 

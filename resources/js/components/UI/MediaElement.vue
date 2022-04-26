@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <div class="card-header">{{ 'Task media' }}</div>
+    <div class="card-header">{{ title }}</div>
     <div class="card-body">
       <div class="container">
         <div class="row">
@@ -24,15 +24,16 @@
 <script>
 export default {
   props: {
+    title: {
+      required: false,
+      type: String,
+      default: 'Media'
+    },
     media: {
       required: true,
       type: Object,
       default: {}
     }
-  },
-
-  setup() {
-    return {}
   }
 }
 </script>
