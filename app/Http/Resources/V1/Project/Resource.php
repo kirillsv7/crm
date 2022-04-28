@@ -25,7 +25,7 @@ class Resource extends JsonResource
             'client_company'    => $this->client->company,
             'user_id'           => $this->user_id,
             'user_name'         => $this->user->name,
-            'tasks_count'       => $this->when($this->tasks_count, $this->tasks_count),
+            'tasks_count'       => $this->when($this->tasks_count, $this->tasks_count, 0),
             'status_id'         => $this->status_id,
             'status'            => $this->status,
             'created_at'        => $this->created_at,

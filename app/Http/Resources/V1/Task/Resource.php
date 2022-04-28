@@ -25,7 +25,7 @@ class Resource extends JsonResource
             'project_title'          => $this->project->title,
             'project_client_company' => $this->project->client->company,
             'project_user_name'      => $this->project->user->name,
-            'responses_count'        => $this->when($this->responses_count, $this->responses_count),
+            'responses_count'        => $this->when($this->responses_count, $this->responses_count, 0),
             'status_id'              => $this->status_id,
             'status'                 => $this->status,
             'created_at'             => $this->created_at,
