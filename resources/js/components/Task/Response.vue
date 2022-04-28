@@ -15,42 +15,30 @@
     </div>
     <div class="card-body">
       {{ response.content }}
-      <!--
-            @if(response.getMedia()->count())
-            <div class="row mt-3">
-              @foreach(response.getMedia() as $media)
-              <div class="col-6 col-md-4 col-lg-3 pb-4">
-                <img class="img-fluid" src="{{ $media->getUrl() }}">
-                @if(request()->routeIs('task.edit'))
-                @can('manageMedia', $task)
-                <button
-                    class="btn btn-link d-block mx-auto media-remove"
-                    data-id="{{ $media->id }}"
-                    type="button">
-                  Remove file
-                </button>
-                @endcan
-                @endif
-              </div>
-              @endforeach
-            </div>
-            @endif
-      -->
+
+      <template v-if="response.media.length">
+        <div class="row mt-3">
+          <div v-for="media in response.media" :key="media.id" class="col-6 col-md-4 col-lg-3 pb-4">
+            <img class="img-fluid" :src="media.original_url">
+          </div>
+        </div>
+      </template>
     </div>
   </div>
 </template>
 
 <script>
+import MediaElement from "../UI/MediaElement";
+
 export default {
+  components: {
+    MediaElement
+  },
   props: {
     response: {
       required: true,
       type: Object,
     }
-  },
-
-  setup() {
-    return {}
   }
 }
 </script>
