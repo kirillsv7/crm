@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import {inject, onMounted, ref} from "vue";
+import {onMounted, reactive, ref} from "vue";
 import useTask from "../../composition/task";
 import AlertElement from "../UI/AlertElement";
 
@@ -44,13 +44,11 @@ export default {
     }
   },
 
-  setup(props) {
-    const task = inject('task')
+  emits: ['responseAdded'],
+
+  setup(props, context) {
     const {errors, addResponse} = useTask()
-    const taskResponse = ref({
-      task_id: '',
-      content: ''
-    })
+    const taskResponse = reactive({})
     const alertMessage = ref('')
     const alertClass = ref('')
     const sending = ref(false)
@@ -60,11 +58,11 @@ export default {
       try {
         alertMessage.value = 'Adding response...'
         alertClass.value = 'info'
-        const response = await addResponse(taskResponse.value)
-        task.value.responses.push(response)
-        taskResponse.value.content = ''
+        await addResponse(taskResponse)
         alertMessage.value = 'Response added!'
         alertClass.value = 'success'
+        taskResponse.content = ''
+        context.emit('responseAdded')
       } catch (e) {
         alertMessage.value = e.message
         alertClass.value = 'danger'
@@ -73,7 +71,7 @@ export default {
     }
 
     onMounted(() => {
-      taskResponse.value.task_id = props.encryptedId
+      taskResponse.task_id = props.encryptedId
     })
 
     return {

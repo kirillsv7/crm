@@ -14,6 +14,8 @@ class Response extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
+    protected $perPage = 20;
+
     protected $fillable = [
         'content',
         'task_id',

@@ -42,17 +42,16 @@ Route::group([
         Route::post('project/{project}', [ProjectController::class, 'restore'])->name('project.restore');
         Route::get('project/statuslist', [ProjectController::class, 'statusList'])->name('project.statuslist');
         Route::get('project/list', [ProjectController::class, 'list'])->name('project.list');
-        Route::get('project/recently-added-task', [ProjectController::class, 'recentlyAddedTask'])
-             ->name('project.recently-added-task');
+        Route::get('project/recently-added-task', [ProjectController::class, 'recentlyAddedTask'])->name('project.recently-added-task');
 
         Route::get('task/get-by-project/{project}', [TaskController::class, 'getByProject'])->name('task.get-by-project');
         Route::post('task/add-response', [TaskController::class, 'addResponse'])->name('task.add-response');
         Route::get('task/deleted', [TaskController::class, 'deleted'])->name('task.deleted');
         Route::post('task/{task}', [TaskController::class, 'restore'])->name('task.restore');
         Route::get('task/statuslist', [TaskController::class, 'statusList'])->name('task.statuslist');
-        Route::get('task/recently-responsed', [TaskController::class, 'recentlyResponsed'])
-             ->name('task.recently-responsed');
+        Route::get('task/recently-responsed', [TaskController::class, 'recentlyResponsed'])->name('task.recently-responsed');
 
+        Route::get('response/get-by-task/{task}', [ResponseController::class, 'getByTask'])->name('task.get-by-task');
         Route::get('response/latest', [ResponseController::class, 'latest'])->name('response.latest');
 
         Route::apiResources([

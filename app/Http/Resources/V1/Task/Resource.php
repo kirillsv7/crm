@@ -32,7 +32,6 @@ class Resource extends JsonResource
             'updated_at'             => $this->updated_at,
             'is_deleted'             => $this->isDeleted,
             'media'                  => MediaResource::collection($this->whenLoaded('media')),
-            'responses'              => ResponseResource::collection($this->whenLoaded('responses')),
         ];
     }
 }

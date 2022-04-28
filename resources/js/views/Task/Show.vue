@@ -22,28 +22,37 @@
           </div>
         </div>
         <MediaElement :media="task.media"/>
-        <TaskResponse v-for="response in task.responses" :key="response.id" :response="response"/>
         <template v-if="!task.deleted">
-          <hr>
-          <ResponseForm v-if="task.encrypted_id" :encryptedId="task.encrypted_id"/>
+          <ResponseForm v-if="task.encrypted_id" :encryptedId="task.encrypted_id" @responseAdded="refreshResponses"/>
         </template>
+        <div class="d-flex justify-content-center mb-4">
+          <PaginationElement :pagination="pagination"/>
+        </div>
+        <TaskResponse v-for="response in responses" :key="response.id" :response="response"/>
+        <div class="d-flex justify-content-center mb-4">
+          <PaginationElement :pagination="pagination"/>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {onMounted, provide} from "vue";
+import {onMounted, watch} from "vue";
+import {useRoute, useRouter} from "vue-router";
 import useTask from "../../composition/task";
+import useResponse from "../../composition/response";
 import MediaElement from "../../components/UI/MediaElement";
 import TaskResponse from "../../components/Task/Response";
 import ResponseForm from "../../components/Task/ResponseForm";
+import PaginationElement from "../../components/UI/PaginationElement";
 
 export default {
   components: {
     ResponseForm,
     MediaElement,
     TaskResponse,
+    PaginationElement
   },
   props: {
     id: {
@@ -53,14 +62,28 @@ export default {
   },
 
   setup(props) {
+    const route = useRoute()
+    const router = useRouter()
     const {task, getTask} = useTask()
+    const {responses, pagination, getResponsesByTask} = useResponse()
 
-    onMounted(getTask(props.id))
+    const refreshResponses = () => {
+      getResponsesByTask(props.id)
+      router.push(route.path)
+    }
 
-    provide('task', task)
+    onMounted(() => {
+      getTask(props.id)
+      getResponsesByTask(props.id)
+    })
+
+    watch(() => route.query, () => getResponsesByTask(props.id))
 
     return {
-      task
+      task,
+      responses,
+      pagination,
+      refreshResponses
     }
   }
 }
