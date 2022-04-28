@@ -3,7 +3,6 @@
 namespace App\Http\Resources\V1\Project;
 
 use App\Http\Resources\V1\Media\Resource as MediaResource;
-use App\Http\Resources\V1\Task\Resource as TaskResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Resource extends JsonResource

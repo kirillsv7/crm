@@ -19,7 +19,7 @@ class Resource extends JsonResource
         return [
             'id'         => $this->id,
             'content'    => Str::limit($this->content),
-            'user'       => $this->user->name,
+            'user_name'  => $this->user->name,
             'created_at' => $this->created_at,
             'media'      => MediaResource::collection($this->whenLoaded('media')),
         ];

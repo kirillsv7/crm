@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header d-flex flex-wrap align-items-center">
-      Response by:&nbsp;<span v-html="response.user"></span>&nbsp;|
+      Response by:&nbsp;<span v-html="response.user_name"></span>&nbsp;|
       at: {{ response.created_at }}
 
       <router-link :to="{hash: '#response-' + response.id}" class="btn btn-link btn-sm ml-auto text-muted"

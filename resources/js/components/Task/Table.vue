@@ -70,9 +70,9 @@
               {{ task.title }}
             </router-link>
           </td>
-          <td>{{ task.project }}</td>
-          <td>{{ task.client }}</td>
-          <td v-html="task.user"></td>
+          <td>{{ task.project_title }}</td>
+          <td>{{ task.project_client_company }}</td>
+          <td v-html="task.project_user_name"></td>
           <td>{{ task.status }}</td>
           <td>{{ task.created_at }}</td>
           <td>{{ task.updated_at }}</td>

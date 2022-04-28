@@ -11,11 +11,11 @@
               <dt>Description</dt>
               <dd>{{ task.description }}</dd>
               <dt>Project</dt>
-              <dd>{{ task.project }}</dd>
+              <dd>{{ task.project_title }}</dd>
               <dt>Client</dt>
-              <dd>{{ task.client }}</dd>
+              <dd>{{ task.project_client_company }}</dd>
               <dt>Assigned user</dt>
-              <dd v-html="task.user"></dd>
+              <dd v-html="task.project_user_name"></dd>
               <dt>Status</dt>
               <dd>{{ task.status }}</dd>
             </dl>

@@ -17,21 +17,21 @@ class Resource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'           => $this->id,
-            'encrypted_id' => $this->when($request->routeIs('task.show'), encrypt($this->id)),
-            'title'        => $this->title,
-            'description'  => $this->when($request->routeIs('task.show'), $this->description),
-            'project_id'   => $this->project_id,
-            'project'      => $this->project->title,
-            'client'       => $this->project->client->company,
-            'user'         => $this->project->user->name,
-            'status_id'    => $this->status_id,
-            'status'       => $this->status,
-            'created_at'   => $this->created_at,
-            'updated_at'   => $this->updated_at,
-            'is_deleted'   => $this->isDeleted,
-            'media'        => MediaResource::collection($this->whenLoaded('media')),
-            'responses'    => ResponseResource::collection($this->whenLoaded('responses')),
+            'id'                     => $this->id,
+            'encrypted_id'           => $this->when($request->routeIs('task.show'), encrypt($this->id)),
+            'title'                  => $this->title,
+            'description'            => $this->when($request->routeIs('task.show'), $this->description),
+            'project_id'             => $this->project_id,
+            'project_title'          => $this->project->title,
+            'project_client_company' => $this->project->client->company,
+            'project_user_name'      => $this->project->user->name,
+            'status_id'              => $this->status_id,
+            'status'                 => $this->status,
+            'created_at'             => $this->created_at,
+            'updated_at'             => $this->updated_at,
+            'is_deleted'             => $this->isDeleted,
+            'media'                  => MediaResource::collection($this->whenLoaded('media')),
+            'responses'              => ResponseResource::collection($this->whenLoaded('responses')),
         ];
     }
 }
