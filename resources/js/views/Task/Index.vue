@@ -8,7 +8,11 @@
             Task list
           </div>
           <div class="card-body">
-            <TaskTable :tasks="tasks" :deleteTask="deleteTask"/>
+            <TaskTable
+                :tasks="tasks"
+                :availableFilters="['project','client', 'user', 'status']"
+                :deleteTask="deleteTask"
+            />
           </div>
           <div class="card-footer d-flex justify-content-center">
             <PaginationElement :pagination="pagination"/>

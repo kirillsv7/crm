@@ -8,7 +8,11 @@
             Task deleted
           </div>
           <div class="card-body">
-            <TaskTable :tasks="tasks" :recoverTask="recoverTask"/>
+            <TaskTable
+                :tasks="tasks"
+                :availableFilters="['project','client', 'user', 'status']"
+                :recoverTask="recoverTask"
+            />
           </div>
           <div class="card-footer d-flex justify-content-center">
             <PaginationElement :pagination="pagination"/>

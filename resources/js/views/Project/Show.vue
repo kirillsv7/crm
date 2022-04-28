@@ -33,8 +33,10 @@
             Project tasks
           </div>
           <div class="card-body">
-            <TaskTable :tasks="tasks"/>
-
+            <TaskTable
+                :tasks="tasks"
+                :availableFilters="['status']"
+            />
           </div>
           <div class="card-footer">
             <div class="d-flex justify-content-center">

@@ -9,17 +9,17 @@
         <th>Client</th>
         <th>User</th>
         <th>Responses</th>
-        <th>Last response</th>
+        <th class="text-nowrap">Last response</th>
         <th>Status</th>
         <th>Created</th>
         <th>Updated</th>
         <th>Actions</th>
       </tr>
-      <tr>
+      <tr v-if="availableFilters.length">
         <td></td>
         <td></td>
         <td>
-          <select class="form-control" v-model="filter.project_id">
+          <select class="form-control" v-if="availableFilters.includes('project')" v-model="filter.project_id">
             <option :value="null">Filter by project</option>
             <template v-for="project in projectList" :key="project.id">
               <option :value="project.id">
@@ -29,7 +29,7 @@
           </select>
         </td>
         <td>
-          <select class="form-control" v-model="filter.client_id">
+          <select class="form-control" v-if="availableFilters.includes('client')" v-model="filter.client_id">
             <option :value="null">Filter by client</option>
             <template v-for="client in clientList" :key="client.id">
               <option :value="client.id">
@@ -39,7 +39,7 @@
           </select>
         </td>
         <td>
-          <select class="form-control" v-model="filter.user_id">
+          <select class="form-control" v-if="availableFilters.includes('user')" v-model="filter.user_id">
             <option :value="null">Filter by user</option>
             <template v-for="user in userList" :key="user.id">
               <option :value="user.id">
@@ -51,7 +51,7 @@
         <td></td>
         <td></td>
         <td>
-          <select class="form-control" v-model="filter.status_id">
+          <select class="form-control" v-if="availableFilters.includes('status')" v-model="filter.status_id">
             <option :value="null">Filter by status</option>
             <template v-for="(status, id) in statusList" :key="id">
               <option :value="id">
@@ -117,9 +117,13 @@ import useClient from "../../composition/client";
 export default {
   props: {
     tasks: {
-      default: [],
+      type: Object,
       required: true,
-      type: Object
+      default: []
+    },
+    availableFilters: {
+      type: Array,
+      default: []
     },
     deleteTask: {
       type: Function
@@ -129,7 +133,7 @@ export default {
     }
   },
 
-  setup() {
+  setup(props) {
     const route = useRoute()
     const router = useRouter()
     const {projectList, getProjectList} = useProject()
@@ -150,10 +154,10 @@ export default {
     }
 
     onMounted(() => {
-      getProjectList()
-      getUserList()
-      getClientList()
-      getStatusList()
+      if (props.availableFilters.includes('project')) getProjectList()
+      if (props.availableFilters.includes('user')) getUserList()
+      if (props.availableFilters.includes('client')) getClientList()
+      if (props.availableFilters.includes('status')) getStatusList()
     })
 
     watch(filter.value, (filter) => {
