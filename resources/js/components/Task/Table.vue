@@ -8,6 +8,7 @@
         <th>Project</th>
         <th>Client</th>
         <th>User</th>
+        <th>Responses</th>
         <th>Status</th>
         <th>Created</th>
         <th>Updated</th>
@@ -46,6 +47,7 @@
             </template>
           </select>
         </td>
+        <td></td>
         <td>
           <select class="form-control" v-model="filter.status_id">
             <option :value="null">Filter by status</option>
@@ -73,6 +75,7 @@
           <td>{{ task.project_title }}</td>
           <td>{{ task.project_client_company }}</td>
           <td v-html="task.project_user_name"></td>
+          <td v-html="task.responses_count"></td>
           <td>{{ task.status }}</td>
           <td>{{ task.created_at }}</td>
           <td>{{ task.updated_at }}</td>

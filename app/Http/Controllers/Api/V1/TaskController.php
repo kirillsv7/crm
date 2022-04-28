@@ -21,6 +21,7 @@ class TaskController extends Controller
         return TaskResource::collection(
             Task::query()
                 ->with(['project.client', 'project.user'])
+                ->withCount('responses')
                 ->filterByProject()
                 ->filterByClient()
                 ->filterByUser()
@@ -60,6 +61,8 @@ class TaskController extends Controller
         $task = Task::withTrashed()->findOrFail($id);
 
         $task->load(['media', 'responses.user']);
+
+        $task->loadCount('responses');
 
         return new TaskResource($task);
     }
