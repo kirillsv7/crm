@@ -46,6 +46,10 @@ class Task extends Model implements HasMedia
         return $this->hasMany(Response::class);
     }
 
+    public function lastResponse(){
+        return $this->hasOne(Response::class)->latest();
+    }
+
     public function getStatusAttribute()
     {
         return self::$statusList[$this->status_id];

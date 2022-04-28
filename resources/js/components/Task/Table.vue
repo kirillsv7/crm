@@ -9,6 +9,7 @@
         <th>Client</th>
         <th>User</th>
         <th>Responses</th>
+        <th>Last response</th>
         <th>Status</th>
         <th>Created</th>
         <th>Updated</th>
@@ -48,6 +49,7 @@
           </select>
         </td>
         <td></td>
+        <td></td>
         <td>
           <select class="form-control" v-model="filter.status_id">
             <option :value="null">Filter by status</option>
@@ -76,9 +78,14 @@
           <td>{{ task.project_client_company }}</td>
           <td v-html="task.project_user_name"></td>
           <td v-html="task.responses_count"></td>
+          <td class="text-nowrap">
+            <template v-if="task.last_response">
+              <span v-html="task.last_response?.user_name"></span> / {{ task.last_response?.created_at }}
+            </template>
+          </td>
           <td>{{ task.status }}</td>
-          <td>{{ task.created_at }}</td>
-          <td>{{ task.updated_at }}</td>
+          <td class="text-nowrap">{{ task.created_at }}</td>
+          <td class="text-nowrap">{{ task.updated_at }}</td>
           <td class="text-nowrap">
             <router-link class="btn btn-secondary btn-sm mr-1"
                          :to="{name: 'task.edit', params: {id: task.id}}"
