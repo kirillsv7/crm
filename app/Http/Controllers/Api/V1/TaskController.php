@@ -42,7 +42,13 @@ class TaskController extends Controller
         return TaskResource::collection(
             Task::query()
                 ->where('project_id', $projectId)
-                ->with(['project.client', 'project.user'])
+                ->with([
+                    'project:id,title,client_id,user_id',
+                    'project.client:id,company',
+                    'project.user:id,name',
+                    'lastResponse.user:id,name',
+                ])
+                ->withCount('responses')
                 ->filterByStatus()
                 ->orderByDesc('id')
                 ->paginate()
