@@ -45,6 +45,7 @@ Route::group([
         Route::get('project/recently-added-task', [ProjectController::class, 'recentlyAddedTask'])
              ->name('project.recently-added-task');
 
+        Route::get('task/get-by-project/{project}', [TaskController::class, 'getByProject'])->name('task.get-by-project');
         Route::post('task/add-response', [TaskController::class, 'addResponse'])->name('task.add-response');
         Route::get('task/deleted', [TaskController::class, 'deleted'])->name('task.deleted');
         Route::post('task/{task}', [TaskController::class, 'restore'])->name('task.restore');

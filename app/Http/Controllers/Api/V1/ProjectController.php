@@ -40,6 +40,8 @@ class ProjectController extends Controller
 
     public function show(Project $project): ProjectResource
     {
+        $project->load('media');
+
         return new ProjectResource($project);
     }
 

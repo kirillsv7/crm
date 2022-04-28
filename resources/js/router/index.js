@@ -17,6 +17,7 @@ import ClientDeleted from '../views/Client/Deleted'
 
 import ProjectIndex from '../views/Project/Index'
 import ProjectCreate from '../views/Project/Create'
+import ProjectShow from '../views/Project/Show'
 import ProjectEdit from '../views/Project/Edit'
 import ProjectDeleted from '../views/Project/Deleted'
 
@@ -92,6 +93,12 @@ const routes = [
         path: '/project/create',
         name: 'project.create',
         component: ProjectCreate
+    },
+    {
+        path: '/project/:id',
+        name: 'project.show',
+        component: ProjectShow,
+        props: true
     },
     {
         path: '/project/:id/edit',

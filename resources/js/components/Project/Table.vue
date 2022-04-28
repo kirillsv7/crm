@@ -18,7 +18,11 @@
       <template v-for="project in projects" :key="project.id">
         <tr>
           <td>{{ project.id }}</td>
-          <td>{{ project.title }}</td>
+          <td>
+            <router-link :to="{name: 'project.show', params: {id: project.id}}">
+              {{ project.title }}
+            </router-link>
+          </td>
           <td>{{ project.deadline }}</td>
           <td>{{ project.client_company }}</td>
           <td v-html="project.user_name"></td>

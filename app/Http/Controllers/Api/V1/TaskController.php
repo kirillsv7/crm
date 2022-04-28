@@ -31,6 +31,18 @@ class TaskController extends Controller
         );
     }
 
+    public function getByProject($projectId): AnonymousResourceCollection
+    {
+        return TaskResource::collection(
+            Task::query()
+                ->where('project_id', $projectId)
+                ->filterByStatus()
+                ->orderByDesc('id')
+                ->paginate()
+                ->withQueryString()
+        );
+    }
+
     public function store(CreateUpdateTaskRequest $request, AddMediaToModel $addMediaToModel): TaskResource
     {
         $this->authorize('create', Task::class);

@@ -18,6 +18,12 @@ export default function useTask() {
         pagination.value = response.data.meta
     }
 
+    const getTasksByProject = async (projectId) => {
+        const response = await axios.get(`/api/v1/task/get-by-project/${projectId}`, {params: route.query})
+        tasks.value = response.data.data
+        pagination.value = response.data.meta
+    }
+
     const getTask = async (id) => {
         const response = await axios.get(`/api/v1/task/${id}`)
         task.value = response.data.data
@@ -106,6 +112,7 @@ export default function useTask() {
         statusList,
         errors,
         getTasks,
+        getTasksByProject,
         getTask,
         storeTask,
         updateTask,
