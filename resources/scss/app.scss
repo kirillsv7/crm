@@ -9,6 +9,6 @@
   margin-bottom: 0;
 }
 
-.dropzone {
-  min-height: auto;
+.filepond--item {
+  width: calc(25% - 0.5em);
 }

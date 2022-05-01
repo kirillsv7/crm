@@ -5,6 +5,7 @@
       allow-multiple="true"
       accepted-file-types="image/jpeg, image/png"
       instant-upload="false"
+      imagePreviewHeight="100"
       @updatefiles="handleUpdateFiles"
   />
 </template>
