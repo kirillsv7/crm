@@ -25,28 +25,43 @@
       </div>
     </div>
   </div>
-  <div class="container-fluid mb-3">
-    <div class="row">
-      <div class="col-12">
-        <div class="card m-0">
-          <div class="card-header d-flex flex-wrap align-items-center justify-content-between">
-            Project tasks
-          </div>
-          <div class="card-body">
-            <TaskTable
-                :tasks="tasks"
-                :availableFilters="['status']"
-            />
-          </div>
-          <div class="card-footer">
-            <div class="d-flex justify-content-center">
-              <PaginationElement :pagination="pagination"/>
+  <template v-if="tasks.length">
+    <div class="container-fluid mb-3">
+      <div class="row">
+        <div class="col-12">
+          <div class="card m-0">
+            <div class="card-header d-flex flex-wrap align-items-center justify-content-between">
+              Project tasks
+            </div>
+            <div class="card-body">
+              <TaskTable
+                  :tasks="tasks"
+                  :availableFilters="['status']"
+              />
+            </div>
+            <div class="card-footer">
+              <div class="d-flex justify-content-center">
+                <PaginationElement :pagination="pagination"/>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </template>
+  <template v-else>
+    <div class="container my-3">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card m-0">
+            <div class="card-body">
+              <div class="text-center">Project hasn't tasks yet</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
 </template>
 
 <script>

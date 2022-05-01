@@ -32,7 +32,16 @@
         <div class="d-flex justify-content-center mb-4">
           <PaginationElement :pagination="pagination"/>
         </div>
-        <TaskResponse v-for="response in responses" :key="response.id" :response="response"/>
+        <template v-if="responses.length">
+          <TaskResponse v-for="response in responses" :key="response.id" :response="response"/>
+        </template>
+        <template v-else>
+          <div class="card m-0">
+            <div class="card-body">
+              <div class="text-center">Task hasn't responses yet</div>
+            </div>
+          </div>
+        </template>
         <div class="d-flex justify-content-center mb-4">
           <PaginationElement :pagination="pagination"/>
         </div>
