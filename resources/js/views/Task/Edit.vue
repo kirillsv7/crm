@@ -48,12 +48,6 @@ export default {
     const alertClass = ref('')
     const saved = ref(null)
 
-    const toggleCreatedAlert = async () => {
-      if (props.created) {
-        alertMessage.value = 'Task created!'
-      }
-    }
-
     const saveTask = async () => {
       alertMessage.value = 'Updating task...'
       alertClass.value = 'info'
@@ -65,6 +59,12 @@ export default {
       } catch (e) {
         alertMessage.value = e.message
         alertClass.value = 'danger'
+      }
+    }
+
+    const toggleCreatedAlert = async () => {
+      if (props.created) {
+        alertMessage.value = 'Task created!'
       }
     }
 
