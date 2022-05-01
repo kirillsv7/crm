@@ -8,7 +8,10 @@
             Project deleted
           </div>
           <div class="card-body">
-            <ProjectTable :projects="projectsDeleted" :recoverProject="recoverProject"/>
+            <ProjectTable
+                :projects="projects"
+                :recoverProject="recoverProject"
+            />
           </div>
           <div class="card-footer d-flex justify-content-center">
             <PaginationElement :pagination="pagination"/>
@@ -36,29 +39,27 @@ export default {
 
   setup() {
     const route = useRoute()
-    const {projectsDeleted, pagination, getProjectsDeleted, restoreProject} = useProject()
+    const {projects, pagination, getProjectsDeleted, restoreProject} = useProject()
     const alertMessage = ref('')
     const alertClass = ref('')
 
     const recoverProject = async (id) => {
       if (!window.confirm('Are you sure you want to restore?')) return
+      alertMessage.value = 'Restoring project...'
+      alertClass.value = 'info'
       await restoreProject(id);
-      await getProjectsDeleted();
       alertMessage.value = 'Project restored!'
       alertClass.value = 'warning'
     }
 
     onMounted(getProjectsDeleted)
 
-    watch(
-        () => route.query.page,
-        getProjectsDeleted
-    )
+    watch(() => route.query.page, getProjectsDeleted)
 
     return {
       alertMessage,
       alertClass,
-      projectsDeleted,
+      projects,
       pagination,
       recoverProject
     }

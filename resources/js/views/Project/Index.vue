@@ -8,7 +8,10 @@
             Project list
           </div>
           <div class="card-body">
-            <ProjectTable :projects="projects" :deleteProject="deleteProject"/>
+            <ProjectTable
+                :projects="projects"
+                :deleteProject="deleteProject"
+            />
           </div>
           <div class="card-footer d-flex justify-content-center">
             <PaginationElement :pagination="pagination"/>
@@ -42,18 +45,16 @@ export default {
 
     const deleteProject = async (id) => {
       if (!window.confirm('Are you sure you want to delete?')) return
+      alertMessage.value = 'Deleting project...'
+      alertClass.value = 'info'
       await destroyProject(id);
-      await getProjects();
       alertMessage.value = 'Project deleted!'
       alertClass.value = 'warning'
     }
 
     onMounted(getProjects)
 
-    watch(
-        () => route.query.page,
-        getProjects
-    )
+    watch(() => route.query.page, getProjects)
 
     return {
       alertMessage,

@@ -31,24 +31,17 @@ export default {
   },
 
   setup() {
-    const {errors, storeProject} = useProject()
-    const project = ref({
-      'title': '',
-      'description': '',
-      'deadline': '',
-      'client_id': '',
-      'user_id': '',
-      'status_id': ''
-    })
+    const {project, errors, storeProject} = useProject()
     const alertMessage = ref('')
     const alertClass = ref('')
 
     const saveProject = async () => {
       alertMessage.value = 'Creating project...'
       alertClass.value = 'info'
-      await storeProject({...project.value})
-      if (Object.keys(errors.value).length !== 0) {
-        alertMessage.value = 'Check fields!'
+      try {
+        await storeProject(project.value)
+      } catch (e) {
+        alertMessage.value = e.message
         alertClass.value = 'danger'
       }
     }

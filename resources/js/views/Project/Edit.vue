@@ -9,6 +9,7 @@
             <ProjectForm
                 :project="project"
                 :errors="errors"
+                :saved="saved"
                 :saveProject="saveProject"
             />
           </div>
@@ -37,6 +38,7 @@ export default {
     created: {
       required: false,
       type: Boolean,
+      default: false
     },
   },
 
@@ -44,16 +46,18 @@ export default {
     const {project, errors, getProject, updateProject} = useProject()
     const alertMessage = ref('')
     const alertClass = ref('')
+    const saved = ref(null)
 
     const saveProject = async () => {
       alertMessage.value = 'Updating project...'
       alertClass.value = 'info'
-      await updateProject(props.id)
-      if (Object.keys(errors.value).length === 0) {
+      try {
+        await updateProject(props.id)
+        saved.value = Date.now()
         alertMessage.value = 'Project updated!'
         alertClass.value = null
-      } else {
-        alertMessage.value = 'Check fields!'
+      } catch (e) {
+        alertMessage.value = e.message
         alertClass.value = 'danger'
       }
     }
@@ -74,6 +78,7 @@ export default {
       alertClass,
       project,
       errors,
+      saved,
       saveProject
     }
   }

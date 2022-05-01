@@ -1,5 +1,5 @@
 <template>
-  <form id="project-form" @submit.prevent="saveProject">
+  <form id="project-form" enctype="multipart/form-data" @submit.prevent="saveProject">
     <div class="form-group">
       <label>Title</label>
       <input class="form-control" :class="{'is-invalid': errors.title}" name="title" type="text"
@@ -35,7 +35,7 @@
       <select class="form-control" :class="{'is-invalid': errors.client_id}" name="client_id"
               v-model="project.client_id">
         <option value="">Select client</option>
-        <template v-for="client in clients" :key="client.id">
+        <template v-for="client in clientList" :key="client.id">
           <option :value="client.id">
             {{ client.company }}
           </option>
@@ -52,7 +52,7 @@
       <select class="form-control" :class="{'is-invalid': errors.user_id}" name="user_id"
               v-model="project.user_id">
         <option value="">Select user</option>
-        <template v-for="user in users" :key="user.id">
+        <template v-for="user in userList" :key="user.id">
           <option :value="user.id">
             {{ user.name }}
           </option>
@@ -81,14 +81,19 @@
         </template>
       </div>
     </div>
+    <div class="form-group">
+      <label>Media upload</label>
+      <FileUpload :model="project" :saved="saved"/>
+    </div>
     <button class="btn btn-primary" type="submit">Save</button>
   </form>
 </template>
 
 <script>
+import {onMounted} from "vue";
+import FileUpload from "../UI/Form/FileUpload";
 import useClient from "../../composition/client";
 import useUser from "../../composition/user";
-import {onMounted} from "vue";
 import useProject from "../../composition/project";
 
 export default {
@@ -101,26 +106,33 @@ export default {
       require: true,
       type: Object
     },
+    saved:{
+      require: false,
+      type: Number
+    },
     saveProject: {
       require: true,
       type: Function
     }
   },
+  components: {
+    FileUpload
+  },
 
   setup() {
     const {statusList, getStatusList} = useProject()
-    const {clients, getClients} = useClient()
-    const {users, getUsers} = useUser()
+    const {clientList, getClientList} = useClient()
+    const {userList, getUserList} = useUser()
 
     onMounted(() => {
       getStatusList()
-      getClients()
-      getUsers()
+      getClientList()
+      getUserList()
     })
 
     return {
-      clients,
-      users,
+      clientList,
+      userList,
       statusList
     }
   }

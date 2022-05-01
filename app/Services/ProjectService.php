@@ -9,18 +9,13 @@ use Illuminate\Support\Arr;
 
 class ProjectService
 {
-
-    /**
-     * @param  array  $formData
-     * @return Project
-     */
     public function store(array $formData): Project
     {
-        $project = Project::create(Arr::except($formData, ['media']));
+        $project = Project::create(Arr::except($formData, ['files']));
 
-        if (Arr::exists($formData, 'media')) {
+        if (Arr::exists($formData, 'files')) {
             $addMediaToModel = new AddMediaToModel();
-            $addMediaToModel($formData['media'], $project);
+            $addMediaToModel($formData['files'], $project);
         }
 
         $project->user->notify(new ProjectAssignedNotification($project));
@@ -30,11 +25,11 @@ class ProjectService
 
     public function update(Project $project, array $formData): Project
     {
-        $project->update(Arr::except($formData, ['media']));
+        $project->update(Arr::except($formData, ['files']));
 
-        if (Arr::exists($formData, 'media')) {
+        if (Arr::exists($formData, 'files')) {
             $addMediaToModel = new AddMediaToModel();
-            $addMediaToModel($formData['media'], $project);
+            $addMediaToModel($formData['files'], $project);
         }
 
         if ($project->wasChanged('user_id')) {

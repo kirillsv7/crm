@@ -15,7 +15,7 @@
               <dt>Client</dt>
               <dd>{{ project.client_company }}</dd>
               <dt>Assigned user</dt>
-              <dd>{{ project.user_name }}</dd>
+              <dd v-html="project.user_name"></dd>
               <dt>Status</dt>
               <dd>{{ project.status }}</dd>
             </dl>
@@ -76,14 +76,12 @@ export default {
     const {project, getProject} = useProject()
     const {tasks, pagination, getTasksByProject} = useTask()
 
-    const id = props.id
-
     onMounted(() => {
-      getProject(id)
-      getTasksByProject(id)
+      getProject(props.id)
+      getTasksByProject(props.id)
     })
 
-    watch(() => route.query, () => getTasksByProject(id))
+    watch(() => route.query, () => getTasksByProject(props.id))
 
     return {
       project,
