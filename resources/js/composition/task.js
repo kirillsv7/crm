@@ -30,7 +30,7 @@ export default function useTask() {
     }
 
     const storeTask = async () => {
-        const formData = convertTaskToFormData()
+        const formData = convertToFormData()
         try {
             errors.value = {}
             const response = await axios.post('/api/v1/task', formData, {
@@ -49,7 +49,7 @@ export default function useTask() {
     }
 
     const updateTask = async (id) => {
-        const formData = convertTaskToFormData()
+        const formData = convertToFormData()
         try {
             errors.value = {}
             await axios.post(`/api/v1/task/${id}`, formData, {
@@ -83,9 +83,12 @@ export default function useTask() {
     }
 
     const addResponse = async (taskResponse) => {
+        const formData = convertToFormData(taskResponse)
         try {
             errors.value = {}
-            const response = await axios.post('/api/v1/task/add-response', taskResponse)
+            const response = await axios.post('/api/v1/task/add-response', formData, {
+                headers: {'content-type': 'multipart/form-data'}
+            })
             return response.data.data
         } catch (e) {
             await handleException(e)
@@ -97,14 +100,14 @@ export default function useTask() {
         tasks.value = response.data.data
     }
 
-    const convertTaskToFormData = () => {
+    const convertToFormData = (dataObj = task) => {
         const formData = new FormData();
-        for (let key in task.value) {
-            if (typeof task.value[key] !== 'object')
-                formData.append(key, task.value[key]);
+        for (let key in dataObj.value) {
+            if (typeof dataObj.value[key] !== 'object')
+                formData.append(key, dataObj.value[key]);
             else {
-                for (let key2 in task.value[key]) {
-                    formData.append(key + '[]', task.value[key][key2])
+                for (let key2 in dataObj.value[key]) {
+                    formData.append(key + '[]', dataObj.value[key][key2])
                 }
             }
         }

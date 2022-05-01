@@ -3,9 +3,7 @@
   <div class="card">
     <div class="card-header">Add response</div>
     <div class="card-body">
-      <form id="response-form" @submit.prevent="sendResponse">
-        <input name="task_id" type="hidden"
-               v-model="taskResponse.task_id">
+      <form id="response-form" enctype="multipart/form-data" @submit.prevent="sendResponse">
         <div class="form-group">
           <label>Content</label>
           <textarea class="form-control" :class="{'is-invalid': errors.content}" name="content"
@@ -18,7 +16,7 @@
         </div>
         <div class="form-group">
           <label>Media upload</label>
-          <div class="dropzone"></div>
+          <FileUpload :model="taskResponse" :saved="saved"/>
         </div>
         <button class="btn btn-primary" type="submit" :disabled="sending">{{ sending ? 'Sending...' : 'Send' }}</button>
       </form>
@@ -27,13 +25,15 @@
 </template>
 
 <script>
-import {onMounted, reactive, ref} from "vue";
-import useTask from "../../composition/task";
+import {onMounted, ref} from "vue";
 import AlertElement from "../UI/AlertElement";
+import FileUpload from "../UI/Form/FileUpload";
+import useTask from "../../composition/task";
 
 export default {
   components: {
-    AlertElement
+    AlertElement,
+    FileUpload
   },
 
   props: {
@@ -48,10 +48,11 @@ export default {
 
   setup(props, context) {
     const {errors, addResponse} = useTask()
-    const taskResponse = reactive({})
+    const taskResponse = ref({})
     const alertMessage = ref('')
     const alertClass = ref('')
     const sending = ref(false)
+    const saved = ref(null)
 
     const sendResponse = async () => {
       sending.value = true
@@ -59,9 +60,10 @@ export default {
         alertMessage.value = 'Adding response...'
         alertClass.value = 'info'
         await addResponse(taskResponse)
+        saved.value = Date.now()
         alertMessage.value = 'Response added!'
         alertClass.value = 'success'
-        taskResponse.content = ''
+        taskResponse.value.content = ''
         context.emit('responseAdded')
       } catch (e) {
         alertMessage.value = e.message
@@ -71,7 +73,7 @@ export default {
     }
 
     onMounted(() => {
-      taskResponse.task_id = props.encryptedId
+      taskResponse.value.task_id = props.encryptedId
     })
 
     return {
@@ -80,6 +82,7 @@ export default {
       taskResponse,
       errors,
       sending,
+      saved,
       sendResponse
     }
   }

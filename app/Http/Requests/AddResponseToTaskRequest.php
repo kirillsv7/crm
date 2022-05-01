@@ -31,8 +31,8 @@ class AddResponseToTaskRequest extends FormRequest
                 'string',
                 new CheckEncryptedInput(),
             ],
-            'media'       => 'array',
-            'media.*'     => 'string|distinct',
+            'files'       => 'array',
+            'files.*'     => 'file',
         ];
     }
 }

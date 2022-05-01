@@ -27,7 +27,7 @@ export default {
       type: Object
     },
     saved: {
-      require: false,
+      require: true,
       type: Number
     }
   },
