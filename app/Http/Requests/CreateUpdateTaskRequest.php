@@ -14,8 +14,8 @@ class CreateUpdateTaskRequest extends FormRequest
     public function authorize(): bool
     {
         return match ($this->method()) {
-            'POST'  => $this->user()->isAdmin || $this->user()->hasPermissionTo('task-create'),
-            'PUT'   => $this->user()->isAdmin || $this->user()->hasPermissionTo('task-update'),
+            'POST' => $this->user()->isAdmin || $this->user()->hasPermissionTo('task-create'),
+            'PUT' => $this->user()->isAdmin || $this->user()->hasPermissionTo('task-update'),
             default => false
         };
     }
@@ -32,8 +32,8 @@ class CreateUpdateTaskRequest extends FormRequest
             'description' => 'required|string',
             'project_id'  => 'required|integer|exists:projects,id',
             'status_id'   => 'required|integer',
-            'new_media'       => 'array',
-            'new_media.*'     => 'string|distinct',
+            'files'       => 'array',
+            'files.*'     => 'file',
         ];
     }
 

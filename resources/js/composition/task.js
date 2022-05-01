@@ -1,6 +1,7 @@
 import {ref} from "vue"
 import {useRoute, useRouter} from "vue-router"
 import axios from "axios"
+import {isBoolean} from "lodash/lang";
 
 export default function useTask() {
 
@@ -30,9 +31,12 @@ export default function useTask() {
     }
 
     const storeTask = async () => {
+        const formData = convertTaskToFormData()
         try {
             errors.value = {}
-            const response = await axios.post('/api/v1/task', task.value)
+            const response = await axios.post('/api/v1/task', formData, {
+                headers: {'content-type': 'multipart/form-data'}
+            })
             await router.push({
                 name: 'task.edit',
                 params: {
@@ -46,9 +50,13 @@ export default function useTask() {
     }
 
     const updateTask = async (id) => {
+        const formData = convertTaskToFormData()
         try {
             errors.value = {}
-            await axios.put(`/api/v1/task/${id}`, task.value)
+            await axios.post(`/api/v1/task/${id}`, formData, {
+                headers: {'content-type': 'multipart/form-data'},
+                params: {_method: 'PUT'}
+            })
         } catch (e) {
             await handleException(e)
         }
@@ -88,6 +96,21 @@ export default function useTask() {
     const getRecentlyResponsed = async () => {
         const response = await axios.get('/api/v1/task/recently-responsed')
         tasks.value = response.data.data
+    }
+
+    const convertTaskToFormData = () => {
+        const formData = new FormData();
+        for (let key in task.value) {
+            if (typeof task.value[key] !== 'object')
+                formData.append(key, task.value[key]);
+            else {
+                for (let key2 in task.value[key]) {
+                    formData.append(key + '[]', task.value[key][key2])
+                }
+            }
+        }
+
+        return formData
     }
 
     const handleException = (e) => {

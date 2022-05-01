@@ -9,6 +9,7 @@
             <TaskForm
                 :task="task"
                 :errors="errors"
+                :saved="saved"
                 :saveTask="saveTask"
             />
           </div>
@@ -37,6 +38,7 @@ export default {
     created: {
       required: false,
       type: Boolean,
+      default: false
     },
   },
 
@@ -44,23 +46,25 @@ export default {
     const {task, errors, getTask, updateTask} = useTask()
     const alertMessage = ref('')
     const alertClass = ref('')
+    const saved = ref(null)
+
+    const toggleCreatedAlert = async () => {
+      if (props.created) {
+        alertMessage.value = 'Task created!'
+      }
+    }
 
     const saveTask = async () => {
       alertMessage.value = 'Updating task...'
       alertClass.value = 'info'
       try {
         await updateTask(props.id)
+        saved.value = Date.now()
         alertMessage.value = 'Task updated!'
         alertClass.value = 'success'
       } catch (e) {
         alertMessage.value = e.message
         alertClass.value = 'danger'
-      }
-    }
-
-    const toggleCreatedAlert = async () => {
-      if (props.created) {
-        alertMessage.value = 'Task created!'
       }
     }
 
@@ -74,6 +78,7 @@ export default {
       alertClass,
       task,
       errors,
+      saved,
       saveTask
     }
   }

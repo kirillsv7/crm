@@ -1,4 +1,5 @@
 <template>
+  <AlertElement :alertMessage="alertMessage"/>
   <div class="container my-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -38,10 +39,11 @@
 </template>
 
 <script>
-import {onMounted, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import useTask from "../../composition/task";
 import useResponse from "../../composition/response";
+import AlertElement from "../../components/UI/AlertElement";
 import MediaElement from "../../components/UI/MediaElement";
 import TaskResponse from "../../components/Task/Response";
 import ResponseForm from "../../components/Task/ResponseForm";
@@ -49,6 +51,7 @@ import PaginationElement from "../../components/UI/PaginationElement";
 
 export default {
   components: {
+    AlertElement,
     ResponseForm,
     MediaElement,
     TaskResponse,
@@ -66,6 +69,7 @@ export default {
     const router = useRouter()
     const {task, getTask} = useTask()
     const {responses, pagination, getResponsesByTask} = useResponse()
+    const alertMessage = ref('')
 
     const refreshResponses = () => {
       getResponsesByTask(props.id)
@@ -80,6 +84,7 @@ export default {
     watch(() => route.query, () => getResponsesByTask(props.id))
 
     return {
+      alertMessage,
       task,
       responses,
       pagination,

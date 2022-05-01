@@ -1,5 +1,5 @@
 <template>
-  <form id="project-form" @submit.prevent="saveTask">
+  <form id="project-form" enctype="multipart/form-data" @submit.prevent="saveTask">
     <div class="form-group">
       <label>Title</label>
       <input class="form-control" :class="{'is-invalid': errors.title}" name="title" type="text"
@@ -54,12 +54,17 @@
         </template>
       </div>
     </div>
+    <div class="form-group">
+      <label>Media upload</label>
+      <FileUpload :model="task" :saved="saved"/>
+    </div>
     <button class="btn btn-primary" type="submit">Save</button>
   </form>
 </template>
 
 <script>
 import {onMounted} from "vue";
+import FileUpload from "../UI/Form/FileUpload";
 import useProject from "../../composition/project";
 import useTask from "../../composition/task";
 
@@ -73,10 +78,17 @@ export default {
       require: true,
       type: Object
     },
+    saved:{
+      require: false,
+      type: Number
+    },
     saveTask: {
       require: true,
       type: Function
     }
+  },
+  components: {
+    FileUpload
   },
 
   setup() {
@@ -90,7 +102,7 @@ export default {
 
     return {
       projectList,
-      statusList
+      statusList,
     }
   }
 }

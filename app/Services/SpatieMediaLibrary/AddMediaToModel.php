@@ -5,10 +5,13 @@ namespace App\Services\SpatieMediaLibrary;
 class AddMediaToModel
 {
 
-    public function __invoke(array $mediaInput, $model)
+    public function __invoke(array $files, $model, $inputName = 'files')
     {
-        foreach ($mediaInput as $media) {
-            $model->addMedia(storage_path('tmp/uploads/').$media)->toMediaCollection();
+        foreach ($files as $key => $file) {
+            $model
+                ->addMediaFromRequest("$inputName" . "[$key]")
+                ->usingFileName($file->hashName())
+                ->toMediaCollection();
         }
     }
 }

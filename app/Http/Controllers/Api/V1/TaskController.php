@@ -9,7 +9,6 @@ use App\Http\Resources\V1\Response\Resource as ResponseResource;
 use App\Http\Resources\V1\Task\Resource as TaskResource;
 use App\Models\Response;
 use App\Models\Task;
-use App\Services\SpatieMediaLibrary\AddMediaToModel;
 use App\Services\TaskService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -56,13 +55,11 @@ class TaskController extends Controller
         );
     }
 
-    public function store(CreateUpdateTaskRequest $request, AddMediaToModel $addMediaToModel): TaskResource
+    public function store(CreateUpdateTaskRequest $request, TaskService $service): TaskResource
     {
         $this->authorize('create', Task::class);
 
-        $task = Task::create($request->except('media'));
-
-        $addMediaToModel($request->input('media', []), $task);
+        $task = $service->store($request->validated());
 
         return new TaskResource($task);
     }
@@ -76,13 +73,14 @@ class TaskController extends Controller
         return new TaskResource($task);
     }
 
-    public function update(CreateUpdateTaskRequest $request, Task $task, AddMediaToModel $addMediaToModel): TaskResource
-    {
+    public function update(
+        CreateUpdateTaskRequest $request,
+        Task $task,
+        TaskService $service
+    ): TaskResource {
         $this->authorize('update', $task);
 
-        $task->update($request->except('new_media'));
-
-        $addMediaToModel($request->input('new_media', []), $task);
+        $task = $service->update($task, $request->validated());
 
         return new TaskResource($task);
     }
