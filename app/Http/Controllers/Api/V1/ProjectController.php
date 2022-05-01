@@ -19,7 +19,10 @@ class ProjectController extends Controller
     {
         return ProjectResource::collection(
             Project::query()
-                   ->with(['user', 'client'])
+                   ->with([
+                       'user:id,name,deleted_at',
+                       'client:id,company',
+                   ])
                    ->withCount('tasks')
                    ->filterByStatus()
                    ->filterAssignedToUser()
@@ -70,7 +73,10 @@ class ProjectController extends Controller
     {
         return ProjectResource::collection(
             Project::query()
-                   ->with(['user', 'client'])
+                   ->with([
+                       'user:id,name,deleted_at',
+                       'client:id,company',
+                   ])
                    ->withCount('tasks') // TODO: Return 0, needs to be fixed
                    ->onlyTrashed()
                    ->paginate()
@@ -106,7 +112,10 @@ class ProjectController extends Controller
     {
         return ProjectResource::collection(
             Project::query()
-                   ->with(['client', 'user'])
+                   ->with([
+                       'user:id,name,deleted_at',
+                       'client:id,company',
+                   ])
                    ->withCount(['tasks'])
                    ->orderByDesc(
                        Task::select('id')

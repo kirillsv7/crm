@@ -22,7 +22,7 @@ class TaskController extends Controller
                 ->with([
                     'project:id,title,client_id,user_id',
                     'project.client:id,company',
-                    'project.user:id,name',
+                    'project.user:id,name,deleted_at',
                     'lastResponse.user:id,name',
                 ])
                 ->withCount('responses')
@@ -98,7 +98,12 @@ class TaskController extends Controller
     {
         return TaskResource::collection(
             Task::query()
-                ->with(['project.client', 'project.user'])
+                ->with([
+                    'project:id,title,client_id,user_id',
+                    'project.client:id,company',
+                    'project.user:id,name,deleted_at',
+                    'lastResponse.user:id,name',
+                ])
                 ->onlyTrashed()
                 ->filterByProject()
                 ->filterByClient()
@@ -106,7 +111,7 @@ class TaskController extends Controller
                 ->filterByStatus()
                 ->orderByDesc('id')
                 ->paginate()
-                ->withQueryString()
+                ->withQueryString()->dd()
         );
     }
 
