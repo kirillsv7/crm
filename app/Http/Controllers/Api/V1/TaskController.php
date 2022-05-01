@@ -102,8 +102,9 @@ class TaskController extends Controller
                     'project:id,title,client_id,user_id',
                     'project.client:id,company',
                     'project.user:id,name,deleted_at',
-                    'lastResponse.user:id,name',
+                    'lastResponse.user:id,name', // TODO: Return null, needs to be fixed
                 ])
+                ->withCount('responses') // TODO: Return 0, needs to be fixed
                 ->onlyTrashed()
                 ->filterByProject()
                 ->filterByClient()
@@ -111,7 +112,7 @@ class TaskController extends Controller
                 ->filterByStatus()
                 ->orderByDesc('id')
                 ->paginate()
-                ->withQueryString()->dd()
+                ->withQueryString()
         );
     }
 
