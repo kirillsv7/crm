@@ -15,9 +15,10 @@ class Resource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'           => $this->id,
-            //'preview_url'  => $this->when($this->hasGeneratedConversion('preview'), $this->getUrl('preview')),
-            'original_url' => $this->getUrl(),
+            'id'       => $this->id,
+            'name'     => $this->name,
+            'thumb'    => $this->when($this->hasGeneratedConversion('thumb'), $this->getUrl('thumb')),
+            'original' => $this->getUrl(),
         ];
     }
 }
