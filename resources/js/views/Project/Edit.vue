@@ -14,6 +14,7 @@
             />
           </div>
         </div>
+        <MediaElement :media="project.media" @mediaDeleted="getProject(id)"/>
       </div>
     </div>
   </div>
@@ -22,13 +23,15 @@
 <script>
 import {onMounted, ref} from "vue"
 import useProject from "../../composition/project";
-import ProjectForm from "../../components/Project/Form";
 import AlertElement from "../../components/UI/AlertElement";
+import ProjectForm from "../../components/Project/Form";
+import MediaElement from "../../components/UI/MediaElement";
 
 export default {
   components: {
     ProjectForm,
-    AlertElement
+    AlertElement,
+    MediaElement
   },
   props: {
     id: {
@@ -79,6 +82,7 @@ export default {
       project,
       errors,
       saved,
+      getProject,
       saveProject
     }
   }
