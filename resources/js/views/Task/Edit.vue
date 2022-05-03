@@ -14,6 +14,7 @@
             />
           </div>
         </div>
+        <MediaElement :media="task.media" @mediaDeleted="getTask(id)"/>
       </div>
     </div>
   </div>
@@ -22,13 +23,15 @@
 <script>
 import {onMounted, ref} from "vue"
 import useTask from "../../composition/task";
-import TaskForm from "../../components/Task/Form";
 import AlertElement from "../../components/UI/AlertElement";
+import TaskForm from "../../components/Task/Form";
+import MediaElement from "../../components/UI/MediaElement";
 
 export default {
   components: {
     TaskForm,
-    AlertElement
+    AlertElement,
+    MediaElement
   },
   props: {
     id: {
@@ -79,6 +82,7 @@ export default {
       task,
       errors,
       saved,
+      getTask,
       saveTask
     }
   }

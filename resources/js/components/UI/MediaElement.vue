@@ -4,15 +4,16 @@
     <div class="card-body">
       <div class="container">
         <div class="row">
-          <template v-for="mediaItem in media" :key="mediaItem.id">
+          <template v-for="file in media" :key="file.id">
             <div class="col-6 col-md-4 col-lg-3 pb-4">
-              <img class="img-fluid" :src="mediaItem.original_url">
-              <template v-if="this.$route.name == 'task.edit'">
-                <button class="btn btn-link d-block mx-auto media-remove" data-id="{{ mediaItem.id }}"
-                        type="button">
-                  Remove file
-                </button>
-              </template>
+              <img class="img-fluid" :src="file.original_url">
+              <div class="d-flex flex-wrap">
+                <template v-if="this.$route.name.includes('edit')">
+                  <button class="btn btn-light btn-sm mt-1 d-block ml-auto" type="button" @click="deleteMedia(file.id)">
+                    <i class="cil-trash"></i>
+                  </button>
+                </template>
+              </div>
             </div>
           </template>
         </div>
@@ -22,6 +23,8 @@
 </template>
 
 <script>
+import useMedia from "../../composition/media";
+
 export default {
   props: {
     title: {
@@ -33,6 +36,23 @@ export default {
       required: true,
       type: Object,
       default: {}
+    }
+  },
+  emits: [
+    'mediaDeleted'
+  ],
+
+  setup(props, context) {
+    const {destroyMedia} = useMedia()
+
+    const deleteMedia = async (id) => {
+      if (!window.confirm('Are you sure you want to delete?')) return
+      await destroyMedia(id);
+      context.emit('mediaDeleted', id)
+    }
+
+    return {
+      deleteMedia
     }
   }
 }

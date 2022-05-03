@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\{
     ProjectController,
     TaskController,
     ResponseController,
+    MediaController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -62,5 +63,6 @@ Route::group([
         ]);
 
         Route::apiResource('response', ResponseController::class)->only('destroy');
+        Route::delete('media/{media}', [MediaController::class, 'destroy']);
     });
 });
