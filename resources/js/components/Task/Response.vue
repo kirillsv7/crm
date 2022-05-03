@@ -8,8 +8,7 @@
                    :id="'response-'+response.id">#{{ response.id }}
       </router-link>
       |
-      <button class="btn btn-link btn-sm" type="submit"
-              onclick="return confirm('Are you sure you want to delete?');">
+      <button class="btn btn-link btn-sm" type="submit" onclick="return confirm('Are you sure you want to delete?');">
         <i class="cil-trash"></i>
       </button>
     </div>
@@ -18,8 +17,11 @@
 
       <template v-if="response.media.length">
         <div class="row mt-3">
-          <div v-for="media in response.media" :key="media.id" class="col-6 col-md-4 col-lg-3 pb-4">
-            <img class="img-fluid" :src="media.original_url">
+          <div class="col-6 col-md-4 col-lg-3 pb-4" v-for="file in response.media" :key="file.id">
+            <img class="img-fluid" :src="file.thumb">
+            <div class="d-flex mt-1">
+              <small class="mr-2 text-break">{{ file.name }}</small>
+            </div>
           </div>
         </div>
       </template>
