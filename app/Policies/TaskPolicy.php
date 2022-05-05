@@ -16,9 +16,9 @@ class TaskPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function index(User $user)
     {
-        return $user->isAdmin || $user->hasPermissionTo('task-viewAny');
+        return $user->isAdmin || $user->hasPermissionTo('task-index');
     }
 
     /**
@@ -89,7 +89,7 @@ class TaskPolicy
      */
     public function forceDelete(User $user, Task $task)
     {
-        return $user->isAdmin || $user->hasPermissionTo('task-forceDelete');
+        return $user->isAdmin || $user->hasPermissionTo('task-force-delete');
     }
 
     /**
@@ -99,7 +99,7 @@ class TaskPolicy
      */
     public function manageMedia(User $user, Task $task)
     {
-        return $user->isAdmin || $user->hasPermissionTo('task-manageMedia');
+        return $user->isAdmin || $user->hasPermissionTo('task-manage-media');
     }
 
     /**
@@ -113,6 +113,6 @@ class TaskPolicy
     {
         return $user->isAdmin ||
             $user->id === $task->project->user->id ||
-            $user->hasPermissionTo('task-addResponse');
+            $user->hasPermissionTo('task-add-response');
     }
 }

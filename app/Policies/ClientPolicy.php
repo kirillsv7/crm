@@ -16,9 +16,9 @@ class ClientPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function index(User $user)
     {
-        return $user->isAdmin || $user->hasPermissionTo('client-viewAny');
+        return $user->isAdmin || $user->hasPermissionTo('client-index');
     }
 
     /**
@@ -89,6 +89,6 @@ class ClientPolicy
      */
     public function forceDelete(User $user, Client $client)
     {
-        return $user->isAdmin || $user->hasPermissionTo('client-forceDelete');
+        return $user->isAdmin || $user->hasPermissionTo('client-force-delete');
     }
 }

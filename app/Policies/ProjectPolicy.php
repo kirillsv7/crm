@@ -16,9 +16,9 @@ class ProjectPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function index(User $user)
     {
-        return $user->isAdmin || $user->hasPermissionTo('project-viewAny');
+        return $user->isAdmin || $user->hasPermissionTo('project-index');
     }
 
     /**
@@ -89,7 +89,7 @@ class ProjectPolicy
      */
     public function forceDelete(User $user, Project $project)
     {
-        return $user->isAdmin || $user->hasPermissionTo('project-forceDelete');
+        return $user->isAdmin || $user->hasPermissionTo('project-force-delete');
     }
 
     /**
@@ -99,6 +99,6 @@ class ProjectPolicy
      */
     public function manageMedia(User $user, Project $project)
     {
-        return $user->isAdmin || $user->hasPermissionTo('project-manageMedia');
+        return $user->isAdmin || $user->hasPermissionTo('project-manage-media');
     }
 }
