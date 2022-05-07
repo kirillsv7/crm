@@ -16,14 +16,10 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        $adminRole = Role::create([
+        Role::create([
             'name' => 'admin',
         ]);
 
-        foreach (Permission::all() as $permission) {
-            $adminRole->givePermissionTo($permission);
-        }
-
-        User::first()->assignRole('admin');
+        User::firstWhere('name', 'Admin')->assignRole('admin');
     }
 }
