@@ -1,9 +1,10 @@
-import {reactive} from "vue";
 import axios from "axios";
+import {reactive} from "vue";
 
 const state = reactive({
     auth: false,
-    user: {}
+    user: {},
+    permissions: []
 })
 
 const getAuthCheck = async () => {
@@ -16,8 +17,14 @@ const getActiveUser = () => {
         .then(response => state.user = response.data)
 }
 
+const getActivePermissions = async () => {
+    await axios.get('/api/v1/get-active-permissions')
+        .then(response => state.permissions = response.data)
+}
+
 export default {
     state,
     getActiveUser,
-    getAuthCheck
+    getAuthCheck,
+    getActivePermissions
 }

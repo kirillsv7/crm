@@ -7,8 +7,10 @@
 </template>
 
 <script>
-import {onMounted, provide, watch} from "vue";
+import {inject, provide, watch} from "vue";
 import {useRouter} from "vue-router";
+import {AbilityBuilder, Ability} from '@casl/ability';
+import {ABILITY_TOKEN} from '@casl/vue'
 import storeAuth from "../store/auth";
 import SidebarMenu from "../components/UI/SidebarMenu";
 import AppHeader from "../components/UI/AppHeader";
@@ -21,13 +23,18 @@ export default {
 
   setup() {
     const router = useRouter()
-    const {state, getAuthCheck} = storeAuth
+    const ability = inject(ABILITY_TOKEN)
+    const {state, getAuthCheck, getActivePermissions} = storeAuth
 
-    onMounted(() => {
-      getAuthCheck().then(() => {
-        if (!state.auth)
-          router.push({name: 'auth.login'})
-      })
+    getAuthCheck().then(async () => {
+      if (!state.auth)
+        await router.push({name: 'auth.login'})
+      else {
+        await getActivePermissions()
+        const { can, rules } = new AbilityBuilder(Ability)
+        can(state.permissions)
+        ability.update(rules)
+      }
     })
 
     watch(() => state.auth, async (auth) => {

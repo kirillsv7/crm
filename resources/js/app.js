@@ -1,9 +1,13 @@
 require('./bootstrap');
-import coreui from "@coreui/coreui"
-
 import {createApp} from "vue";
 import router from './router'
+import {abilitiesPlugin} from '@casl/vue'
+import {Ability} from '@casl/ability'
 import AppRoot from "./views/AppRoot";
+
 const app = createApp(AppRoot)
 
-app.use(router).mount('#app')
+app
+    .use(router)
+    .use(abilitiesPlugin, new Ability([]))
+    .mount('#app')
