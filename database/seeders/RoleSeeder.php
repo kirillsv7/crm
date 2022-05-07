@@ -16,10 +16,10 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        Role::create([
+        $admin = Role::create([
             'name' => 'admin',
         ]);
 
-        User::firstWhere('name', 'Admin')->assignRole('admin');
+        User::firstWhere('name', 'Admin')->assignRole($admin);
     }
 }
