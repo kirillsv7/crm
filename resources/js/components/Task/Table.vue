@@ -88,14 +88,18 @@
           <td class="text-nowrap">{{ task.updated_at }}</td>
           <td class="text-nowrap">
             <router-link class="btn btn-secondary btn-sm mr-1"
-                         :to="{name: 'task.edit', params: {id: task.id}}"
-                         v-if="!task.is_deleted">
+                         v-if="can('task-update') && !task.is_deleted"
+                         :to="{name: 'task.edit', params: {id: task.id}}">
               <i class="cil-pencil"></i>
             </router-link>
-            <button class="btn btn-light btn-sm mr-1" @click="deleteTask(task.id)" v-if="!task.is_deleted">
+            <button class="btn btn-light btn-sm mr-1"
+                    v-if="can('task-delete') && !task.is_deleted"
+                    @click="deleteTask(task.id)">
               <i class="cil-trash"></i>
             </button>
-            <button class="btn btn-danger btn-sm" @click="recoverTask(task.id)" v-if="task.is_deleted">
+            <button class="btn btn-danger btn-sm"
+                    v-if="can('task-restore') && task.is_deleted"
+                    @click="recoverTask(task.id)">
               <i class="cil-reload"></i>
             </button>
           </td>
@@ -109,6 +113,7 @@
 <script>
 import {onMounted, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
+import {useAbility} from '@casl/vue';
 import useTask from "../../composition/task";
 import useProject from "../../composition/project";
 import useUser from "../../composition/user";
@@ -136,6 +141,7 @@ export default {
   setup(props) {
     const route = useRoute()
     const router = useRouter()
+    const {can} = useAbility();
     const {projectList, getProjectList} = useProject()
     const {clientList, getClientList} = useClient()
     const {userList, getUserList} = useUser()
@@ -168,6 +174,7 @@ export default {
     })
 
     return {
+      can,
       projectList,
       clientList,
       userList,

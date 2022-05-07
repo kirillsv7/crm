@@ -104,7 +104,7 @@
           Tasks
         </router-link>
       </li>
-      <li class="c-sidebar-nav-item">
+      <li class="c-sidebar-nav-item" v-if="can('task-create')">
         <router-link
             class="c-sidebar-nav-link"
             :class="{'c-active': this.$route.name == 'task.create'}"
@@ -130,7 +130,15 @@
 </template>
 
 <script>
+import {useAbility} from '@casl/vue';
+
 export default {
-  name: 'SidebarMenu'
+  setup() {
+    const {can} = useAbility();
+
+    return {
+      can
+    }
+  }
 }
 </script>
