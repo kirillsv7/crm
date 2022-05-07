@@ -115,7 +115,8 @@ const routes = [
     {
         path: '/task',
         name: 'task.index',
-        component: TaskIndex
+        component: TaskIndex,
+        props: true
     },
     {
         path: '/task/create',

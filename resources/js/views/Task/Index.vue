@@ -45,8 +45,20 @@ export default {
     PaginationElement,
     AlertElement
   },
+  props: {
+    alertMessage: {
+      required: false,
+      type: String,
+      default: ''
+    },
+    alertClass: {
+      required: false,
+      type: String,
+      default: ''
+    },
+  },
 
-  setup() {
+  setup(props) {
     const route = useRoute()
     const {can} = useAbility();
     const {tasks, pagination, getTasks, destroyTask} = useTask()
@@ -62,7 +74,11 @@ export default {
       alertClass.value = 'success'
     }
 
-    onMounted(getTasks)
+    onMounted(() => {
+      alertMessage.value = props.alertMessage
+      alertClass.value = props.alertClass
+      getTasks()
+    })
 
     watch(() => route.query, getTasks)
 
