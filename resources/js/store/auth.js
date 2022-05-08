@@ -8,18 +8,18 @@ const state = reactive({
 })
 
 const getAuthCheck = async () => {
-    await axios.get('/api/v1/get-auth-check')
-        .then(response => state.auth = response.data === 1)
+    const response = await axios.get('/api/v1/get-auth-check')
+    state.auth = response.data === 1
 }
 
-const getActiveUser = () => {
-    axios.get('/api/v1/get-active-user')
-        .then(response => state.user = response.data)
+const getActiveUser = async () => {
+    const response = await axios.get('/api/v1/get-active-user')
+    state.user = response.data.data
 }
 
 const getActivePermissions = async () => {
-    await axios.get('/api/v1/get-active-permissions')
-        .then(response => state.permissions = response.data)
+    const response = await axios.get('/api/v1/get-active-permissions')
+    state.permissions = response.data.data
 }
 
 export default {

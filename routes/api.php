@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Resources\V1\User\Resource as UserResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Api\V1\{
     UserController,
@@ -30,9 +32,9 @@ Route::group([
     Route::group([
         'middleware' => 'auth:sanctum',
     ], function () {
-        Route::get('get-active-user', fn() => Auth::user());
+        Route::get('get-active-user', fn() => new UserResource(Auth::user()));
         Route::get('get-active-permissions', fn() => Auth::user()->isAdmin
-            ? Permission::pluck('name')
+            ? new JsonResource(Permission::pluck('name'))
             : Auth::user()->getAllPermissions()->pluck('name')
         );
 
