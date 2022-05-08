@@ -4,7 +4,15 @@
     <div class="row justify-content-center">
       <div class="col-md-8">
         <div class="card">
-          <div class="card-header">Task edit</div>
+          <div class="card-header">
+            Task edit
+            <router-link
+                class="btn btn-primary ml-3"
+                :to="{name: 'task.show', params: {id}}">
+              <i class="cil-magnifying-glass"></i>
+              Show task
+            </router-link>
+          </div>
           <div class="card-body">
             <TaskForm
                 :task="task"
@@ -75,7 +83,7 @@ export default {
       }
     }
 
-    onBeforeMount(() => {
+    const checkUserCan = () => {
       if (!can('task-update'))
         router.push({
           name: 'task.index',
@@ -84,7 +92,9 @@ export default {
             alertClass: 'danger'
           }
         })
-    })
+    }
+
+    onBeforeMount(checkUserCan)
 
     onMounted(() => {
       getTask(props.id)
@@ -92,6 +102,7 @@ export default {
     })
 
     return {
+      can,
       alertMessage,
       alertClass,
       task,

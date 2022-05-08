@@ -3,7 +3,16 @@
     <div class="row justify-content-center">
       <div class="col-md-8">
         <div class="card">
-          <div class="card-header">Task details</div>
+          <div class="card-header">
+            Task details
+            <router-link
+                class="btn btn-primary ml-3"
+                v-if="can('task-update') && !task.is_deleted"
+                :to="{name: 'task.edit', params: {id}}">
+              <i class="cil-pencil"></i>
+              Add task
+            </router-link>
+          </div>
           <div class="card-body">
             <dl>
               <dt>Title</dt>
@@ -53,6 +62,7 @@
 <script>
 import {onMounted, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
+import {useAbility} from '@casl/vue';
 import useTask from "../../composition/task";
 import useResponse from "../../composition/response";
 import MediaElement from "../../components/UI/MediaElement";
@@ -77,6 +87,7 @@ export default {
   setup(props) {
     const route = useRoute()
     const router = useRouter()
+    const {can} = useAbility();
     const {task, getTask} = useTask()
     const {responses, pagination, getResponsesByTask} = useResponse()
 
@@ -93,6 +104,7 @@ export default {
     watch(() => route.query, () => getResponsesByTask(props.id))
 
     return {
+      can,
       task,
       responses,
       pagination,

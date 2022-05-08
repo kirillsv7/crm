@@ -50,7 +50,7 @@ export default {
       }
     }
 
-    onBeforeMount(() => {
+    const checkUserCan = () => {
       if (!can('task-create'))
         router.push({
           name: 'task.index',
@@ -59,7 +59,9 @@ export default {
             alertClass: 'danger'
           }
         })
-    })
+    }
+
+    onBeforeMount(checkUserCan)
 
     return {
       alertMessage,

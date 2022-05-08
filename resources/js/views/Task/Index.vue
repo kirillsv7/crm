@@ -4,8 +4,8 @@
     <div class="row">
       <div class="col-12">
         <div class="card m-0">
-          <div class="card-header d-flex flex-wrap align-items-center">
-            <span>Task list</span>
+          <div class="card-header">
+            Task list
             <router-link
                 class="btn btn-primary ml-3"
                 v-if="can('task-create')"
