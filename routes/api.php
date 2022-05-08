@@ -1,9 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Resources\V1\User\Resource as UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Api\V1\{
+    PermissionController,
     UserController,
     ClientController,
     ProjectController,
@@ -11,7 +13,6 @@ use App\Http\Controllers\Api\V1\{
     ResponseController,
     MediaController
 };
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,7 @@ Route::group([
             ? new JsonResource(Permission::pluck('name'))
             : Auth::user()->getAllPermissions()->pluck('name')
         );
+        Route::get('permission/{model}/{action}/{id?}', [PermissionController::class, 'check']);
 
         Route::get('user/deleted', [UserController::class, 'deleted']);
         Route::post('user/{user}', [UserController::class, 'restore']);

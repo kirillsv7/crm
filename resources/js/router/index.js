@@ -27,6 +27,18 @@ import TaskShow from '../views/Task/Show'
 import TaskEdit from '../views/Task/Edit'
 import TaskDeleted from '../views/Task/Deleted'
 
+const checkPermission = async (to) => {
+    let permissionUrl = `/api/v1/permission`
+    if (typeof to.name.split('.')[0] !== 'undefined')
+        permissionUrl += `/${to.name.split('.')[0]}`
+    if (typeof to.name.split('.')[1] !== 'undefined')
+        permissionUrl += `/${to.name.split('.')[1]}`
+    if (typeof to.params.id !== 'undefined')
+        permissionUrl += `/${to.params.id}`
+    if ((await axios.get(permissionUrl)).data === '')
+        return false
+}
+
 const routes = [
     {
         path: '/login',
@@ -116,29 +128,34 @@ const routes = [
         path: '/task',
         name: 'task.index',
         component: TaskIndex,
-        props: true
+        props: true,
+        beforeEnter: checkPermission
     },
     {
         path: '/task/create',
         name: 'task.create',
-        component: TaskCreate
+        component: TaskCreate,
+        beforeEnter: checkPermission
     },
     {
         path: '/task/:id',
         name: 'task.show',
         component: TaskShow,
-        props: true
+        props: true,
+        beforeEnter: checkPermission
     },
     {
         path: '/task/:id/edit',
         name: 'task.edit',
         component: TaskEdit,
-        props: true
+        props: true,
+        beforeEnter: checkPermission
     },
     {
         path: '/task/deleted',
         name: 'task.deleted',
-        component: TaskDeleted
+        component: TaskDeleted,
+        beforeEnter: checkPermission
     },
 ]
 

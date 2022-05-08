@@ -17,6 +17,8 @@ class TaskController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
+        $this->authorize('index', Task::class);
+
         return TaskResource::collection(
             Task::query()
                 ->with([
@@ -68,16 +70,15 @@ class TaskController extends Controller
     {
         $task = Task::withTrashed()->findOrFail($id);
 
+        $this->authorize('show', $task);
+
         $task->load(['media']);
 
         return new TaskResource($task);
     }
 
-    public function update(
-        CreateUpdateTaskRequest $request,
-        Task $task,
-        TaskService $service
-    ): TaskResource {
+    public function update(CreateUpdateTaskRequest $request, Task $task, TaskService $service): TaskResource
+    {
         $this->authorize('update', $task);
 
         $task = $service->update($task, $request->validated());
@@ -96,6 +97,8 @@ class TaskController extends Controller
 
     public function deleted(): AnonymousResourceCollection
     {
+        $this->authorize('deleted', Task::class);
+
         return TaskResource::collection(
             Task::query()
                 ->with([

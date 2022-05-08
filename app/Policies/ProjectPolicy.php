@@ -30,7 +30,7 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project)
     {
-        return $user->isAdmin || $user->hasPermissionTo('project-view');
+        return $user->isAdmin || $user->hasPermissionTo('project-show');
     }
 
     /**

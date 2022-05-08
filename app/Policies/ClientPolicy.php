@@ -30,7 +30,7 @@ class ClientPolicy
      */
     public function view(User $user, Client $client)
     {
-        return $user->isAdmin || $user->hasPermissionTo('client-view');
+        return $user->isAdmin || $user->hasPermissionTo('client-show');
     }
 
     /**

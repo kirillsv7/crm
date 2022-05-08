@@ -10,7 +10,7 @@
                 v-if="can('task-update') && !task.is_deleted"
                 :to="{name: 'task.edit', params: {id}}">
               <i class="cil-pencil"></i>
-              Add task
+              Edit task
             </router-link>
           </div>
           <div class="card-body">

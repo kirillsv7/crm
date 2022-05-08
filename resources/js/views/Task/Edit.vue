@@ -29,9 +29,7 @@
 </template>
 
 <script>
-import {onBeforeMount, onMounted, ref} from "vue"
-import {useRouter} from "vue-router";
-import {useAbility} from "@casl/vue"
+import {onMounted, ref} from "vue"
 import useTask from "../../composition/task";
 import AlertElement from "../../components/UI/AlertElement";
 import TaskForm from "../../components/Task/Form";
@@ -56,8 +54,6 @@ export default {
   },
 
   setup(props) {
-    const router = useRouter()
-    const {can} = useAbility()
     const {task, errors, getTask, updateTask} = useTask()
     const alertMessage = ref('')
     const alertClass = ref('')
@@ -83,26 +79,12 @@ export default {
       }
     }
 
-    const checkUserCan = () => {
-      if (!can('task-update'))
-        router.push({
-          name: 'task.index',
-          params: {
-            alertMessage: 'Not authorized!',
-            alertClass: 'danger'
-          }
-        })
-    }
-
-    onBeforeMount(checkUserCan)
-
     onMounted(() => {
       getTask(props.id)
       toggleCreatedAlert()
     })
 
     return {
-      can,
       alertMessage,
       alertClass,
       task,
