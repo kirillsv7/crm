@@ -31,7 +31,7 @@ export default {
         await router.push({name: 'auth.login'})
       else {
         await getActivePermissions()
-        const { can, rules } = new AbilityBuilder(Ability)
+        const {can, rules} = new AbilityBuilder(Ability)
         can(state.permissions)
         ability.update(rules)
       }

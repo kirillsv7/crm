@@ -65,24 +65,29 @@
 <script>
 import {inject, onBeforeUnmount, onMounted} from "vue";
 import {useRouter} from "vue-router";
+import {AbilityBuilder, Ability} from '@casl/ability';
+import {ABILITY_TOKEN} from '@casl/vue'
 import useAuth from "../../composition/auth";
 
 export default {
   setup() {
     const router = useRouter()
-    const {state, getAuthCheck} = inject('storeAuth')
+    const ability = inject(ABILITY_TOKEN)
+    const {state, getAuthCheck, getActivePermissions} = inject('storeAuth')
     const {login, errors, postLogin} = useAuth()
 
-    onMounted(() => {
-      getAuthCheck()
-          .then(() => {
-            if (state.auth)
-              router.push({name: 'dashboard'})
-          })
+    onMounted(async () => {
+      await getAuthCheck()
+      if (state.auth)
+        await router.push({name: 'dashboard'})
     })
 
-    onBeforeUnmount(() => {
-      getAuthCheck()
+    onBeforeUnmount(async () => {
+      await getAuthCheck()
+      await getActivePermissions()
+      const {can, rules} = new AbilityBuilder(Ability)
+      can(state.permissions)
+      ability.update(rules)
     })
 
     return {
