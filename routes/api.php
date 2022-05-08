@@ -25,43 +25,40 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'prefix' => 'v1',
 ], function () {
-    Route::get('get-auth-check', fn() => Auth::check())->name('getAuthCheck');
+    Route::get('get-auth-check', fn() => Auth::check());
 
     Route::group([
         'middleware' => 'auth:sanctum',
     ], function () {
-        Route::get('get-active-user', fn() => Auth::user())->name('getActiveUser');
+        Route::get('get-active-user', fn() => Auth::user());
         Route::get('get-active-permissions', fn() => Auth::user()->isAdmin
             ? Permission::pluck('name')
             : Auth::user()->getAllPermissions()->pluck('name')
         );
 
-        Route::get('user/deleted', [UserController::class, 'deleted'])->name('user.deleted');
-        Route::post('user/{user}', [UserController::class, 'restore'])->name('user.restore');
-        Route::get('user/list', [UserController::class, 'list'])->name('user.list');
+        Route::get('user/deleted', [UserController::class, 'deleted']);
+        Route::post('user/{user}', [UserController::class, 'restore']);
+        Route::get('user/list', [UserController::class, 'list']);
 
-        Route::get('client/deleted', [ClientController::class, 'deleted'])->name('client.deleted');
-        Route::post('client/{client}', [ClientController::class, 'restore'])->name('client.restore');
-        Route::get('client/list', [ClientController::class, 'list'])->name('client.list');
+        Route::get('client/deleted', [ClientController::class, 'deleted']);
+        Route::post('client/{client}', [ClientController::class, 'restore']);
+        Route::get('client/list', [ClientController::class, 'list']);
 
-        Route::get('project/deleted', [ProjectController::class, 'deleted'])->name('project.deleted');
-        Route::post('project/{project}', [ProjectController::class, 'restore'])->name('project.restore');
-        Route::get('project/statuslist', [ProjectController::class, 'statusList'])->name('project.statuslist');
-        Route::get('project/list', [ProjectController::class, 'list'])->name('project.list');
-        Route::get('project/recently-added-task',
-            [ProjectController::class, 'recentlyAddedTask'])->name('project.recently-added-task');
+        Route::get('project/deleted', [ProjectController::class, 'deleted']);
+        Route::post('project/{project}', [ProjectController::class, 'restore']);
+        Route::get('project/statuslist', [ProjectController::class, 'statusList']);
+        Route::get('project/list', [ProjectController::class, 'list']);
+        Route::get('project/recently-added-task', [ProjectController::class, 'recentlyAddedTask']);
 
-        Route::get('task/get-by-project/{project}',
-            [TaskController::class, 'getByProject'])->name('task.get-by-project');
-        Route::post('task/add-response', [TaskController::class, 'addResponse'])->name('task.add-response');
-        Route::get('task/deleted', [TaskController::class, 'deleted'])->name('task.deleted');
-        Route::post('task/{task}', [TaskController::class, 'restore'])->name('task.restore');
-        Route::get('task/statuslist', [TaskController::class, 'statusList'])->name('task.statuslist');
-        Route::get('task/recently-responsed',
-            [TaskController::class, 'recentlyResponsed'])->name('task.recently-responsed');
+        Route::get('task/get-by-project/{project}', [TaskController::class, 'getByProject']);
+        Route::post('task/add-response', [TaskController::class, 'addResponse']);
+        Route::get('task/deleted', [TaskController::class, 'deleted']);
+        Route::post('task/{task}', [TaskController::class, 'restore']);
+        Route::get('task/statuslist', [TaskController::class, 'statusList']);
+        Route::get('task/recently-responsed', [TaskController::class, 'recentlyResponsed']);
 
-        Route::get('response/get-by-task/{task}', [ResponseController::class, 'getByTask'])->name('task.get-by-task');
-        Route::get('response/latest', [ResponseController::class, 'latest'])->name('response.latest');
+        Route::get('response/get-by-task/{task}', [ResponseController::class, 'getByTask']);
+        Route::get('response/latest', [ResponseController::class, 'latest']);
 
         Route::apiResources([
             'user'    => UserController::class,
@@ -70,7 +67,7 @@ Route::group([
             'task'    => TaskController::class,
         ]);
 
-        Route::apiResource('response', ResponseController::class)->only('destroy');
+        Route::delete('response', [ResponseController::class, 'destroy']);
         Route::delete('media/{media}', [MediaController::class, 'destroy']);
     });
 });
