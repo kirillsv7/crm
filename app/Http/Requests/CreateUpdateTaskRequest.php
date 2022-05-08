@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Policies\TaskPolicy;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateUpdateTaskRequest extends FormRequest
@@ -13,9 +14,10 @@ class CreateUpdateTaskRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        $taskPolicy = new TaskPolicy();
         return match ($this->method()) {
-            'POST' => $this->user()->isAdmin || $this->user()->hasPermissionTo('task-create'),
-            'PUT' => $this->user()->isAdmin || $this->user()->hasPermissionTo('task-update'),
+            'POST' => $taskPolicy->create($this->user()),
+            'PUT' => $taskPolicy->update($this->user(), $this->route('task')),
             default => false
         };
     }
