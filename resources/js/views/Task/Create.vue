@@ -8,7 +8,7 @@
             <TaskForm
                 :task="task"
                 :errors="errors"
-                :saveTask="saveTask"
+                :saveTask="storeTask"
             />
           </div>
         </div>
@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import {inject} from "vue";
 import useTask from "../../composition/task";
 import TaskForm from "../../components/Task/Form";
 
@@ -29,24 +28,11 @@ export default {
 
   setup() {
     const {task, errors, storeTask} = useTask()
-    const alertMessage = inject('alertMessage')
-    const alertClass = inject('alertClass')
-
-    const saveTask = async () => {
-      alertMessage.value = 'Creating task...'
-      alertClass.value = 'info'
-      try {
-        await storeTask(task.value)
-      } catch (e) {
-        alertMessage.value = e.message
-        alertClass.value = 'danger'
-      }
-    }
 
     return {
       task,
       errors,
-      saveTask
+      storeTask
     }
   }
 }

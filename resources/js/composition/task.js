@@ -1,4 +1,4 @@
-import {ref} from "vue"
+import {inject, ref} from "vue"
 import {useRoute, useRouter} from "vue-router"
 import axios from "axios"
 
@@ -6,9 +6,13 @@ export default function useTask() {
 
     const route = useRoute()
     const router = useRouter()
+    const alertMessage = inject('alertMessage')
+    const alertClass = inject('alertClass')
     const tasks = ref({})
     const pagination = ref({})
     const task = ref({})
+    const saved = ref(null)
+    const taskResponse = ref({})
     const statusList = ref({})
     const errors = ref({})
 
@@ -43,12 +47,16 @@ export default function useTask() {
                     created: true
                 }
             })
+            alertMessage.value = 'Task created!'
+            alertClass.value = 'success'
         } catch (e) {
             await handleException(e)
         }
     }
 
     const updateTask = async (id) => {
+        alertMessage.value = 'Updating task...'
+        alertClass.value = 'info'
         const formData = convertToFormData()
         try {
             errors.value = {}
@@ -56,14 +64,27 @@ export default function useTask() {
                 headers: {'content-type': 'multipart/form-data'},
                 params: {_method: 'PUT'}
             })
+            saved.value = Date.now()
+            alertMessage.value = 'Task updated!'
+            alertClass.value = 'success'
         } catch (e) {
             await handleException(e)
         }
     }
 
-    const destroyTask = async (id) => {
-        await axios.delete(`/api/v1/task/${id}`)
-        await getTasks()
+    const deleteTask = async (id) => {
+        if (!window.confirm('Are you sure you want to delete?'))
+            return
+        alertMessage.value = 'Deleting task...'
+        alertClass.value = 'info'
+        try {
+            await axios.delete(`/api/v1/task/${id}`)
+            await getTasks()
+            alertMessage.value = 'Task deleted!'
+            alertClass.value = 'success'
+        } catch (e) {
+            await handleException(e)
+        }
     }
 
     const getTasksDeleted = async () => {
@@ -73,8 +94,18 @@ export default function useTask() {
     }
 
     const restoreTask = async (id) => {
-        await axios.post(`/api/v1/task/${id}`)
-        await getTasksDeleted()
+        if (!window.confirm('Are you sure you want to restore?'))
+            return
+        alertMessage.value = 'Restoring task...'
+        alertClass.value = 'info'
+        try {
+            await axios.post(`/api/v1/task/${id}`)
+            await getTasksDeleted()
+            alertMessage.value = 'Task restored!'
+            alertClass.value = 'success'
+        } catch (e) {
+            await handleException(e)
+        }
     }
 
     const getStatusList = async () => {
@@ -82,13 +113,21 @@ export default function useTask() {
         statusList.value = response.data.data
     }
 
-    const addResponse = async (taskResponse) => {
+    const addResponse = async (emit) => {
+        alertMessage.value = 'Adding response...'
+        alertClass.value = 'info'
         const formData = convertToFormData(taskResponse)
         try {
             errors.value = {}
             const response = await axios.post('/api/v1/task/add-response', formData, {
                 headers: {'content-type': 'multipart/form-data'}
             })
+            taskResponse.value.content = ''
+            saved.value = Date.now()
+            emit('responseAdded')
+            alertMessage.value = 'Response added!'
+            alertClass.value = 'success'
+
             return response.data.data
         } catch (e) {
             await handleException(e)
@@ -119,21 +158,23 @@ export default function useTask() {
         switch (e.response.status) {
             case 422:
                 errors.value = e.response.data.errors
-                throw new Error('Check fields!')
                 break
             case 403:
-                throw new Error('Not autorized!')
                 break
             default:
                 console.log(e.response)
                 break
         }
+        alertMessage.value = e.response.data.message
+        alertClass.value = 'danger'
     }
 
     return {
         tasks,
         pagination,
         task,
+        saved,
+        taskResponse,
         statusList,
         errors,
         getTasks,
@@ -141,7 +182,7 @@ export default function useTask() {
         getTask,
         storeTask,
         updateTask,
-        destroyTask,
+        deleteTask,
         getTasksDeleted,
         restoreTask,
         getStatusList,

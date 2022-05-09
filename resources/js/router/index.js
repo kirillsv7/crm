@@ -128,7 +128,6 @@ const routes = [
         path: '/task',
         name: 'task.index',
         component: TaskIndex,
-        props: true,
         beforeEnter: checkPermission
     },
     {

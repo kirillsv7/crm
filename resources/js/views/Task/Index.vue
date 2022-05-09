@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import {inject, onMounted, watch} from "vue";
+import {onMounted, watch} from "vue";
 import {useRoute} from "vue-router"
 import {useAbility} from '@casl/vue';
 import useTask from "../../composition/task";
@@ -42,40 +42,13 @@ export default {
     TaskTable,
     PaginationElement,
   },
-  props: {
-    alertMessage: {
-      required: false,
-      type: String,
-      default: ''
-    },
-    alertClass: {
-      required: false,
-      type: String,
-      default: ''
-    },
-  },
 
-  setup(props) {
+  setup() {
     const route = useRoute()
     const {can} = useAbility();
-    const {tasks, pagination, getTasks, destroyTask} = useTask()
-    const alertMessage = inject('alertMessage')
-    const alertClass = inject('alertClass')
+    const {tasks, pagination, getTasks, deleteTask} = useTask()
 
-    const deleteTask = async (id) => {
-      if (!window.confirm('Are you sure you want to delete?')) return
-      alertMessage.value = 'Deleting task...'
-      alertClass.value = 'info'
-      await destroyTask(id);
-      alertMessage.value = 'Task deleted!'
-      alertClass.value = 'success'
-    }
-
-    onMounted(() => {
-      alertMessage.value = props.alertMessage
-      alertClass.value = props.alertClass
-      getTasks()
-    })
+    onMounted(getTasks)
 
     watch(() => route.query, getTasks)
 

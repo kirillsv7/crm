@@ -10,7 +10,7 @@
             <TaskTable
                 :tasks="tasks"
                 :availableFilters="['project','client', 'user', 'status']"
-                :recoverTask="recoverTask"
+                :restoreTask="restoreTask"
             />
           </div>
           <div class="card-footer d-flex justify-content-center">
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import {inject, onMounted, watch} from "vue";
+import {onMounted, watch} from "vue";
 import {useRoute} from "vue-router";
 import useTask from "../../composition/task";
 import TaskTable from "../../components/Task/Table";
@@ -38,17 +38,6 @@ export default {
   setup() {
     const route = useRoute()
     const {tasks, pagination, getTasksDeleted, restoreTask} = useTask()
-    const alertMessage = inject('alertMessage')
-    const alertClass = inject('alertClass')
-
-    const recoverTask = async (id) => {
-      if (!window.confirm('Are you sure you want to restore?')) return
-      alertMessage.value = 'Restoring task...'
-      alertClass.value = 'info'
-      await restoreTask(id);
-      alertMessage.value = 'Task restored!'
-      alertClass.value = 'success'
-    }
 
     onMounted(getTasksDeleted)
 
@@ -57,7 +46,7 @@ export default {
     return {
       tasks,
       pagination,
-      recoverTask
+      restoreTask
     }
   }
 }

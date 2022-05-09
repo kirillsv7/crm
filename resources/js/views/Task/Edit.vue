@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import {inject, onMounted, ref} from "vue"
+import {onMounted} from "vue"
 import useTask from "../../composition/task";
 import TaskForm from "../../components/Task/Form";
 import MediaElement from "../../components/UI/MediaElement";
@@ -45,41 +45,19 @@ export default {
     },
     created: {
       required: false,
-      type: Boolean,
-      default: false
+      type: String,
+      default: ''
     },
   },
 
   setup(props) {
-    const {task, errors, getTask, updateTask} = useTask()
-    const alertMessage = inject('alertMessage')
-    const alertClass = inject('alertClass')
-    const saved = ref(null)
+    const {task, saved, errors, getTask, updateTask} = useTask()
 
     const saveTask = async () => {
-      alertMessage.value = 'Updating task...'
-      alertClass.value = 'info'
-      try {
-        await updateTask(props.id)
-        saved.value = Date.now()
-        alertMessage.value = 'Task updated!'
-        alertClass.value = 'success'
-      } catch (e) {
-        alertMessage.value = e.message
-        alertClass.value = 'danger'
-      }
+      await updateTask(props.id)
     }
 
-    const toggleCreatedAlert = async () => {
-      if (props.created) {
-        alertMessage.value = 'Task created!'
-      }
-    }
-
-    onMounted(() => {
-      getTask(props.id)
-      toggleCreatedAlert()
-    })
+    onMounted(getTask(props.id))
 
     return {
       task,

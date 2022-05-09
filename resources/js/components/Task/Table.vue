@@ -99,7 +99,7 @@
             </button>
             <button class="btn btn-danger btn-sm"
                     v-if="can('task-restore') && task.is_deleted"
-                    @click="recoverTask(task.id)">
+                    @click="restoreTask(task.id)">
               <i class="cil-reload"></i>
             </button>
           </td>
@@ -133,7 +133,7 @@ export default {
     deleteTask: {
       type: Function
     },
-    recoverTask: {
+    restoreTask: {
       type: Function
     }
   },

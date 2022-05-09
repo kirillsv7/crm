@@ -1,5 +1,4 @@
 <template>
-  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="card">
     <div class="card-header">Add response</div>
     <div class="card-body">
@@ -26,13 +25,11 @@
 
 <script>
 import {onMounted, ref} from "vue";
-import AlertElement from "../UI/AlertElement";
 import FileUpload from "../UI/Form/FileUpload";
 import useTask from "../../composition/task";
 
 export default {
   components: {
-    AlertElement,
     FileUpload
   },
 
@@ -46,29 +43,13 @@ export default {
 
   emits: ['responseAdded'],
 
-  setup(props, context) {
-    const {errors, addResponse} = useTask()
-    const taskResponse = ref({})
-    const alertMessage = ref('')
-    const alertClass = ref('')
+  setup(props, {emit}) {
+    const {saved, errors, taskResponse, addResponse} = useTask()
     const sending = ref(false)
-    const saved = ref(null)
 
     const sendResponse = async () => {
       sending.value = true
-      try {
-        alertMessage.value = 'Adding response...'
-        alertClass.value = 'info'
-        await addResponse(taskResponse)
-        saved.value = Date.now()
-        alertMessage.value = 'Response added!'
-        alertClass.value = 'success'
-        taskResponse.value.content = ''
-        context.emit('responseAdded')
-      } catch (e) {
-        alertMessage.value = e.message
-        alertClass.value = 'danger'
-      }
+      await addResponse(emit)
       sending.value = false
     }
 
@@ -77,8 +58,6 @@ export default {
     })
 
     return {
-      alertMessage,
-      alertClass,
       taskResponse,
       errors,
       sending,
