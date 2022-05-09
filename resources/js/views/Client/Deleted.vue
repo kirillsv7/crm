@@ -1,5 +1,4 @@
 <template>
-  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="container-fluid my-3">
     <div class="row">
       <div class="col-12">
@@ -20,25 +19,23 @@
 </template>
 
 <script>
-import {onMounted, ref, watch} from "vue";
+import {inject, onMounted, watch} from "vue";
 import {useRoute} from "vue-router";
 import useClient from "../../composition/client";
 import ClientTable from "../../components/Client/Table";
 import PaginationElement from "../../components/UI/PaginationElement";
-import AlertElement from "../../components/UI/AlertElement";
 
 export default {
   components: {
     ClientTable,
     PaginationElement,
-    AlertElement
   },
 
   setup() {
     const route = useRoute()
     const {clientsDeleted, pagination, getClientsDeleted, restoreClient} = useClient()
-    const alertMessage = ref('')
-    const alertClass = ref('')
+    const alertMessage = inject('alertMessage')
+    const alertClass = inject('alertClass')
 
     const recoverClient = async (id) => {
       if (!window.confirm('Are you sure you want to restore?')) return
@@ -56,8 +53,6 @@ export default {
     )
 
     return {
-      alertMessage,
-      alertClass,
       clientsDeleted,
       pagination,
       recoverClient

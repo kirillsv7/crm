@@ -1,5 +1,4 @@
 <template>
-  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="container-fluid my-3">
     <div class="row">
       <div class="col-12">
@@ -23,25 +22,23 @@
 </template>
 
 <script>
-import {onMounted, ref, watch} from "vue";
+import {inject, onMounted, watch} from "vue";
 import {useRoute} from "vue-router";
 import useProject from "../../composition/project";
 import ProjectTable from "../../components/Project/Table";
 import PaginationElement from "../../components/UI/PaginationElement";
-import AlertElement from "../../components/UI/AlertElement";
 
 export default {
   components: {
     ProjectTable,
     PaginationElement,
-    AlertElement
   },
 
   setup() {
     const route = useRoute()
     const {projects, pagination, getProjectsDeleted, restoreProject} = useProject()
-    const alertMessage = ref('')
-    const alertClass = ref('')
+    const alertMessage = inject('alertMessage')
+    const alertClass = inject('alertClass')
 
     const recoverProject = async (id) => {
       if (!window.confirm('Are you sure you want to restore?')) return
@@ -57,8 +54,6 @@ export default {
     watch(() => route.query.page, getProjectsDeleted)
 
     return {
-      alertMessage,
-      alertClass,
       projects,
       pagination,
       recoverProject

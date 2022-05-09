@@ -1,5 +1,4 @@
 <template>
-  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="container my-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -19,26 +18,19 @@
 </template>
 
 <script>
-import {ref} from "vue";
+import {inject} from "vue";
 import useClient from "../../composition/client";
 import ClientForm from "../../components/Client/Form";
-import AlertElement from "../../components/UI/AlertElement";
 
 export default {
   components: {
     ClientForm,
-    AlertElement
   },
 
   setup() {
-    const {errors, storeClient} = useClient()
-    const client = ref({
-      'company': '',
-      'vat': '',
-      'address': '',
-    })
-    const alertMessage = ref('')
-    const alertClass = ref('')
+    const {client, errors, storeClient} = useClient()
+    const alertMessage = inject('alertMessage')
+    const alertClass = inject('alertClass')
 
     const saveClient = async () => {
       alertMessage.value = 'Creating client...'
@@ -51,8 +43,6 @@ export default {
     }
 
     return {
-      alertMessage,
-      alertClass,
       client,
       errors,
       saveClient

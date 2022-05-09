@@ -1,5 +1,4 @@
 <template>
-  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="container-fluid my-3">
     <div class="row">
       <div class="col-12">
@@ -31,19 +30,17 @@
 </template>
 
 <script>
-import {onMounted, ref, watch} from "vue";
+import {inject, onMounted, watch} from "vue";
 import {useRoute} from "vue-router"
 import {useAbility} from '@casl/vue';
 import useTask from "../../composition/task";
 import TaskTable from "../../components/Task/Table";
 import PaginationElement from "../../components/UI/PaginationElement";
-import AlertElement from "../../components/UI/AlertElement";
 
 export default {
   components: {
     TaskTable,
     PaginationElement,
-    AlertElement
   },
   props: {
     alertMessage: {
@@ -62,8 +59,8 @@ export default {
     const route = useRoute()
     const {can} = useAbility();
     const {tasks, pagination, getTasks, destroyTask} = useTask()
-    const alertMessage = ref('')
-    const alertClass = ref('')
+    const alertMessage = inject('alertMessage')
+    const alertClass = inject('alertClass')
 
     const deleteTask = async (id) => {
       if (!window.confirm('Are you sure you want to delete?')) return
@@ -84,8 +81,6 @@ export default {
 
     return {
       can,
-      alertMessage,
-      alertClass,
       tasks,
       pagination,
       deleteTask

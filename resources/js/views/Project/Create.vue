@@ -1,5 +1,4 @@
 <template>
-  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="container my-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -19,21 +18,19 @@
 </template>
 
 <script>
-import {ref} from "vue"
+import {inject} from "vue"
 import useProject from "../../composition/project";
 import ProjectForm from "../../components/Project/Form";
-import AlertElement from "../../components/UI/AlertElement";
 
 export default {
   components: {
     ProjectForm,
-    AlertElement
   },
 
   setup() {
     const {project, errors, storeProject} = useProject()
-    const alertMessage = ref('')
-    const alertClass = ref('')
+    const alertMessage = inject('alertMessage')
+    const alertClass = inject('alertClass')
 
     const saveProject = async () => {
       alertMessage.value = 'Creating project...'
@@ -47,8 +44,6 @@ export default {
     }
 
     return {
-      alertMessage,
-      alertClass,
       project,
       errors,
       saveProject

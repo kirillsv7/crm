@@ -14,8 +14,6 @@
 import {onUpdated, ref} from "vue";
 
 export default {
-  name: "AlertElement",
-
   props: {
     alertMessage: {
       required: true,

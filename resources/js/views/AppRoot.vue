@@ -2,29 +2,34 @@
   <SidebarMenu v-if="state.auth"/>
   <div class="c-wrapper">
     <AppHeader v-if="state.auth"/>
+    <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
     <router-view/>
   </div>
 </template>
 
 <script>
-import {inject, provide, watch} from "vue";
+import {inject, provide, ref, watch} from "vue";
 import {useRouter} from "vue-router";
 import {AbilityBuilder, Ability} from '@casl/ability';
 import {ABILITY_TOKEN} from '@casl/vue'
 import storeAuth from "../store/auth";
 import SidebarMenu from "../components/UI/SidebarMenu";
 import AppHeader from "../components/UI/AppHeader";
+import AlertElement from "../components/UI/AlertElement";
 
 export default {
   components: {
     SidebarMenu,
-    AppHeader
+    AppHeader,
+    AlertElement
   },
 
   setup() {
     const router = useRouter()
     const ability = inject(ABILITY_TOKEN)
     const {state, getAuthCheck, getActivePermissions} = storeAuth
+    const alertMessage = ref('')
+    const alertClass = ref('')
 
     getAuthCheck().then(async () => {
       if (!state.auth)
@@ -43,9 +48,13 @@ export default {
     })
 
     provide('storeAuth', storeAuth)
+    provide('alertMessage', alertMessage)
+    provide('alertClass', alertClass)
 
     return {
-      state
+      state,
+      alertMessage,
+      alertClass
     }
   }
 }

@@ -1,5 +1,4 @@
 <template>
-  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="container my-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -29,16 +28,14 @@
 </template>
 
 <script>
-import {onMounted, ref} from "vue"
+import {inject, onMounted, ref} from "vue"
 import useTask from "../../composition/task";
-import AlertElement from "../../components/UI/AlertElement";
 import TaskForm from "../../components/Task/Form";
 import MediaElement from "../../components/UI/MediaElement";
 
 export default {
   components: {
     TaskForm,
-    AlertElement,
     MediaElement
   },
   props: {
@@ -55,8 +52,8 @@ export default {
 
   setup(props) {
     const {task, errors, getTask, updateTask} = useTask()
-    const alertMessage = ref('')
-    const alertClass = ref('')
+    const alertMessage = inject('alertMessage')
+    const alertClass = inject('alertClass')
     const saved = ref(null)
 
     const saveTask = async () => {
@@ -85,8 +82,6 @@ export default {
     })
 
     return {
-      alertMessage,
-      alertClass,
       task,
       errors,
       saved,

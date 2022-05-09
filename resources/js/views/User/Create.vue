@@ -1,5 +1,4 @@
 <template>
-  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="container my-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -19,27 +18,19 @@
 </template>
 
 <script>
-import {ref} from "vue";
+import {inject} from "vue";
 import useUser from "../../composition/user";
 import UserForm from "../../components/User/Form";
-import AlertElement from "../../components/UI/AlertElement";
 
 export default {
   components: {
     UserForm,
-    AlertElement
   },
 
   setup() {
-    const {errors, storeUser} = useUser()
-    const user = ref({
-      'name': '',
-      'email': '',
-      'password': '',
-      'password_confirmation': '',
-    })
-    const alertMessage = ref('')
-    const alertClass = ref('')
+    const {user, errors, storeUser} = useUser()
+    const alertMessage = inject('alertMessage')
+    const alertClass = inject('alertClass')
 
     const saveUser = async () => {
       alertMessage.value = 'Creating user...'
@@ -52,8 +43,6 @@ export default {
     }
 
     return {
-      alertMessage,
-      alertClass,
       user,
       errors,
       saveUser

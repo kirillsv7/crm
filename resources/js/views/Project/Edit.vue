@@ -1,5 +1,4 @@
 <template>
-  <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
   <div class="container my-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -21,16 +20,14 @@
 </template>
 
 <script>
-import {onMounted, ref} from "vue"
+import {inject, onMounted, ref} from "vue"
 import useProject from "../../composition/project";
-import AlertElement from "../../components/UI/AlertElement";
 import ProjectForm from "../../components/Project/Form";
 import MediaElement from "../../components/UI/MediaElement";
 
 export default {
   components: {
     ProjectForm,
-    AlertElement,
     MediaElement
   },
   props: {
@@ -47,8 +44,8 @@ export default {
 
   setup(props) {
     const {project, errors, getProject, updateProject} = useProject()
-    const alertMessage = ref('')
-    const alertClass = ref('')
+    const alertMessage = inject('alertMessage')
+    const alertClass = inject('alertClass')
     const saved = ref(null)
 
     const saveProject = async () => {
@@ -77,8 +74,6 @@ export default {
     })
 
     return {
-      alertMessage,
-      alertClass,
       project,
       errors,
       saved,
