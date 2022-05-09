@@ -1,6 +1,6 @@
+import axios from "axios"
 import {ref} from "vue"
 import {useRoute} from "vue-router";
-import axios from "axios"
 
 export default function useResponse() {
 
@@ -14,17 +14,22 @@ export default function useResponse() {
         pagination.value = response.data.meta
     }
 
-    const getLatestResponses = () => {
-        axios.get('/api/v1/response/latest')
-            .then(response => {
-                responses.value = response.data.data
-            })
+    const getLatestResponses = async () => {
+        const response = await axios.get('/api/v1/response/latest')
+        responses.value = response.data.data
     }
 
+    const deleteResponse = async (id, emit) => {
+        if (!window.confirm('Are you sure you want to delete?'))
+            return
+        await axios.delete(`/api/v1/response/${id}`)
+        emit('responseDeleted')
+    }
     return {
         responses,
         pagination,
         getResponsesByTask,
+        deleteResponse,
         getLatestResponses
     }
 }

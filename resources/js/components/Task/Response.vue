@@ -8,7 +8,7 @@
                    :id="'response-'+response.id">#{{ response.id }}
       </router-link>
       |
-      <button class="btn btn-link btn-sm" type="submit" onclick="return confirm('Are you sure you want to delete?');">
+      <button class="btn btn-link btn-sm" @click="destroyResponse(response.id)">
         <i class="cil-trash"></i>
       </button>
     </div>
@@ -30,7 +30,9 @@
 </template>
 
 <script>
+import useResponse from "../../composition/response";
 import MediaElement from "../UI/MediaElement";
+import {ref} from "vue";
 
 export default {
   components: {
@@ -40,6 +42,21 @@ export default {
     response: {
       required: true,
       type: Object,
+    }
+  },
+
+  setup(props, {emit}) {
+    const {deleteResponse} = useResponse()
+    const deleting = ref(false)
+
+    const destroyResponse = async (id) => {
+      deleting.value = true
+      await deleteResponse(id, emit)
+      deleting.value = false
+    }
+
+    return {
+      destroyResponse
     }
   }
 }

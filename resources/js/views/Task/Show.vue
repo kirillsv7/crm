@@ -46,6 +46,7 @@
               v-for="response in responses"
               :key="response.id" :response="response"
               :class="{'border border-primary': response.id === addedResponse}"
+              @responseDeleted="getResponsesByTask(id)"
           />
         </template>
         <template v-else>
@@ -115,6 +116,7 @@ export default {
       responses,
       pagination,
       addedResponse,
+      getResponsesByTask,
       refreshResponses
     }
   }

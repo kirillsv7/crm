@@ -63,15 +63,8 @@ Route::group([
 
         Route::get('response/get-by-task/{task}', [ResponseController::class, 'getByTask']);
         Route::get('response/latest', [ResponseController::class, 'latest']);
+        Route::delete('response/{response}', [ResponseController::class, 'destroy']);
 
-        Route::apiResources([
-            'user'    => UserController::class,
-            'client'  => ClientController::class,
-            'project' => ProjectController::class,
-            'task'    => TaskController::class,
-        ]);
-
-        Route::delete('response', [ResponseController::class, 'destroy']);
         Route::delete('media/{media}', [MediaController::class, 'destroy']);
     });
 });
