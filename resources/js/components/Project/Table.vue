@@ -12,7 +12,7 @@
         <th>Status</th>
         <th>Created</th>
         <th>Updated</th>
-        <th>Actions</th>
+        <th v-if="this.$route.name !== 'dashboard'">Actions</th>
       </tr>
       </thead>
       <template v-for="project in projects" :key="project.id">
@@ -30,7 +30,7 @@
           <td>{{ project.status }}</td>
           <td>{{ project.created_at }}</td>
           <td>{{ project.updated_at }}</td>
-          <td class="text-nowrap">
+          <td class="text-nowrap" v-if="this.$route.name !== 'dashboard'">
             <router-link class="btn btn-secondary btn-sm mr-1" :to="{name: 'project.edit', params: {id: project.id}}"
                          v-if="!project.is_deleted">
               <i class="cil-pencil"></i>

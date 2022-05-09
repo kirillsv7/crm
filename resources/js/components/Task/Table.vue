@@ -13,7 +13,7 @@
         <th>Status</th>
         <th>Created</th>
         <th>Updated</th>
-        <th>Actions</th>
+        <th v-if="this.$route.name !== 'dashboard'">Actions</th>
       </tr>
       <tr v-if="availableFilters.length">
         <td></td>
@@ -86,7 +86,7 @@
           <td>{{ task.status }}</td>
           <td class="text-nowrap">{{ task.created_at }}</td>
           <td class="text-nowrap">{{ task.updated_at }}</td>
-          <td class="text-nowrap">
+          <td class="text-nowrap" v-if="this.$route.name !== 'dashboard'">
             <router-link class="btn btn-secondary btn-sm mr-1"
                          v-if="can('task-update') && !task.is_deleted"
                          :to="{name: 'task.edit', params: {id: task.id}}">
