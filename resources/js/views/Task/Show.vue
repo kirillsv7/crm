@@ -42,7 +42,11 @@
           <PaginationElement :pagination="pagination"/>
         </div>
         <template v-if="responses.length">
-          <TaskResponse v-for="response in responses" :key="response.id" :response="response"/>
+          <TaskResponse
+              v-for="response in responses"
+              :key="response.id" :response="response"
+              :class="{'border border-primary': response.id === addedResponse}"
+          />
         </template>
         <template v-else>
           <div class="card m-0">
@@ -60,7 +64,7 @@
 </template>
 
 <script>
-import {onMounted, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useAbility} from '@casl/vue';
 import useTask from "../../composition/task";
@@ -90,8 +94,10 @@ export default {
     const {can} = useAbility();
     const {task, getTask} = useTask()
     const {responses, pagination, getResponsesByTask} = useResponse()
+    const addedResponse = ref(null)
 
-    const refreshResponses = () => {
+    const refreshResponses = (addedResponseId) => {
+      addedResponse.value = addedResponseId
       getResponsesByTask(props.id)
       router.push(route.path)
     }
@@ -108,6 +114,7 @@ export default {
       task,
       responses,
       pagination,
+      addedResponse,
       refreshResponses
     }
   }

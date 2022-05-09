@@ -114,8 +114,6 @@ export default function useTask() {
     }
 
     const addResponse = async (emit) => {
-        alertMessage.value = 'Adding response...'
-        alertClass.value = 'info'
         const formData = convertToFormData(taskResponse)
         try {
             errors.value = {}
@@ -124,13 +122,9 @@ export default function useTask() {
             })
             taskResponse.value.content = ''
             saved.value = Date.now()
-            emit('responseAdded')
-            alertMessage.value = 'Response added!'
-            alertClass.value = 'success'
-
-            return response.data.data
+            emit('responseAdded', response.data.data.id)
         } catch (e) {
-            await handleException(e)
+            await handleException(e.message)
         }
     }
 
