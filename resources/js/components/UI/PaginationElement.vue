@@ -22,7 +22,8 @@
 </template>
 
 <script>
-import {useRoute} from "vue-router";
+import {onUpdated} from "vue";
+import {useRoute, useRouter} from "vue-router";
 
 export default {
   props: {
@@ -31,8 +32,9 @@ export default {
       type: Object,
     },
   },
-  setup() {
+  setup(props) {
     const route = useRoute()
+    const router = useRouter()
 
     const convertedApiURL = (url) => {
       const path = route.path
@@ -40,7 +42,17 @@ export default {
       return {path, query}
     }
 
-    return {convertedApiURL}
+    onUpdated(() => {
+      // If current page exceed latest page, this hook replaces page number
+      if (props.pagination.current_page > props.pagination.last_page) {
+        const newUrl = convertedApiURL(props.pagination.links[props.pagination.links.length - 2].url)
+        router.push(newUrl)
+      }
+    })
+
+    return {
+      convertedApiURL
+    }
   }
 }
 </script>
