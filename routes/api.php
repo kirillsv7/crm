@@ -43,16 +43,19 @@ Route::group([
         Route::get('user/deleted', [UserController::class, 'deleted']);
         Route::post('user/{user}', [UserController::class, 'restore']);
         Route::get('user/list', [UserController::class, 'list']);
+        Route::apiResource('user', UserController::class);
 
         Route::get('client/deleted', [ClientController::class, 'deleted']);
         Route::post('client/{client}', [ClientController::class, 'restore']);
         Route::get('client/list', [ClientController::class, 'list']);
+        Route::apiResource('client', ClientController::class);
 
         Route::get('project/deleted', [ProjectController::class, 'deleted']);
         Route::post('project/{project}', [ProjectController::class, 'restore']);
         Route::get('project/statuslist', [ProjectController::class, 'statusList']);
         Route::get('project/list', [ProjectController::class, 'list']);
         Route::get('project/recently-added-task', [ProjectController::class, 'recentlyAddedTask']);
+        Route::apiResource('project', ProjectController::class);
 
         Route::get('task/get-by-project/{project}', [TaskController::class, 'getByProject']);
         Route::post('task/add-response', [TaskController::class, 'addResponse']);
@@ -60,6 +63,7 @@ Route::group([
         Route::post('task/{task}', [TaskController::class, 'restore']);
         Route::get('task/statuslist', [TaskController::class, 'statusList']);
         Route::get('task/recently-responsed', [TaskController::class, 'recentlyResponsed']);
+        Route::apiResource('task', TaskController::class);
 
         Route::get('response/get-by-task/{task}', [ResponseController::class, 'getByTask']);
         Route::get('response/latest', [ResponseController::class, 'latest']);
