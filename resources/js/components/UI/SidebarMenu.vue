@@ -1,143 +1,188 @@
 <template>
-  <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
-    <div class="c-sidebar-brand d-lg-down-none">
+  <CSidebar visible position="fixed">
+    <CSidebarBrand>
       CRM
-    </div>
-    <ul class="c-sidebar-nav ps">
-      <li class="c-sidebar-nav-item">
+    </CSidebarBrand>
+    <CSidebarNav>
+      <li class="nav-item">
         <router-link
-            class="c-sidebar-nav-link"
-            :class="{'c-active': this.$route.name == 'dashboard'}"
-            :to="{name: 'dashboard'}"
-        >
-          <i class="c-sidebar-nav-icon cil-spreadsheet"></i>
+            class="nav-link"
+            :class="{'active': this.$route.name == 'dashboard'}"
+            :to="{name: 'dashboard'}">
           Dashboard
         </router-link>
       </li>
-      <li class="c-sidebar-nav-item">
-        <router-link
-            class="c-sidebar-nav-link"
-            :class="{'c-active': this.$route.name == 'user.index'}"
-            :to="{name:'user.index'}">
-          <i class="c-sidebar-nav-icon cil-list-rich"></i>
+      <CNavGroup>
+        <template #togglerContent>
           Users
-        </router-link>
-      </li>
-      <li class="c-sidebar-nav-item">
-        <router-link
-            class="c-sidebar-nav-link"
-            :class="{'c-active': this.$route.name == 'user.create'}"
-            :to="{name:'user.create'}">
-          <i class="c-sidebar-nav-icon cil-user-plus"></i>
-          Add user
-        </router-link>
-      </li>
-      <li class="c-sidebar-nav-item">
-        <router-link
-            class="c-sidebar-nav-link"
-            :class="{'c-active': this.$route.name == 'user.deleted'}"
-            :to="{name:'user.deleted'}">
-          <i class="c-sidebar-nav-icon cil-user-x"></i>
-          Deleted users
-        </router-link>
-      </li>
-      <li class="c-sidebar-nav-item">
-        <router-link
-            class="c-sidebar-nav-link"
-            :class="{'c-active': this.$route.name == 'client.index'}"
-            :to="{name:'client.index'}">
-          <i class="c-sidebar-nav-icon cil-list-rich"></i>
+        </template>
+        <li class="nav-item">
+          <router-link
+              class="nav-link"
+              :class="{'active': this.$route.name == 'user.index'}"
+              :to="{name:'user.index'}">
+            <CIcon customClassName="nav-icon" :icon="cilListRich"/>
+            List users
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link
+              class="nav-link"
+              :class="{'active': this.$route.name == 'user.create'}"
+              :to="{name:'user.create'}">
+            <CIcon customClassName="nav-icon" :icon="cilUserPlus"/>
+            Add user
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link
+              class="nav-link"
+              :class="{'active': this.$route.name == 'user.deleted'}"
+              :to="{name:'user.deleted'}">
+            <CIcon customClassName="nav-icon" :icon="cilUserX"/>
+            Deleted users
+          </router-link>
+        </li>
+      </CNavGroup>
+      <CNavGroup>
+        <template #togglerContent>
           Clients
-        </router-link>
-      </li>
-      <li class="c-sidebar-nav-item">
-        <router-link
-            class="c-sidebar-nav-link"
-            :class="{'c-active': this.$route.name == 'client.create'}"
-            :to="{name:'client.create'}">
-          <i class="c-sidebar-nav-icon cil-plus"></i>
-          Add client
-        </router-link>
-      </li>
-      <li class="c-sidebar-nav-item">
-        <router-link
-            class="c-sidebar-nav-link"
-            :class="{'c-active': this.$route.name == 'client.deleted'}"
-            :to="{name:'client.deleted'}">
-          <i class="c-sidebar-nav-icon cil-user-x"></i>
-          Deleted clients
-        </router-link>
-      </li>
-      <li class="c-sidebar-nav-item">
-        <router-link
-            class="c-sidebar-nav-link"
-            :class="{'c-active': this.$route.name == 'project.index'}"
-            :to="{name:'project.index'}">
-          <i class="c-sidebar-nav-icon cil-list-rich"></i>
+        </template>
+        <li class="nav-item">
+          <router-link
+              class="nav-link"
+              :class="{'active': this.$route.name == 'client.index'}"
+              :to="{name:'client.index'}">
+            <CIcon customClassName="nav-icon" :icon="cilListRich"/>
+            List clients
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link
+              class="nav-link"
+              :class="{'active': this.$route.name == 'client.create'}"
+              :to="{name:'client.create'}">
+            <CIcon customClassName="nav-icon" :icon="cilUserPlus"/>
+            Add client
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link
+              class="nav-link"
+              :class="{'active': this.$route.name == 'client.deleted'}"
+              :to="{name:'client.deleted'}">
+            <CIcon customClassName="nav-icon" :icon="cilUserX"/>
+            Deleted clients
+          </router-link>
+        </li>
+      </CNavGroup>
+      <CNavGroup>
+        <template #togglerContent>
           Projects
-        </router-link>
-      </li>
-      <li class="c-sidebar-nav-item">
-        <router-link
-            class="c-sidebar-nav-link"
-            :class="{'c-active': this.$route.name == 'project.create'}"
-            :to="{name:'project.create'}">
-          <i class="c-sidebar-nav-icon cil-plus"></i>
-          Add project
-        </router-link>
-      </li>
-      <li class="c-sidebar-nav-item">
-        <router-link
-            class="c-sidebar-nav-link"
-            :class="{'c-active': this.$route.name == 'project.deleted'}"
-            :to="{name:'project.deleted'}">
-          <i class="c-sidebar-nav-icon cil-minus"></i>
-          Deleted projects
-        </router-link>
-      </li>
-      <li class="c-sidebar-nav-item">
-        <router-link
-            class="c-sidebar-nav-link"
-            :class="{'c-active': this.$route.name == 'task.index'}"
-            :to="{name:'task.index'}">
-          <i class="c-sidebar-nav-icon cil-list-rich"></i>
+        </template>
+        <li class="nav-item">
+          <router-link
+              class="nav-link"
+              :class="{'active': this.$route.name == 'project.index'}"
+              :to="{name:'project.index'}">
+            <CIcon customClassName="nav-icon" :icon="cilListRich"/>
+            List projects
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link
+              class="nav-link"
+              :class="{'active': this.$route.name == 'project.create'}"
+              :to="{name:'project.create'}">
+            <CIcon customClassName="nav-icon" :icon="cilPlus"></CIcon>
+            Add project
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link
+              class="nav-link"
+              :class="{'active': this.$route.name == 'project.deleted'}"
+              :to="{name:'project.deleted'}">
+            <CIcon customClassName="nav-icon" :icon="cilMinus"></CIcon>
+            Deleted projects
+          </router-link>
+        </li>
+      </CNavGroup>
+      <CNavGroup>
+        <template #togglerContent>
           Tasks
-        </router-link>
-      </li>
-      <li class="c-sidebar-nav-item" v-if="can('task-create')">
-        <router-link
-            class="c-sidebar-nav-link"
-            :class="{'c-active': this.$route.name == 'task.create'}"
-            :to="{name:'task.create'}">
-          <i class="c-sidebar-nav-icon cil-plus"></i>
-          Add task
-        </router-link>
-      </li>
-      <li class="c-sidebar-nav-item">
-        <router-link
-            class="c-sidebar-nav-link"
-            :class="{'c-active': this.$route.name == 'task.deleted'}"
-            :to="{name:'task.deleted'}">
-          <i class="c-sidebar-nav-icon cil-minus"></i>
-          Deleted tasks
-        </router-link>
-      </li>
-    </ul>
-    <button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent"
-            data-class="c-sidebar-minimized">
-    </button>
-  </div>
+        </template>
+        <li class="nav-item">
+          <router-link
+              class="nav-link"
+              :class="{'active': this.$route.name == 'task.index'}"
+              :to="{name:'task.index'}">
+            <CIcon customClassName="nav-icon" :icon="cilListRich"/>
+            List tasks
+          </router-link>
+        </li>
+        <li class="nav-item" v-if="can('task-create')">
+          <router-link
+              class="nav-link"
+              :class="{'active': this.$route.name == 'task.create'}"
+              :to="{name:'task.create'}">
+            <CIcon customClassName="nav-icon" :icon="cilPlus"></CIcon>
+            Add task
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link
+              class="nav-link"
+              :class="{'active': this.$route.name == 'task.deleted'}"
+              :to="{name:'task.deleted'}">
+            <CIcon customClassName="nav-icon" :icon="cilMinus"></CIcon>
+            Deleted tasks
+          </router-link>
+        </li>
+      </CNavGroup>
+    </CSidebarNav>
+    <CSidebarToggler/>
+  </CSidebar>
 </template>
 
 <script>
 import {useAbility} from '@casl/vue';
+import {
+  CSidebar,
+  CSidebarBrand,
+  CSidebarNav,
+  CNavGroup,
+  CSidebarToggler
+} from '@coreui/vue'
+import {CIcon} from '@coreui/icons-vue';
+import {
+  cilListRich,
+  cilUserPlus,
+  cilUserX,
+  cilPlus,
+  cilMinus,
+} from '@coreui/icons';
 
 export default {
+  components: {
+    CSidebar,
+    CSidebarBrand,
+    CSidebarNav,
+    CNavGroup,
+    CSidebarToggler,
+    CIcon
+  },
+
   setup() {
     const {can} = useAbility();
 
     return {
-      can
+      can,
+      cilListRich,
+      cilUserPlus,
+      cilUserX,
+      cilPlus,
+      cilMinus,
     }
   }
 }

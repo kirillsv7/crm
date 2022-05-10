@@ -1,6 +1,6 @@
 <template>
   <SidebarMenu v-if="state.auth"/>
-  <div class="c-wrapper">
+  <div class="wrapper d-flex flex-column min-vh-100 bg-light">
     <AppHeader v-if="state.auth"/>
     <AlertElement :alertMessage="alertMessage" :alertClass="alertClass"/>
     <router-view/>

@@ -2,7 +2,7 @@
   <div class="container-fluid my-3">
     <div class="row">
       <div class="col-12">
-        <div class="card">
+        <div class="card mb-3">
           <div class="card-header">Recent responses</div>
           <div class="card-body">
             <div class="table-responsive">
@@ -34,7 +34,7 @@
         </div>
       </div>
       <div class="col-12">
-        <div class="card">
+        <div class="card mb-3">
           <div class="card-header">Tasks with new responses</div>
           <div class="card-body">
             <TaskTable :tasks="tasks"/>
@@ -42,7 +42,7 @@
         </div>
       </div>
       <div class="col-12">
-        <div class="card">
+        <div class="card mb-3">
           <div class="card-header">Projects with new tasks</div>
           <div class="card-body">
             <ProjectTable :projects="projects"/>
