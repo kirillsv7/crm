@@ -9,14 +9,23 @@ class PermissionController extends Controller
 {
     public function check($model, $action, $id = null)
     {
-        $policyName = '\App\Policies\\' . ucfirst($model) . 'Policy';
-        if (class_exists($policyName)) {
-            $policyInstance = new $policyName();
-            if (method_exists($policyInstance, $action)) {
-                $modelName     = '\App\Models\\' . ucfirst($model);
-                $modelInstance = $id ? $modelName::findOrFail($id) : new $modelName;
-                return $policyInstance->$action(Auth::user(), $modelInstance);
-            }
+        $model      = ucfirst($model);
+        $policy = '\App\Policies\\' . $model . 'Policy';
+
+        if (!class_exists($policy)) {
+            return false;
         }
+
+        $policyInstance = new $policy();
+
+        if (!method_exists($policyInstance, $action)) {
+            return false;
+        }
+
+        $model = '\App\Models\\' . $model;
+
+        $modelInstance = $id ? $model::findOrFail($id) : new $model;
+
+        return $policyInstance->$action(Auth::user(), $modelInstance);
     }
 }
