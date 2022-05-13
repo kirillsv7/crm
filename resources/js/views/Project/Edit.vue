@@ -2,7 +2,7 @@
   <div class="container my-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
-        <div class="card">
+        <div class="card mb-3">
           <div class="card-header">Project edit</div>
           <div class="card-body">
             <ProjectForm

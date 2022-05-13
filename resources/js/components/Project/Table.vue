@@ -15,6 +15,7 @@
         <th v-if="this.$route.name !== 'dashboard'">Actions</th>
       </tr>
       </thead>
+      <tbody>
       <template v-for="project in projects" :key="project.id">
         <tr>
           <td>{{ project.id }}</td>
@@ -31,11 +32,11 @@
           <td>{{ project.created_at }}</td>
           <td>{{ project.updated_at }}</td>
           <td class="text-nowrap" v-if="this.$route.name !== 'dashboard'">
-            <router-link class="btn btn-secondary btn-sm mr-1" :to="{name: 'project.edit', params: {id: project.id}}"
+            <router-link class="btn btn-secondary btn-sm me-1" :to="{name: 'project.edit', params: {id: project.id}}"
                          v-if="!project.is_deleted">
               <i class="cil-pencil"></i>
             </router-link>
-            <button class="btn btn-light btn-sm mr-1" @click="deleteProject(project.id)" v-if="!project.is_deleted">
+            <button class="btn btn-light btn-sm me-1" @click="deleteProject(project.id)" v-if="!project.is_deleted">
               <i class="cil-trash"></i>
             </button>
             <button class="btn btn-danger btn-sm" @click="recoverProject(project.id)" v-if="project.is_deleted">
@@ -44,6 +45,7 @@
           </td>
         </tr>
       </template>
+      </tbody>
     </table>
   </div>
 </template>

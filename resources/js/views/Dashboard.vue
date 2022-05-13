@@ -15,6 +15,7 @@
                   <th>Created</th>
                 </tr>
                 </thead>
+                <tbody>
                 <template v-for="response in responses" :key="response.id">
                   <tr>
                     <td>
@@ -28,6 +29,7 @@
                     <td>{{ response.created_at }}</td>
                   </tr>
                 </template>
+                </tbody>
               </table>
             </div>
           </div>

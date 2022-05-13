@@ -6,7 +6,7 @@
           <div class="card-header">
             Task list
             <router-link
-                class="btn btn-primary ml-3"
+                class="btn btn-primary ms-3"
                 v-if="can('task-create')"
                 :to="{name:'task.create'}">
               <i class="cil-plus"></i>

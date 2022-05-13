@@ -1,10 +1,10 @@
 <template>
-  <div class="card">
+  <div class="card mb-3">
     <div class="card-header d-flex flex-wrap align-items-center">
       Response by:&nbsp;<span v-html="response.user_name"></span>&nbsp;|
       at: {{ response.created_at }}
 
-      <router-link :to="{hash: '#response-' + response.id}" class="btn btn-link btn-sm ml-auto text-muted"
+      <router-link :to="{hash: '#response-' + response.id}" class="btn btn-link btn-sm ms-auto text-muted"
                    :id="'response-'+response.id">#{{ response.id }}
       </router-link>
       |
@@ -20,7 +20,7 @@
           <div class="col-6 col-md-4 col-lg-3 pb-4" v-for="file in response.media" :key="file.id">
             <img class="img-fluid" :src="file.thumb">
             <div class="d-flex mt-1">
-              <small class="mr-2 text-break">{{ file.name }}</small>
+              <small class="me-2 text-break">{{ file.name }}</small>
             </div>
           </div>
         </div>

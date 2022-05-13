@@ -12,6 +12,7 @@
         <th>Actions</th>
       </tr>
       </thead>
+      <tbody>
       <template v-for="user in users" :key="user.id">
         <tr>
           <td>{{ user.id }}</td>
@@ -23,11 +24,11 @@
           <td>{{ user.created_at }}</td>
           <td>{{ user.updated_at }}</td>
           <td class="text-nowrap">
-            <router-link class="btn btn-secondary btn-sm mr-1" :to="{name: 'user.edit', params: {id: user.id}}"
+            <router-link class="btn btn-secondary btn-sm me-1" :to="{name: 'user.edit', params: {id: user.id}}"
                          v-if="!user.is_deleted">
               <i class="cil-pencil"></i>
             </router-link>
-            <button class="btn btn-light btn-sm mr-1" @click="deleteUser(user.id)" v-if="!user.is_deleted">
+            <button class="btn btn-light btn-sm me-1" @click="deleteUser(user.id)" v-if="!user.is_deleted">
               <i class="cil-trash"></i>
             </button>
             <button class="btn btn-danger btn-sm" @click="recoverUser(user.id)" v-if="user.is_deleted">
@@ -36,6 +37,7 @@
           </td>
         </tr>
       </template>
+      </tbody>
     </table>
   </div>
 </template>

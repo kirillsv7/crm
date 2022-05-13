@@ -2,11 +2,11 @@
   <div class="container my-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
-        <div class="card">
+        <div class="card mb-3">
           <div class="card-header">
             Task edit
             <router-link
-                class="btn btn-primary ml-3"
+                class="btn btn-primary ms-3"
                 :to="{name: 'task.show', params: {id}}">
               <i class="cil-magnifying-glass"></i>
               Show task

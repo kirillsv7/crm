@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card mb-3">
     <div class="card-header">{{ title }}</div>
     <div class="card-body">
       <div class="container">
@@ -8,9 +8,9 @@
             <div class="col-6 col-md-4 col-lg-3 pb-4">
               <img class="img-fluid" :src="file.thumb">
               <div class="d-flex mt-1">
-                <small class="mr-2 text-break">{{ file.name }}</small>
+                <small class="me-2 text-break">{{ file.name }}</small>
                 <template v-if="this.$route.name.includes('edit')">
-                  <button class="btn btn-light btn-sm d-block ml-auto" type="button" @click="deleteMedia(file.id)">
+                  <button class="btn btn-light btn-sm d-block ms-auto" type="button" @click="deleteMedia(file.id)">
                     <i class="cil-trash"></i>
                   </button>
                 </template>

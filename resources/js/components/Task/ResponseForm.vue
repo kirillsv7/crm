@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card mb-3">
     <div class="card-header">Add response</div>
     <div class="card-body">
       <form id="response-form" enctype="multipart/form-data" @submit.prevent="sendResponse">

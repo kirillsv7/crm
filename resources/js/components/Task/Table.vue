@@ -87,12 +87,12 @@
           <td class="text-nowrap">{{ task.created_at }}</td>
           <td class="text-nowrap">{{ task.updated_at }}</td>
           <td class="text-nowrap" v-if="this.$route.name !== 'dashboard'">
-            <router-link class="btn btn-secondary btn-sm mr-1"
+            <router-link class="btn btn-secondary btn-sm me-1"
                          v-if="can('task-update') && !task.is_deleted"
                          :to="{name: 'task.edit', params: {id: task.id}}">
               <i class="cil-pencil"></i>
             </router-link>
-            <button class="btn btn-light btn-sm mr-1"
+            <button class="btn btn-light btn-sm me-1"
                     v-if="can('task-delete') && !task.is_deleted"
                     @click="deleteTask(task.id)">
               <i class="cil-trash"></i>

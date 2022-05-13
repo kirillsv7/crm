@@ -2,11 +2,11 @@
   <div class="container my-3">
     <div class="row justify-content-center">
       <div class="col-md-8">
-        <div class="card">
+        <div class="card mb-3">
           <div class="card-header">
             Task details
             <router-link
-                class="btn btn-primary ml-3"
+                class="btn btn-primary ms-3"
                 v-if="can('task-update') && !task.is_deleted"
                 :to="{name: 'task.edit', params: {id}}">
               <i class="cil-pencil"></i>
@@ -38,7 +38,7 @@
               @responseAdded="refreshResponses"
           />
         </template>
-        <div class="d-flex justify-content-center mb-4">
+        <div class="d-flex justify-content-center mb-3" v-if="pagination.last_page > 1">
           <PaginationElement :pagination="pagination"/>
         </div>
         <template v-if="responses.length">
@@ -56,7 +56,7 @@
             </div>
           </div>
         </template>
-        <div class="d-flex justify-content-center mb-4">
+        <div class="d-flex justify-content-center mb-3" v-if="pagination.last_page > 1">
           <PaginationElement :pagination="pagination"/>
         </div>
       </div>
