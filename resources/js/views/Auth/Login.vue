@@ -1,57 +1,61 @@
 <template>
   <div class="container my-auto">
     <div class="row justify-content-center">
-      <div class="col-md-8">
+      <div class="col-md-4">
         <div class="card">
           <div class="card-header">Login</div>
           <div class="card-body">
 
             <form id="login-form" @submit.prevent="postLogin">
 
-              <div class="form-group row">
-                <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail</label>
-                <div class="col-md-6">
-                  <input class="form-control" name="email" type="email" autocomplete="email"
-                         :class="{'is-invalid': errors.email}"
-                         v-model="login.email">
-                  <div class="invalid-feedback" v-if="errors.email">
-                    <template v-for="error in errors.email">
-                      {{ error }}
-                    </template>
-                  </div>
-                </div>
+              <div class="form-floating mb-3">
+                <input
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    placeholder="email@example.org"
+                    :class="{'is-invalid': errors.email}"
+                    v-model="login.email"
+                >
+                <label for="email">
+                  {{ loginLabel }}
+                </label>
               </div>
 
-              <div class="form-group row">
-                <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
-                <div class="col-md-6">
-                  <input class="form-control" name="password" type="password" autocomplete="current-password"
-                         :class="{'is-invalid': errors.password}"
-                         v-model="login.password">
-                  <div class="invalid-feedback" v-if="errors.password">
-                    <template v-for="error in errors.password">
-                      {{ error }}
-                    </template>
-                  </div>
-                </div>
+              <div class="form-floating mb-3">
+                <input
+                    class="form-control"
+                    id="password"
+                    name="password"
+                    type="password"
+                    autocomplete="current-password"
+                    placeholder="Password"
+                    :class="{'is-invalid': errors.password}"
+                    v-model="login.password"
+                >
+                <label for="email">
+                  {{ passwordLabel }}
+                </label>
               </div>
 
-              <div class="form-group row">
-                <div class="col-md-6 offset-md-4">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="remember" v-model="login.remember">
-                    <label class="form-check-label" for="remember">Remember Me</label>
-                  </div>
-                </div>
+              <div class="form-check mb-3">
+                <input
+                    class="form-check-input"
+                    id="remember"
+                    type="checkbox"
+                    name="remember"
+                    v-model="login.remember"
+                >
+                <label class="form-check-label" for="remember">
+                  Remember Me
+                </label>
               </div>
 
-              <div class="form-group row mb-0">
-                <div class="col-md-8 offset-md-4">
-                  <button type="submit" class="btn btn-primary">Login</button>
+              <button type="submit" class="btn btn-primary mb-2 w-100">Login</button>
 
-                  <a class="btn btn-link" href="#">Forgot Your Password?</a>
-                </div>
-              </div>
+              <a class="text-muted" href="#"><small>Forgot Your Password?</small></a>
 
             </form>
 
@@ -63,7 +67,7 @@
 </template>
 
 <script>
-import {inject, onBeforeUnmount, onMounted} from "vue";
+import {computed, inject, onBeforeUnmount, onMounted} from "vue";
 import {useRouter} from "vue-router";
 import {AbilityBuilder, Ability} from '@casl/ability';
 import {ABILITY_TOKEN} from '@casl/vue'
@@ -75,6 +79,14 @@ export default {
     const ability = inject(ABILITY_TOKEN)
     const {state, getAuthCheck, getActivePermissions} = inject('storeAuth')
     const {login, errors, postLogin} = useAuth()
+
+    const loginLabel = computed(() => {
+      return !errors.value.email ? 'E-Mail' : errors.value.email.join(', ')
+    })
+
+    const passwordLabel = computed(() => {
+      return !errors.value.password ? 'Password' : errors.value.password.join(', ')
+    })
 
     onMounted(async () => {
       await getAuthCheck()
@@ -92,6 +104,8 @@ export default {
 
     return {
       login,
+      loginLabel,
+      passwordLabel,
       errors,
       postLogin
     }
