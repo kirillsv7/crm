@@ -7,24 +7,22 @@ use Illuminate\Support\Facades\Auth;
 
 class PermissionController extends Controller
 {
-    public function check($model, $action, $id = null)
+    public function check($model, $action, $id = null): bool
     {
-        $model      = ucfirst($model);
+        $model  = ucfirst($model);
         $policy = '\App\Policies\\' . $model . 'Policy';
+        $model  = '\App\Models\\' . $model;
 
-        if (!class_exists($policy)) {
+        if (
+            !class_exists($model) ||
+            !class_exists($policy) ||
+            !method_exists($policy, $action)
+        ) {
             return false;
         }
 
-        $policyInstance = new $policy();
-
-        if (!method_exists($policyInstance, $action)) {
-            return false;
-        }
-
-        $model = '\App\Models\\' . $model;
-
-        $modelInstance = $id ? $model::findOrFail($id) : new $model;
+        $modelInstance  = $id ? $model::findOrFail($id) : new $model;
+        $policyInstance = new $policy;
 
         return $policyInstance->$action(Auth::user(), $modelInstance);
     }
